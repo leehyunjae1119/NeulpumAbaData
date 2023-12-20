@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.cpm.dao.CpmCounselingDao">
+
+	<select id="selectCounselingList" resultType="counselingVO" parameterType="counselingVO">
+		SELECT * 
+		  FROM (
+			SELECT @ROWNUM := @ROWNUM + 1 AS rownum
+				 , tc.counseling_seq 
+				 , tc.children_seq 
+				 , tc.counseling_contents 
+				 , tc.counseling_reg_mmr_seq 
+				 , date_format(tc.counseling_reg_dt, '%Y-%m-%d') AS counseling_reg_dt
+				 , tm.member_name 
+			  FROM TB_COUNSELING tc 
+			  LEFT OUTER JOIN TB_MEMBER tm ON tc.counseling_reg_mmr_seq = tm.member_seq 
+			     , (SELECT @ROWNUM := 0 ) rn
+			  WHERE tc.children_seq = #{childrenSeq }
+			  	<if test="startDate != null and startDate != ''">
+			    AND date_format(tc.counseling_reg_dt, '%Y-%m-%d') <![CDATA[>=]]> #{startDate }
+			 	</if>
+			 	<if test="endDate != null and endDate != ''">
+			    AND date_format(tc.counseling_reg_dt, '%Y-%m-%d') <![CDATA[<=]]> #{endDate }
+			 	</if>
+			 	<if test="counselingRegMmrSeq != null and counselingRegMmrSeq != ''">
+			    AND tc.counseling_reg_mmr_seq = #{counselingRegMmrSeq }
+			 	</if>
+			  ORDER BY @ROWNUM DESC
+		   ) sub_query
+		 ORDER BY sub_query.rownum DESC
+		 LIMIT #{startNum }, 10
+	</select>
+
+	<select id="selectCounselingListCnt" resultType="counselingVO" parameterType="counselingVO">
+		SELECT CASE WHEN (COUNT(*) % 10) = 0
+		 	THEN TRUNCATE(COUNT(*) / 10, 0)
+			ELSE TRUNCATE(COUNT(*) / 10, 0) + 1 END AS page_cnt
+		  FROM TB_COUNSELING tc
+		 WHERE tc.children_seq = #{childrenSeq }
+	       <if test="startDate != null and startDate != ''">
+		   AND date_format(tc.counseling_reg_dt, '%Y-%m-%d') <![CDATA[>=]]> #{startDate }
+		   </if>
+		   <if test="endDate != null and endDate != ''">
+		   AND date_format(tc.counseling_reg_dt, '%Y-%m-%d') <![CDATA[<=]]> #{endDate }
+		   </if>
+		   <if test="counselingRegMmrSeq != null and counselingRegMmrSeq != ''">
+		   AND tc.counseling_reg_mmr_seq = #{counselingRegMmrSeq }
+		   </if>
+	</select>
+	
+	<select id="insertCounselingData" parameterType="counselingVO">
+		INSERT INTO TB_COUNSELING (
+			children_seq,
+			counseling_contents,
+			counseling_reg_mmr_seq,
+			counseling_reg_dt
+			)
+		VALUES(
+			#{childrenSeq },
+			#{counselingContents },
+			#{counselingRegMmrSeq },
+			current_timestamp()
+		)
+	</select>
+	
+	<select id="updateCounselingData" parameterType="counselingVO">
+		UPDATE TB_COUNSELING
+		   SET counseling_contents = #{counselingContents }
+		 WHERE counseling_seq = #{counselingSeq }
+	</select>
+	
+	<select id="deleteCounselingData" parameterType="counselingVO">
+		DELETE 
+		  FROM TB_COUNSELING
+		 WHERE counseling_seq = #{counselingSeq }
+	</select>
+	
+	
+</mapper>

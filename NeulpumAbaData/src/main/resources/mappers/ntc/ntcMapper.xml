@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.ntc.dao.NtcDao">
+
+	<select id="selectNoticeDetail" resultType="noticeVO" parameterType="noticeVO">
+		SELECT tb.board_seq
+			 , tb.board_dv_cd
+			 , tb.board_title
+			 , tb.board_contents
+			 , tb.board_reg_mmr_seq
+			 , (SELECT member_name FROM TB_MEMBER WHERE member_seq = tb.board_reg_mmr_seq) AS board_reg_mmr_name
+			 , tb.board_reg_dt
+		  FROM TB_BOARD tb
+		 WHERE tb.board_seq = #{boardSeq }
+	</select>
+
+	<select id="selectNoticeList" resultType="noticeVO" parameterType="noticeVO">
+		SELECT * 
+		  FROM (
+			SELECT @ROWNUM := @ROWNUM + 1 AS rownum
+				 , tb.board_seq
+				 , tb.board_dv_cd
+				 , tb.board_title
+				 , tb.board_contents
+				 , tb.board_reg_mmr_seq
+				 , (SELECT member_name FROM TB_MEMBER WHERE member_seq = tb.board_reg_mmr_seq) AS board_reg_mmr_name
+				 , tb.board_reg_dt
+			  FROM TB_BOARD tb
+			     , (SELECT @ROWNUM := 0 ) rn
+			 WHERE tb.board_dv_cd = 'NTC'
+			   AND tb.center_seq = #{centerSeq }
+			 <if test="searchField != null and searchField != '' ">
+			   AND (tb.board_title LIKE CONCAT('%', #{searchField }, '%')
+			   	   OR tb.board_contents LIKE CONCAT('%', #{searchField }, '%'))
+			 </if>
+			 ORDER BY tb.board_reg_dt DESC
+			 ) sub_query
+		 ORDER BY sub_query.rownum DESC
+		 LIMIT #{startNum }, 10
+	</select>
+
+	<select id="selectNoticeListCnt" resultType="noticeVO" parameterType="noticeVO">
+		SELECT CASE WHEN (COUNT(*) % 10) = 0
+		 	THEN TRUNCATE(COUNT(*) / 10, 0)
+			ELSE TRUNCATE(COUNT(*) / 10, 0) + 1 END AS page_cnt
+		  FROM TB_BOARD
+		 WHERE board_dv_cd = 'NTC'
+		   AND center_seq = #{centerSeq }
+		 <if test="searchField != null and searchField != '' ">
+		   AND (board_title LIKE CONCAT('%', #{searchField }, '%')
+		   	   OR board_contents LIKE CONCAT('%', #{searchField }, '%'))
+		 </if>
+	</select>
+	
+	<insert id="insertNoticeData" parameterType="noticeVO" useGeneratedKeys="true" keyProperty="boardSeq" >
+		INSERT INTO TB_BOARD (
+			board_dv_cd, 
+			board_title, 
+			board_contents, 
+			board_reg_mmr_seq, 
+			board_reg_dt,
+			center_seq
+		)
+		VALUES(
+			'NTC', 
+			#{boardTitle }, 
+			#{boardContents }, 
+			#{boardRegMmrSeq }, 
+			current_timestamp(),
+			#{centerSeq }
+		)
+	</insert>
+	
+	<select id="updateNoticeData" parameterType="noticeVO">
+		UPDATE TB_BOARD
+		   SET board_title = #{boardTitle }
+		     , board_contents = #{boardContents }
+		 WHERE board_seq = #{boardSeq }
+	</select>
+	
+	<select id="deleteNoticeData" parameterType="noticeVO">
+		DELETE 
+		  FROM TB_BOARD
+		 WHERE board_seq = #{boardSeq }
+	</select>
+	
+	
+</mapper>

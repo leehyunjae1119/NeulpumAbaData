@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.lgn.dao.LgnDao">
+
+	<select id="signIn" parameterType="lgnVO" resultType="lgnVO">
+		SELECT member_seq
+			 , member_id
+			 , member_pw
+			 , member_name
+			 , member_email
+			 , member_cp
+			 , member_auth_cd
+			 , member_position_cd
+			 , member_approval_yn
+			 , member_reg_dt
+		  FROM TB_MEMBER
+		 WHERE member_id = #{memberId }
+	</select>
+	
+	<select id="signUp" parameterType="lgnVO" resultType="lgnVO">
+ 		INSERT INTO TB_MEMBER 
+ 			(
+ 				member_id,
+				member_pw,
+				member_name,
+				member_email,
+			    member_cp,
+				member_auth_cd,
+				member_position_cd,
+				member_approval_yn
+ 			)
+ 		VALUES 
+ 			(
+ 				#{memberId }, 
+ 				#{memberPw }, 
+ 				#{memberName },
+ 				'',
+ 				'',
+ 				'level3',
+ 				0,
+ 				'N'
+ 			)
+ 	</select>
+ 	
+
+</mapper>

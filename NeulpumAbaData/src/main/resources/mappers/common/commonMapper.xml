@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.common.dao.CommonDao">
+
+	<select id="selectCenterLeader" resultType="lgnVO">
+		SELECT member_seq
+			 , member_name
+		  FROM TB_MEMBER
+		 WHERE member_approval_yn = 'Y'
+		   AND member_auth_cd IN ('master', 'level1')
+		 ORDER BY member_name DESC
+	</select>
+
+	<select id="insertCenter" parameterType="centerVO">
+		INSERT INTO TB_CENTER (
+			center_name
+			, center_manager
+			, center_image
+			)
+		VALUES(
+			#{centerName }
+			, #{centerManager }
+			, #{centerImage }
+			)
+	</select>
+	
+	<select id="selectCenterList" resultType="centerVO" parameterType="centerVO">
+		SELECT tc.center_seq
+			 , tc.center_name
+			 , tc.center_manager
+			 , tm.member_name 
+			 , tc.center_image
+			 , (SELECT COUNT(1) FROM TB_MEMBER WHERE member_position_cd = tc.center_seq) AS member_cnt
+			 , (SELECT COUNT(1) FROM TB_CHILDREN WHERE children_position_cd = tc.center_seq) AS children_cnt
+		  FROM TB_CENTER tc
+		  LEFT OUTER JOIN TB_MEMBER tm ON tc.center_manager = tm.member_seq 
+		 WHERE 1=1
+		 <if test="centerSeq != null and centerSeq != ''">
+		   AND center_seq = #{centerSeq }
+		 </if>
+		 ORDER BY center_seq
+	</select>
+	
+	<select id="updateCenter" parameterType="centerVO">
+		UPDATE TB_CENTER 
+		   SET center_name = #{centerName }
+		     , center_manager = #{centerManager }
+		     , center_image = #{centerImage }
+		 WHERE center_seq = #{centerSeq }
+	</select>
+	
+	<select id="deleteCenter" parameterType="centerVO">
+		DELETE 
+		  FROM TB_CENTER
+		 WHERE center_seq = #{centerSeq }
+	</select>
+	
+	<select id="selectChildrenGroupList" resultType="chdGroupVO" parameterType="chdGroupVO">
+		SELECT tcg.group_seq 
+			 , tcg.group_name
+		  FROM TB_CHILDREN tc, TB_CHD_GROUP tcg
+		 WHERE tc.children_group_cd = tcg.group_seq
+		   AND tc.children_active_yn = 'Y'
+		   AND tc.children_position_cd = #{groupPosiotionCd }
+		 GROUP BY tcg.group_seq
+	</select>
+
+	<select id="selectChildrenList" resultType="childrenVO" parameterType="childrenVO">
+		SELECT tc.children_seq                   			/* 아동 번호				*/
+			 , tc.children_name                  			/* 아동 이름				*/
+			 , tc.children_birth                 			/* 아동 생년월일			*/
+			 , tc.children_diagnosis             			/* 아동 진단명				*/
+			 , tc.children_memo                  			/* 아동 메모				*/
+			 , tc.children_position_cd           			/* 아동 소속 코드			*/
+			 , tc.children_group_cd              			/* 아동 그룹 코드			*/
+			 , IFNULL(tcg.group_name, '') AS group_name		/* 아동 그룹 이름			*/
+			 , tc.children_active_yn             			/* 아동 활성화 여부			*/
+			 , tc.children_prog_st_dt            			/* 아동 프로그램 시작 일시	*/
+			 , tc.children_prog_ed_dt            			/* 아동 프로그램 종료 일시	*/
+			 , tc.children_parents               			/* 아동 부모님				*/
+			 , tc.children_book_img               			/* 아동 책 이미지			*/
+		  FROM TB_CHILDREN tc
+		  LEFT OUTER JOIN TB_CHD_GROUP tcg ON tc.children_group_cd = tcg.group_seq 
+		 WHERE tc.children_position_cd = #{childrenPositionCd }
+		   AND tc.children_active_yn = 'Y'
+		 <if test="chdGroupSeqArray != null and chdGroupSeqArray != ''">
+		   AND tc.children_group_cd IN (${chdGroupSeqArray })
+		 </if>
+		 <if test="childrenSeq != null and childrenSeq != ''">
+		   AND tc.children_seq = #{childrenSeq }
+		 </if>
+	</select>
+	
+	<select id="selectCenterMemberList" parameterType="memberVO" resultType="memberVO">
+		SELECT * 
+		  FROM TB_MEMBER
+		 WHERE 1=1
+		 <if test="memberPositionCd != null and memberPositionCd != ''">
+		   AND member_position_cd = #{memberPositionCd }
+		 </if>
+		 <if test="memberApprovalYn != null and memberApprovalYn != ''">
+		   AND member_approval_yn = #{memberApprovalYn }
+		 </if>
+		 ORDER BY member_name
+	</select>
+	
+	<select id="selectProfileInfo" parameterType="memberVO" resultType="memberVO">
+		SELECT tm.member_id
+			 , tm.member_pw
+			 , tm.member_name
+			 , tm.member_email
+			 , tm.member_cp
+			 , tm.member_auth_cd
+			 , IFNULL(tc.center_name, '없음') AS member_position
+			 , date_format(tm.member_reg_dt, '%Y-%m-%d') AS member_reg_dt
+		  FROM TB_MEMBER tm 
+		  LEFT OUTER JOIN TB_CENTER tc ON tm.member_position_cd = tc.center_seq
+		 WHERE member_seq = #{memberSeq }
+	</select>
+	
+	<select id="saveProfileInfo" parameterType="memberVO">
+		UPDATE TB_MEMBER
+		   SET member_name = #{memberName }
+		     , member_email = #{memberEmail }
+		     , member_cp = #{memberCp }
+		     <if test="memberPw != null and memberPw != ''">
+		     , member_pw = #{memberPw }
+			 </if>
+		 WHERE member_seq = #{memberSeq }
+	</select>
+	
+</mapper>

@@ -1,0 +1,37 @@
+package com.neulpum.np.mng.service;
+
+import java.util.List;
+
+import com.neulpum.np.mng.vo.ChdGroupVO;
+import com.neulpum.np.mng.vo.ChildrenVO;
+import com.neulpum.np.mng.vo.MemberVO;
+
+public interface MngService {
+
+	// 선생님 정보 저장 및 수정
+	public int updateMember(MemberVO memberVO) throws Exception;
+	
+	// 아동 정보 저장 및 수정
+	public int updateChildren(ChildrenVO childrenVO) throws Exception;
+	
+	// 선생님 리스트 조회
+	public List<MemberVO> selectMemberList(MemberVO memberVO) throws Exception;
+	
+	// 선생님 리스트 조회
+	public MemberVO selectMemberListCnt(MemberVO memberVO) throws Exception;
+	
+	// 선생님 상세 조회
+	public MemberVO selectMemberDetail(MemberVO memberVO) throws Exception;
+	
+	// 아동 리스트 조회
+	public List<ChildrenVO> selectChildrenList(ChildrenVO childrenVO) throws Exception;
+	
+	// 아동 리스트 조회
+	public ChildrenVO selectChildrenListCnt(ChildrenVO childrenVO) throws Exception;
+	
+	// 아동 상세 조회
+	public ChildrenVO selectChildrenDetail(ChildrenVO childrenVO) throws Exception;
+	
+	// 회원 패스워드 초기화
+	public int resetMemberPw(MemberVO memberVO) throws Exception;
+}

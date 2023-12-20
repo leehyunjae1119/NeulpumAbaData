@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-5.3.0-dist/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-icons/font/bootstrap-icons.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/common.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/np-bs.css'>
+
+    <script src='../bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js'></script>
+    <script src='../jquery/jquery.min.js'></script>
+</head>
+
+<body>
+    <script>
+        var isSidebarToggle = false;
+        $(document).ready(function () {
+            // START 사이드바 함수
+            if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+            } else {
+                $("main[name=main-wrap]").addClass("none-sub-sidebar");
+            }
+
+            $("#sidebarToggle").on("click", function () {
+                if (!isSidebarToggle && $(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                    $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+                } else {
+                    $("main[name=main-wrap]").addClass("none-sub-sidebar");
+                }
+                sidebrToggle();
+            });
+
+            $(".nav-sticky .nav-link").on("click", function () {
+                $(".nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+                if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                    $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+                    sidebrToggle(1);
+                } else {
+                    $("main[name=main-wrap]").addClass("none-sub-sidebar");
+                }
+            });
+
+            $(".sub-nav-sticky .nav-link").on("click", function () {
+                $(".sub-nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+            });
+            // END 사이드바 함수
+
+            $(".nav-sticky .nav-link").eq(2).trigger('click');
+        });
+        // START 사이드바 함수
+        function sidebrToggle(flag) {
+            if (flag === 0) {
+                isSidebarToggle = false;
+            } else if (flag === 1) {
+                isSidebarToggle = true;
+            } else {
+                isSidebarToggle = !isSidebarToggle
+            }
+
+            if (!isSidebarToggle) {
+                $('main.flex-nowrap').removeClass("sidebar-toggled");
+                $('.nav-sticky').removeClass("toggled");
+                $('.nav-sticky .dropdown a').addClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-lg").addClass("icon-md");
+                $("#sidebarToggle > i").removeClass("bi-arrow-right-circle-fill").addClass("bi-arrow-left-circle-fill");
+            } else {
+                $('main.flex-nowrap').addClass("sidebar-toggled");
+                $('.nav-sticky').addClass("toggled");
+                $('.nav-sticky .dropdown a').removeClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-md").addClass("icon-lg");
+                $("#sidebarToggle > i").removeClass("bi-arrow-left-circle-fill").addClass("bi-arrow-right-circle-fill");
+            }
+        };
+        // END 사이드바 함수
+    </script>
+    <main class="d-flex flex-nowrap none-sub-sidebar" name="main-wrap"> <!--sidebar-toggled-->
+        <!-- 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 nav-sticky"> <!--toggled-->
+            <a href="javascript:void(0);" class="d-flex align-items-center text-decoration-none logo-btn" id="logo">
+                <img class="logo" src="../image/logo.png" width="32" height="32">
+                <span class="fs-4 logo-text">늘품ABA</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto mr-40">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white active" id="mai">
+                        <i class="bi bi-house-door icon-md"></i>
+                        <span>대시보드</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="dpm">
+                        <i class="bi bi-calendar-week icon-md"></i>
+                        <span>데일리 시트</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="cpm">
+                        <i class="bi bi-people icon-md"></i>
+                        <span>아동 관리</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="grp">
+                        <i class="bi bi-graph-up icon-md"></i>
+                        <span>그래프</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-journal-bookmark-fill icon-md"></i>
+                        <span>프로그램 편집</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-megaphone-fill icon-md"></i>
+                        <span>공지사항</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-person-gear icon-md"></i>
+                        <span>관리</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-toggle-btn mr-40">
+                <a id="sidebarToggle" onclick="">
+                    <i class="bi icon-lg bi-arrow-left-circle-fill"></i>
+                </a>
+            </div>
+            <hr>
+            <div class="dropdown px-3 pt-3 mr-40">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../lhj_profile.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>이현재</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="z-index: 1000;">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 서브 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 sub-nav-sticky">
+            <div class="card child-card">
+                <div class="card-body">
+                    <h3 class="card-title">이종오</h3>
+                    <div class="card-text d-flex flex-column ">
+                        <span>1992.02.14</span>
+                        <span>건강하고 튼튼함</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto text-end">
+                <li class="nav-item"><a href="#" class="nav-link text-white" aria-current="page">Main</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">데일리시트</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">상담일지</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white active">완료목록</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">보고서</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">문제행동</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">그래프</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">영상 및 교구</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">프로그램관리</a></li>
+            </ul>
+        </div>
+        <!-- 데일리 시트 -->
+        <div class="main-contents">
+            <div>
+                <div class="f-between mb-2">
+                    <div class="title-label mx-3 my-2">
+                        <i class="bi bi-file-earmark-check"></i>
+                        <p class="m-0" style="font-size: 20px;">Criterion reach list</p>
+                    </div>
+                </div>
+                <div class="search-area hstack gap-2 mb-3">
+                    <div class="form-floating mw-10 m-2">
+                        <select class="form-select" id="domainSelect" >
+                            <option value="0" selected>All domain</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        <label for="domainSelect">Domain selects</label>
+                    </div>
+                    <div class="form-floating ms-auto mw-10 m-2">
+                        <input type="date" class="form-control" id="startDate" placeholder="">
+                        <label for="startDate">Start date</label>
+                    </div>
+                    <div class="form-floating mw-10 m-2">
+                        <input type="date" class="form-control" id="endDate" placeholder="">
+                        <label for="endDate">End date</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="table-area">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col width="10%" />
+                                <col width="15%" />
+                                <col width="20%" />
+                                <col width="20%" />
+                                <col width="15%" />
+                                <col width="20%" />
+                            </colgroup>
+                            <thead class="table-success">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Domain</th>
+                                    <th scope="col">LTO</th>
+                                    <th scope="col">STO</th>
+                                    <th scope="col">상태</th>
+                                    <th scope="col">도달일</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                <tr data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="No : 1<br>Domain : #<br>LTO : #<br>STO : #<br>상태 : #<br>도달일 : #" data-bs-html='true'>
+                                    <th scope="row">1</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">10</th>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="pagination pagination-green justify-content-end">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+    
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+    
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- 툴팁 활성화 -->
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+
+</body>
+
+</html>

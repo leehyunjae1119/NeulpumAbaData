@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-5.3.0-dist/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-icons/font/bootstrap-icons.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/common.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/np-bs.css'>
+
+    <script src='../bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js'></script>
+    <script src='../jquery/jquery.min.js'></script>
+</head>
+
+<body> 
+    <script>
+        var isSidebarToggle = false;
+        $(document).ready(function () {
+            // START 사이드바 함수
+            if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+            } else {
+                $("main[name=main-wrap]").addClass("none-sub-sidebar");
+            }
+
+            $("#sidebarToggle").on("click", function () {
+                if (!isSidebarToggle && $(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                    $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+                } else {
+                    $("main[name=main-wrap]").addClass("none-sub-sidebar");
+                }
+                sidebrToggle();
+            });
+
+            $(".nav-sticky .nav-link").on("click", function () {
+                $(".nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+                if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                    $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+                    sidebrToggle(1);
+                } else {
+                    $("main[name=main-wrap]").addClass("none-sub-sidebar");
+                }
+            });
+
+            $(".sub-nav-sticky .nav-link").on("click", function () {
+                $(".sub-nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+            });
+            // END 사이드바 함수
+
+            $(".nav-sticky .nav-link").eq(1).trigger('click');
+        });
+        // START 사이드바 함수
+        function sidebrToggle(flag) {
+            if (flag === 0) {
+                isSidebarToggle = false;
+            } else if (flag === 1) {
+                isSidebarToggle = true;
+            } else {
+                isSidebarToggle = !isSidebarToggle
+            }
+
+            if (!isSidebarToggle) {
+                $('main.flex-nowrap').removeClass("sidebar-toggled");
+                $('.nav-sticky').removeClass("toggled");
+                $('.nav-sticky .dropdown a').addClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-lg").addClass("icon-md");
+                $("#sidebarToggle > i").removeClass("bi-arrow-right-circle-fill").addClass("bi-arrow-left-circle-fill");
+            } else {
+                $('main.flex-nowrap').addClass("sidebar-toggled");
+                $('.nav-sticky').addClass("toggled");
+                $('.nav-sticky .dropdown a').removeClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-md").addClass("icon-lg");
+                $("#sidebarToggle > i").removeClass("bi-arrow-left-circle-fill").addClass("bi-arrow-right-circle-fill");
+            }
+        }; 
+        // END 사이드바 함수
+    </script>
+    <main class="d-flex flex-nowrap none-sub-sidebar" name="main-wrap"> <!--sidebar-toggled-->
+        <!-- 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 nav-sticky"> <!--toggled-->
+            <a href="javascript:void(0);" class="d-flex align-items-center text-decoration-none logo-btn" id="logo">
+                <img class="logo" src="../image/logo.png" width="32" height="32">
+                <span class="fs-4 logo-text">늘품ABA</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto mr-40">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white active" id="mai">
+                        <i class="bi bi-house-door icon-md"></i>
+                        <span>대시보드</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="dpm">
+                        <i class="bi bi-calendar-week icon-md"></i>
+                        <span>데일리 시트</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="cpm">
+                        <i class="bi bi-people icon-md"></i>
+                        <span>아동 관리</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="grp">
+                        <i class="bi bi-graph-up icon-md"></i>
+                        <span>그래프</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-journal-bookmark-fill icon-md"></i>
+                        <span>프로그램 편집</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-megaphone-fill icon-md"></i>
+                        <span>공지사항</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-person-gear icon-md"></i>
+                        <span>관리</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-toggle-btn mr-40">
+                <a id="sidebarToggle" onclick="">
+                    <i class="bi icon-lg bi-arrow-left-circle-fill"></i>
+                </a>
+            </div>
+            <hr>
+            <div class="dropdown px-3 pt-3 mr-40">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../lhj_profile.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>이현재</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="z-index: 1000;">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 서브 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 sub-nav-sticky">
+            <div class="card child-card">
+                <div class="card-body">
+                    <h3 class="card-title">이종오</h3>
+                    <div class="card-text d-flex flex-column ">
+                        <span>1992.02.14</span>
+                        <span>건강하고 튼튼함</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto text-end">
+                <li class="nav-item"><a href="#" class="nav-link text-white" aria-current="page">데일리시트</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white active">상담일지</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">완료목록</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">보고서</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">문제행동</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">그래프</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">영상 및 교구</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">프로그램관리</a></li>
+            </ul>
+        </div>
+        <!-- 데일리 시트 -->
+        <div class="main-contents" >
+            <div class="row mb-4">
+                <div class="filter-list">
+                    <div class="flex-nowrap c-title mb-2">
+                        <i class="bi bi-funnel-fill"></i>
+                        <span>Class List</span>
+                    </div>
+                    <div class="flex-nowrap">
+                        <span class="badge">All</span>
+                        <span class="badge active">A Class</span>
+                        <span class="badge active">B Class</span>
+                        <span class="badge">C Class</span>
+                        <span class="badge">D Class</span>
+                        <span class="badge active">E Class</span>
+                        <span class="badge">F Class</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="filter-result">
+                    <div class="flex-nowrap c-title mb-2">
+                        <i class="bi bi-funnel"></i>
+                        <span>Filter List</span>
+                    </div>
+                    <div class="contents-box">
+                        <div class="row child-book-list my-3">
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_1.png">
+                                <div class="book-cover text-white">
+                                    <small class="cover-class">A Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_2.png">
+                                <div class="book-cover text-black">
+                                    <small class="cover-class">B Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_3.png">
+                                <div class="book-cover text-white">
+                                    <small class="cover-class">E Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="flex-nowrap c-title mb-2">
+                    <i class="bi bi-bookmark-star-fill"></i>
+                    <span>All Child</span>
+                </div>
+                <div class="contents-box">
+                    <div class="row child-book-list my-3">
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_1.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_2.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_3.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_4.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_8.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_5.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_6.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_7.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
+
+
+<!-- #region -->

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-5.3.0-dist/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-icons/font/bootstrap-icons.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/common.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/np-bs.css'>
+
+    <script src='../bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js'></script>
+    <script src='../jquery/jquery.min.js'></script>
+</head>
+
+<body class="login_body"> 
+    <script>
+        var isSidebarToggle = false;
+        $(document).ready(function () {
+            // START Main 1-1 함수
+            $('#centerChoiceModal').modal('show');
+            $("#centerChoiceModal .modal-body .card").on('click', function (e) {
+                if(!$(e.target).hasClass("bi") && !$(this).hasClass("exCard")) {
+                    $('#centerChoiceModal').modal('hide');
+                }
+            })
+
+            $("#centerAddBtn").on("click", function(){
+                $(this).addClass("disabled");
+                $("#centerBoard").hide();
+                $("#centerEditer").show();
+            })
+            $("#centerSaveBtn").on("click", function(){
+                $("#centerAddBtn").removeClass("disabled");
+                $("#centerEditer").hide();
+                $("#centerBoard").show();
+            })
+            $("#centerCancelBtn").on("click", function(){
+                $("#centerAddBtn").removeClass("disabled");
+                $("#centerEditer").hide();
+                $("#centerBoard").show();
+            })
+            // END Main 1-1 함수
+        });
+        // START Main 1-1 함수
+        function fn_onkeyup_centerName() {
+            let centerName = $("#centerName").val();
+            $("#exCenterName").text(centerName);
+        }
+        function fn_onchange_centerLeader() {
+            let centerLeader = $("#centerLeader > option:selected").attr("data-text");
+            $("#exCenterLeader").text(centerLeader);
+        }
+        function fn_onchange_centerRepresentativeImage() {
+            let centerRepresentativeImage = $("#centerRepresentativeImage > option:selected").val();
+            let imgPath = "../image/profile_img/"+centerRepresentativeImage+".jpg";
+            if(centerRepresentativeImage !== "00"){
+                $("#exCenterRepresentativeImage").attr("src", imgPath);
+            }
+        }
+        // END Main 1-1 함수
+    </script>
+    <main class="login_main" name="">
+        <article class="login_logo">
+            <img style="width: 400px" src="../image/neulpum_logo.png">
+        </article>
+        <div class="w-100">
+            <div class="join_contents">
+                <section>
+                    <div class="login_title">
+                        <span>Create Account</span>
+                    </div>
+                    <form class="mb-3">
+                        <div class="mb-1">
+                            <label for="" class="form-label">User ID</label>
+                            <input type="text" class="form-control" id="">
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="">
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="">
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="">
+                        </div>
+                    </form>
+                </section>
+                <div class="login_btn_area">
+                    <button type="button" class="btn btn-outline-success w-100">가입 신청</button>
+                    <p>이미 회원이신가요? <a href="#" onclick="onclickSignIn();">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="w-100">
+            <div class="login_contents show">
+                <section>
+                    <div class="login_title">
+                        <span>Sign In</span>
+                    </div>
+                    <form class="mb-3">
+                        <div class="mb-1">
+                            <label for="" class="form-label">User ID</label>
+                            <input type="text" class="form-control" id="">
+                        </div>
+                        <div class="mb-1">
+                            <label for="" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="">
+                        </div>
+                        <div class="mb-1 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">로그인상태 유지</label>
+                        </div>
+                    </form>
+                </section>
+                <div class="login_btn_area">
+                    <button type="button" class="btn btn-outline-success w-100">로그인</button>
+                    <p>처음 사용자 인가요? <a href="#" onclick="onclickSignUp();">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- main 1-1 -->
+    <div class="modal fade" id="centerChoiceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">센터 선택</h5>
+                    <button type="button" class="btn btn-success" id="centerAddBtn">
+                        <i class="bi bi-plus-lg" style="margin-right: 3px;"></i>
+                        <span>추가</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="c-flex f-between form-center-editer" id="centerEditer" style="display: none;">
+                        <div class="form-area" style="padding: 0.5rem;">
+                            <div class="card exCard" style="width: 15rem;">
+                                <div>
+                                    <img id="exCenterRepresentativeImage" src="../image/profile_img/01.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label" id="exCenterName">센터명</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4 id="exCenterLeader">이름</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" >
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 0 명</sapn></br>
+                                        <sapn>아동 - 0 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-area" style="padding: 0.5rem;">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="projectName" class="form-label">센터명</label>
+                                    <input type="text" class="form-control" id="centerName" placeholder="센터명을 입력해주세요..." onkeyup="fn_onkeyup_centerName();">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">센터장</label>
+                                    <select class="form-select" id="centerLeader" onchange="fn_onchange_centerLeader();">
+                                        <option data-text="이름" selected>센터장을 선택해주세요...</option>
+                                        <option value="1" data-text="김선혜">김선혜</option>
+                                        <option value="2" data-text="이종오">이종오</option>
+                                        <option value="3" data-text="이현재">이현재</option>
+                                        <option value="4" data-text="이예린">이예린</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">센터 이미지</label>
+                                    <select class="form-select" id="centerRepresentativeImage" onchange="fn_onchange_centerRepresentativeImage();">
+                                        <option value="00" selected>센터 대표 이미지를 선택해주세요...</option>
+                                        <option value="01">01 - 여성 베이지</option>
+                                        <option value="02">02 - 남성 블루</option>
+                                        <option value="03">03 - 여성 퍼플</option>
+                                        <option value="04">04 - 남성 오렌지</option>
+                                        <option value="05">05 - 남성 옐로우</option>
+                                        <option value="06">06 - 여성 핑크</option>
+                                        <option value="07">07 - 남성 브라운</option>
+                                        <option value="08">08 - 여성 민트</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <div class="form-btn-area">
+                                <button type="button" class="btn btn-primary" id="centerSaveBtn">저장</button>
+                                <button type="button" class="btn btn-secondary" id="centerCancelBtn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c-flex flex-nowrap pb-3" id="centerBoard">
+                        <div class="item-xy-center m-3">
+                            <div class="card" style="width: 15rem;">
+                                <div>
+                                    <img src="../image/profile_img/01.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label">늘품ABA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4>김선혜</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 3 명</sapn></br>
+                                        <sapn>아동 - 9 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-xy-center m-3">
+                            <div class="card" style="width: 15rem;">
+                                <div>
+                                    <img src="../image/profile_img/02.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label">토리ABA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4>김선혜</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 3 명</sapn></br>
+                                        <sapn>아동 - 9 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-xy-center m-3"> 
+                            <div class="card" style="width: 15rem;">
+                                <div>
+                                    <img src="../image/profile_img/03.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label">링크아이</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4>김선혜</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 3 명</sapn></br>
+                                        <sapn>아동 - 9 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-xy-center m-3"> 
+                            <div class="card" style="width: 15rem;">
+                                <div>
+                                    <img src="../image/profile_img/04.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label">늘품ABA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4>김선혜</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 3 명</sapn></br>
+                                        <sapn>아동 - 9 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-xy-center m-3">
+                            <div class="card" style="width: 15rem;">
+                                <div>
+                                    <img src="../image/profile_img/05.jpg" class="card-img-top" alt="...">
+                                    <div class="card-img-overlay card-img-overbody">
+                                        <span class="card-img-label">늘품ABA</span>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="z-index: 100;">
+                                    <div class="card-title f-between">
+                                        <div>
+                                            <span>센터장</span>
+                                            <h4>김선혜</h4>
+                                        </div>
+                                        <div class="dropup dropdown">
+                                            <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-text">
+                                        <sapn>선생님 - 3 명</sapn></br>
+                                        <sapn>아동 - 9 명</sapn>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="login_footer">
+        <span>© 2023 NEULPUM ABA. All rights reserved.</span>
+    </footer>
+
+</body>
+
+</html>
+
+
+<!-- #region -->

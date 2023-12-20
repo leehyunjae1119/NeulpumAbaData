@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.grp.dao.GrpDao">
+
+	<select id="selectDailyReactionData" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT date_format(tsp.point_reg_dt, '%Y-%m-%d') as dtm
+			 , td.domain_seq
+			 , td.domain_name 
+			 , SUM(1) AS tot_cnt
+			 , SUM(CASE WHEN tsp.point_rpn_cd='+' THEN 1 ELSE 0 END) AS cmp_cnt
+			 , SUM(CASE WHEN tsp.point_rpn_cd='P' THEN 1 ELSE 0 END) AS urg_cnt
+			 , SUM(CASE WHEN tsp.point_rpn_cd='-' THEN 1 ELSE 0 END) AS fai_cnt
+		  FROM TB_DOMAIN td 
+		  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq  
+		  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+		  LEFT OUTER JOIN TB_STO_POINT tsp ON ts.sto_seq = tsp.sto_seq 
+		 WHERE 1=1
+		   AND tsp.point_reg_dt IS NOT NULL
+		   AND date_format(tsp.point_reg_dt, '%Y-%m-%d') BETWEEN #{startDate } AND #{endDate }
+		   AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } )
+		   <if test="memberSeq != null and memberSeq != ''">
+		   		AND tsp.point_reg_mmr_seq = #{memberSeq } 
+		   </if>
+		   <if test="childrenSeq != null and childrenSeq != ''">
+		   		AND td.children_seq = #{childrenSeq } 
+		   </if>
+		   <if test="groupSeq != null and groupSeq != ''">
+		   		AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
+		   </if>
+<!-- 		   <if test="centerSeq != null and centerSeq != ''"> -->
+<!-- 		   		AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->
+<!-- 		   </if> -->
+		 GROUP BY date_format(tsp.point_reg_dt, '%Y-%m-%d'), td.domain_seq 
+		 ORDER BY date_format(tsp.point_reg_dt, '%Y-%m-%d') ASC, td.domain_seq DESC 
+	</select>
+
+	<select id="selectCriterionByDomainData" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT DATE_FORMAT(DATE_SUB(main.dtm, INTERVAL (DAYOFWEEK(main.dtm)-1) DAY), '%Y-%m-%d') as week_start,
+		       DATE_FORMAT(DATE_SUB(main.dtm, INTERVAL (DAYOFWEEK(main.dtm)-7) DAY), '%Y-%m-%d') as week_end,
+		       DATE_FORMAT(main.dtm, '%Y%U') AS week_seq, 
+		       IFNULL(SUM(main.point_cnt), 0) AS rununit,
+		       IFNULL(SUM(main.arr_cnt), 0) AS arrCnt,
+		       IFNULL(ROUND(SUM(main.point_cnt) / SUM(main.arr_cnt)), 0) AS criterion
+		  FROM (
+			  SELECT STR_TO_DATE(sub1.dtm, '%Y-%m-%d %H:%i%S') dtm,
+				     sub2.point_cnt,
+			         sub3.arr_cnt
+				FROM (
+					SELECT DATE_FORMAT(DATE_ADD(#{startDate }, INTERVAL seq - 1 DAY), '%Y-%m-%d') AS dtm 	
+					  FROM (SELECT @num := @num + 1 AS seq
+							  FROM information_schema.tables a
+								 , information_schema.tables b
+								 , (SELECT @num := 0) c ) T
+					 WHERE seq <![CDATA[<=]]> DATEDIFF(#{endDate }, #{startDate }) + 1	
+				) sub1
+				LEFT OUTER JOIN (
+					SELECT * FROM (
+					  SELECT date_format(tsp.point_reg_dt, '%Y-%m-%d') as dtm
+						   , COUNT(td.domain_seq) as point_cnt
+						FROM TB_DOMAIN td 
+						LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq  
+						LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+						LEFT OUTER JOIN TB_STO_POINT tsp ON ts.sto_seq = tsp.sto_seq
+					   WHERE 1 = 1
+					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } )
+					   <if test="memberSeq != null and memberSeq != ''">
+					     AND tsp.point_reg_mmr_seq = #{memberSeq } 
+					   </if>
+					   <if test="childrenSeq != null and childrenSeq != ''">
+					     AND td.children_seq = #{childrenSeq } 
+					   </if>
+					   <if test="groupSeq != null and groupSeq != ''">
+					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
+					   </if>
+<!-- 					   <if test="centerSeq != null and centerSeq != ''"> -->
+<!-- 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->
+<!-- 					   </if> -->
+					   GROUP BY date_format(tsp.point_reg_dt, '%Y-%m-%d')
+					) AS sub
+					WHERE sub.dtm IS NOT NULL
+					ORDER BY sub.dtm
+				) sub2 on sub1.dtm = sub2.dtm 
+				LEFT OUTER JOIN (
+					SELECT * FROM (
+					  SELECT date_format(ts.sto_status_ch_dt, '%Y-%m-%d') as dtm
+					       , COUNT(td.domain_seq) as arr_cnt
+						FROM TB_DOMAIN td 
+						LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq  
+						LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq AND ts.sto_status_cd IN ('CMP', 'RPT')
+					   WHERE 1 = 1 
+					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } )
+					   <if test="childrenSeq != null and childrenSeq != ''">
+					     AND td.children_seq = #{childrenSeq } 
+					   </if>
+					   <if test="groupSeq != null and groupSeq != ''">
+					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
+					   </if>
+<!-- 					   <if test="centerSeq != null and centerSeq != ''"> -->
+<!-- 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->
+<!-- 					   </if> -->
+					   GROUP BY date_format(ts.sto_status_ch_dt, '%Y-%m-%d')
+					) AS sub
+					WHERE sub.dtm IS NOT NULL
+					ORDER BY sub.dtm
+				) sub3 on sub1.dtm = sub3.dtm 
+			) main
+		 GROUP BY week_seq;
+	</select>
+
+	<select id="selectWeeklyCompletionData" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT DATE_FORMAT(DATE_SUB(main.dtm, INTERVAL (DAYOFWEEK(main.dtm)-1) DAY), '%Y-%m-%d') as week_start,
+		       DATE_FORMAT(DATE_SUB(main.dtm, INTERVAL (DAYOFWEEK(main.dtm)-7) DAY), '%Y-%m-%d') as week_end,
+		       DATE_FORMAT(main.dtm, '%Y%U') AS week_seq, 
+		       IFNULL(SUM(main.arr_cnt), 0) AS arrCnt
+		  FROM (		
+				SELECT STR_TO_DATE(sub1.dtm, '%Y-%m-%d %H:%i%S') dtm,
+				     sub2.arr_cnt
+				  FROM (
+				 	   SELECT DATE_FORMAT(DATE_ADD(#{startDate }, INTERVAL seq - 1 DAY), '%Y-%m-%d') AS dtm 	
+					     FROM (SELECT @num := @num + 1 AS seq
+								 FROM information_schema.tables a
+									, information_schema.tables b
+									, (SELECT @num := 0) c ) T
+						WHERE seq <![CDATA[<=]]> DATEDIFF(#{endDate }, #{startDate }) + 1	
+					   ) sub1
+				  LEFT OUTER JOIN (
+					   SELECT date_format(ts.sto_status_ch_dt, '%Y-%m-%d') as dtm
+					   	    , COUNT(td.domain_seq) as arr_cnt
+					     FROM TB_DOMAIN td 
+					     LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq  
+					     LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+					     LEFT OUTER JOIN (
+					     				  SELECT sto_seq, MAX(point_reg_mmr_seq) AS point_reg_mmr_seq
+					   				        FROM TB_STO_POINT
+					   				       WHERE point_reg_mmr_seq = #{memberSeq } 
+					   				       GROUP BY sto_seq
+					   				      ) tsp ON ts.sto_seq = tsp.sto_seq
+					    WHERE 1 = 1
+					      AND ts.sto_status_cd IN ('CMP', 'RPT')
+					      AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } )
+					    <if test="memberSeq != null and memberSeq != ''">
+					      AND tsp.point_reg_mmr_seq = #{memberSeq } 
+					    </if>
+					    <if test="childrenSeq != null and childrenSeq != ''">
+					      AND td.children_seq = #{childrenSeq } 
+					    </if>
+					    <if test="groupSeq != null and groupSeq != ''">
+					      AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
+					    </if>
+<!-- 					    <if test="centerSeq != null and centerSeq != ''"> -->
+<!-- 					      AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->
+<!-- 					    </if> -->
+					    GROUP BY date_format(ts.sto_status_ch_dt, '%Y-%m-%d')
+					   ) sub2 ON sub1.dtm = sub2.dtm 
+			   ) main
+		 GROUP BY week_seq;
+	</select>
+	
+	<select id="selectGrpMemberList" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT member_seq
+			 , member_name
+		FROM TB_MEMBER
+		WHERE member_position_cd = #{centerSeq }
+	</select>
+	
+	<select id="selectGrpChildrenList" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT children_seq
+			 , children_name
+			 , children_group_cd
+		FROM TB_CHILDREN
+		WHERE children_position_cd = #{centerSeq }
+	</select>
+	
+	<select id="selectGrpGroupList" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT group_seq
+			 , group_name
+		FROM TB_CHD_GROUP
+		WHERE group_posiotion_cd = #{centerSeq }
+	</select>
+	
+	<select id="selectGrpCenterList" resultType="grpGraphVO" parameterType="grpGraphVO">
+		SELECT center_seq
+			 , center_name
+		FROM TB_CENTER
+	</select>
+
+</mapper>

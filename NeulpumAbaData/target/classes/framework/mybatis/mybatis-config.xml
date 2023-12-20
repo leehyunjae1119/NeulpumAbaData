@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.neulpum.np.lgn.vo.LgnVO" alias="lgnVO" />
+		<typeAlias type="com.neulpum.np.common.vo.CenterVO" alias="centerVO" />
+		<typeAlias type="com.neulpum.np.mng.vo.MemberVO" alias="memberVO" />
+		<typeAlias type="com.neulpum.np.mng.vo.ChildrenVO" alias="childrenVO" />
+		<typeAlias type="com.neulpum.np.mng.vo.ChdGroupVO" alias="chdGroupVO" />
+		
+		<typeAlias type="com.neulpum.np.tpm.vo.TmpDomainVO" alias="tmpDomainVO" />
+		<typeAlias type="com.neulpum.np.tpm.vo.TmpLtoVO" alias="tmpLtoVO" />
+		<typeAlias type="com.neulpum.np.tpm.vo.TmpStoVO" alias="tmpStoVO" />
+		<typeAlias type="com.neulpum.np.tpm.vo.TmpVO" alias="tmpVO" />
+
+		<typeAlias type="com.neulpum.np.cpm.vo.DomainVO" alias="domainVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.LtoVO" alias="ltoVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.StoVO" alias="stoVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.StoPointVO" alias="stoPointVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.CounselingVO" alias="counselingVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.DailySheetVO" alias="dailySheetVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.ComplateVO" alias="complateVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.ReportVO" alias="reportVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.ProgramVO" alias="programVO" />
+		<typeAlias type="com.neulpum.np.cpm.vo.VideoVO" alias="videoVO" />
+
+		<typeAlias type="com.neulpum.np.grp.vo.GrpGraphVO" alias="grpGraphVO" />
+		
+		<typeAlias type="com.neulpum.np.ntc.vo.NoticeVO" alias="noticeVO" />
+		
+		<typeAlias type="com.neulpum.np.mai.vo.MaiVO" alias="maiVO" />
+		<typeAlias type="com.neulpum.np.mai.vo.CalendarVO" alias="calendarVO" />
+		<typeAlias type="com.neulpum.np.mai.vo.SchedulerVO" alias="schedulerVO" />
+	</typeAliases>
+	
+</configuration>

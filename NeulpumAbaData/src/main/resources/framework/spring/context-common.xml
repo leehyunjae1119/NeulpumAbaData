@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+					    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+					    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+					    http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+					    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:property-placeholder location="classpath:/framework/props/globals.properties" />
+		
+	<!-- MariaDB JDBC DataSource  DBTAD / 1q2w3e4r! -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${Globals.driver}" />
+		<property name="url" value="${Globals.url}" />
+		<property name="username" value="${Globals.username}" />
+		<property name="password" value="${Globals.password}" />
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basenames"> 
+	        <list> 
+	            <value>classpath:/framework/message/message</value> 
+	        </list> 
+	    </property> 
+	    <property name="cacheSeconds" value="60"/> 
+	    <property name="defaultEncoding" value="UTF-8"/> 
+	    <property name="fallbackToSystemLocale" value="false"/> 
+	</bean>
+	
+	<bean id="commonMessageSource" class="com.neulpum.np.common.utils.NpMessageSource">
+		<property name="reloadableResourceBundleMessageSource">
+			<ref bean="messageSource"/>
+		</property>
+	</bean>
+	
+	<!-- mybatis SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/framework/mybatis/mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath:/mappers/**/*.xml" />
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg index="0" name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+</beans>

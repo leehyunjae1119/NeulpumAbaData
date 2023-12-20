@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.cpm.dao.cpmProgramDao">
+
+	<select id="selectDomain" parameterType="domainVO" resultType="domainVO">
+		SELECT domain_seq
+			 , children_seq
+			 , domain_sort_order
+			 , domain_name
+			 , domain_contents
+			 , domain_status_cd
+			 , domain_reg_dt
+			 , domain_status_ch_dt
+			 , domain_tmp_seq
+		  FROM TB_DOMAIN
+		 WHERE children_seq = #{childrenSeq }
+		 <if test="domainSeq != null and domainSeq != ''">
+		 	AND domain_seq = #{domainSeq }
+		 </if>
+		 ORDER BY domain_sort_order
+	</select>
+
+	<select id="selectLto" parameterType="ltoVO" resultType="ltoVO">
+		SELECT lto_seq
+			 , domain_seq
+			 , lto_sort_order
+			 , lto_name
+			 , lto_contents
+			 , lto_status_cd
+			 , lto_reg_dt
+			 , lto_status_ch_dt
+			 , lto_tmp_seq
+		  FROM TB_LTO
+		 WHERE 1=1 
+		 <if test="domainSeq != null and domainSeq != ''">
+		 	AND domain_seq = #{domainSeq }
+		 </if>
+		 <if test="ltoSeq != null and ltoSeq != ''">
+		 	AND lto_seq = #{ltoSeq }
+		 </if>
+		 ORDER BY lto_sort_order
+	</select>
+
+	<select id="selectSto" parameterType="stoVO" resultType="stoVO">
+		SELECT sto_seq
+			 , lto_seq
+			 , sto_sort_order
+			 , sto_name
+			 , sto_contents
+			 , sto_trial_cnt
+			 , sto_arr_std_pst
+			 , sto_urg_contents
+			 , sto_rnfc_contents
+			 , sto_memo_contents
+			 , sto_status_cd
+			 , sto_reg_dt
+			 , sto_status_ch_dt
+			 , sto_tmp_seq
+		  FROM TB_STO
+		 WHERE 1=1 
+		 <if test="ltoSeq != null and ltoSeq != ''">
+		 	AND lto_seq = #{ltoSeq }
+		 </if>
+		 <if test="stoSeq != null and stoSeq != ''">
+		 	AND sto_seq = #{stoSeq }
+		 </if>
+		 ORDER BY sto_sort_order
+	</select>
+
+	<select id="updateSortOrder_step1" parameterType="programVO">
+		UPDATE ${targetTable } 
+		   SET ${targetColumn }_sort_order = #{newSortOrder }
+		 WHERE ${targetColumn }_seq = #{seq }
+	</select>
+	<select id="updateSortOrder_step2" parameterType="programVO">
+		UPDATE ${targetTable }
+		   SET ${targetColumn }_sort_order = #{oldSortOrder }
+		 WHERE ${targetColumn }_seq != #{seq }
+		   AND ${targetColumn }_sort_order = #{newSortOrder }
+		   <if test="targetColumn == 'domain'">
+		   AND center_seq = (SELECT center_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+		   <if test="targetColumn == 'lto'">
+		   AND domain_seq = (SELECT domain_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+		   <if test="targetColumn == 'sto'">
+		   AND lto_seq = (SELECT lto_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+	</select>
+	
+	<select id="deleteProgram" parameterType="programVO">
+		DELETE FROM ${targetTable }
+		 WHERE ${targetColumn }_seq = #{seq }
+	</select>
+	
+	<select id="insertDomain" parameterType="domainVO">
+		INSERT INTO TB_DOMAIN (
+			children_seq,
+			domain_sort_order,
+			domain_name,
+			domain_contents,
+			domain_status_cd,
+			domain_reg_dt,
+			domain_status_ch_dt,
+			domain_tmp_seq
+			)
+		SELECT #{childrenSeq } 
+			 , IFNULL(MAX(domain_sort_order), 0) + 1 AS domain_sort_order
+			 , #{domainName }
+			 , #{domainContents }
+			 , 'WIT'
+			 , current_timestamp()
+			 , NULL 
+			 , #{domainTmpSeq }
+		  FROM TB_DOMAIN
+		 WHERE children_seq = #{childrenSeq }
+	</select>
+	
+	<select id="updateDomain" parameterType="domainVO">
+		UPDATE TB_DOMAIN
+		   SET domain_name = #{domainName }
+		     , domain_contents = #{domainContents }
+		     <if test="domainStatusCd != null and domainStatusCd != ''">
+		     , domain_status_cd = #{domainStatusCd }
+		     , domain_status_ch_dt = current_timestamp()
+			 </if>
+		 WHERE domain_seq = #{domainSeq }
+	</select>
+	
+	<select id="insertLto" parameterType="ltoVO">
+		INSERT INTO TB_LTO (
+			domain_seq,
+			lto_sort_order,
+			lto_name,
+			lto_contents,
+			lto_status_cd,
+			lto_reg_dt,
+			lto_status_ch_dt,
+			lto_tmp_seq
+			)
+		SELECT #{domainSeq }
+			 , IFNULL(MAX(lto_sort_order), 0) + 1 AS lto_sort_order
+			 , #{ltoName }
+			 , #{ltoContents }
+			 , 'WIT'
+			 , current_timestamp()
+			 , NULL
+			 , #{ltoTmpSeq }
+		  FROM TB_LTO
+		 WHERE domain_seq = #{domainSeq }
+	</select>
+	
+	<select id="updateLto" parameterType="ltoVO">
+		UPDATE TB_LTO
+		   SET lto_name = #{ltoName }
+		     , lto_contents = #{ltoContents }
+		     <if test="ltoStatusCd != null and ltoStatusCd != ''">
+		     , lto_status_cd = #{ltoStatusCd }
+		     , lto_status_ch_dt = current_timestamp()
+			 </if>
+		 WHERE lto_seq = #{ltoSeq }
+	</select>
+	
+	<select id="insertSto" parameterType="stoVO">
+		INSERT INTO TB_STO (
+			lto_seq,
+			sto_sort_order,
+			sto_name,
+			sto_contents,
+			sto_trial_cnt,
+			sto_arr_std_pst,
+			sto_urg_contents,
+			sto_rnfc_contents,
+			sto_memo_contents,
+			sto_status_cd,
+			sto_reg_dt,
+			sto_status_ch_dt,
+			sto_tmp_seq,
+			sto_round
+			)
+		SELECT #{ltoSeq }
+			 , IFNULL(MAX(sto_sort_order), 0) + 1 AS sto_sort_order
+			 , #{stoName }
+			 , #{stoContents }
+			 , #{stoTrialCnt }
+			 , #{stoArrStdPst }
+			 , #{stoUrgContents }
+			 , #{stoRnfcContents }
+			 , #{stoMemoContents }
+			 , 'WIT'
+			 , current_timestamp()
+			 , #{stoStatusChDt }
+			 , 0
+			 , 1
+		  FROM TB_STO
+		 WHERE lto_seq = #{ltoSeq }
+	</select>
+	
+	<select id="updateSto" parameterType="stoVO">
+		UPDATE TB_STO
+		   SET sto_name = #{stoName }
+		     , sto_contents = #{stoContents }
+		     , sto_trial_cnt = #{stoTrialCnt }
+		     , sto_arr_std_pst = #{stoArrStdPst }
+		     , sto_urg_contents = #{stoUrgContents }
+		     , sto_rnfc_contents = #{stoRnfcContents }
+		     , sto_memo_contents = #{stoMemoContents }
+		     <if test="stoStatusCd != null and stoStatusCd != ''">
+		     , sto_status_cd = #{stoStatusCd }
+		     , sto_status_ch_dt = current_timestamp()
+		     </if>
+		 WHERE sto_seq = #{stoSeq }
+	</select>
+	
+	<select id="updateStatusCd" parameterType="programVO">
+		UPDATE ${targetTable } 
+		   SET ${targetColumn }_status_cd = #{statusCd }
+		     , ${targetColumn }_status_ch_dt = current_timestamp()
+		 WHERE ${targetColumn }_seq = #{seq }
+	</select>
+	
+	<select id="selectProgramStatusCd" parameterType="programVO" resultType="programVO">
+		SELECT (SELECT domain_status_cd FROM TB_DOMAIN WHERE domain_seq = #{domainSeq }) AS domain_status_cd
+			 , (SELECT lto_status_cd FROM TB_LTO WHERE lto_seq = #{ltoSeq }) AS lto_status_cd
+			 , (SELECT sto_status_cd FROM TB_STO WHERE sto_seq = #{stoSeq }) AS sto_status_cd
+	</select>
+	
+	
+	<select id="selectTmpDomainSelectbox" parameterType="domainVO" resultType="domainVO">
+		SELECT domain_seq
+			 , domain_name
+		  FROM TB_TMP_DOMAIN 
+		 WHERE center_seq = #{centerSeq }
+	</select>
+
+	<select id="selectTmpLtoSelectbox" parameterType="ltoVO" resultType="ltoVO">
+		SELECT lto_seq
+			 , lto_name
+		  FROM TB_TMP_LTO
+		 WHERE domain_seq = (SELECT domain_tmp_seq 
+							   FROM TB_DOMAIN 
+							  WHERE domain_seq = #{domainSeq})
+	</select>
+
+	<select id="selectTmpStoSelectbox" parameterType="stoVO" resultType="stoVO">
+		SELECT sto_seq
+			 , sto_name
+		  FROM TB_TMP_STO
+		 WHERE lto_seq = (SELECT lto_tmp_seq 
+						    FROM TB_LTO
+						   WHERE lto_seq = #{ltoSeq})
+	</select>
+</mapper>

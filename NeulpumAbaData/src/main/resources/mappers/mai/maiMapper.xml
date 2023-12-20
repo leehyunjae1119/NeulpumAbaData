@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.mai.dao.MaiDao">
+
+	<select id="selectMemberMemo" parameterType="maiVO" resultType="maiVO">
+		SELECT tb.board_contents
+		  FROM TB_BOARD tb
+		 WHERE tb.board_dv_cd = 'MMM'
+		   AND board_reg_mmr_seq = #{memberSeq }
+	</select>
+
+	<select id="insertMemberMemo" parameterType="maiVO" resultType="maiVO">
+		INSERT INTO TB_BOARD (
+			board_dv_cd,
+			board_title,
+			board_contents,
+			board_reg_mmr_seq,
+			board_reg_dt,
+			center_seq
+		)
+		VALUES(
+			'MMM',
+			'메모장',
+			'',
+			#{memberSeq },
+			current_timestamp(),
+			NULL
+		)
+	</select>
+
+	<select id="updateMemberMemo" parameterType="maiVO" resultType="maiVO">
+		UPDATE TB_BOARD
+		   SET board_contents = #{boardContents }
+		 WHERE board_reg_mmr_seq = #{memberSeq }
+		   AND board_dv_cd = 'MMM'
+	</select>
+	
+	<select id="selectCalendarMonth" parameterType="calendarVO" resultType="calendarVO">
+		SELECT calendar_dt
+			 , COUNT(calendar_dt) AS calendar_cnt
+		  FROM TB_CALENDAR
+		 WHERE center_seq = #{centerSeq }
+		   AND SUBSTR(calendar_dt, 1, 7) = SUBSTR(#{calendarDt }, 1, 7)
+		 GROUP BY calendar_dt
+		 ORDER BY calendar_dt
+	</select>
+	
+	<select id="selectCalendarList" parameterType="calendarVO" resultType="calendarVO">
+		SELECT calendar_seq
+			 , calendar_dt
+			 , calendar_contents
+			 , calendar_color_cd
+			 , calendar_reg_mmr_seq
+			 , calendar_reg_dt
+			 , center_seq
+		  FROM TB_CALENDAR
+		 WHERE center_seq = #{centerSeq }
+		   AND calendar_dt = #{calendarDt }
+		   <if test="calendarSeq != null and calendarSeq != '' ">
+		   AND calendar_seq = #{calendarSeq }
+		   </if>
+		 ORDER BY calendar_seq
+	</select>
+	
+	<select id="insertCalendarData" parameterType="calendarVO">
+		INSERT INTO TB_CALENDAR (
+			calendar_dt,
+			calendar_contents,
+			calendar_color_cd,
+			calendar_reg_mmr_seq,
+			calendar_reg_dt,
+			center_seq)
+		VALUES(
+			#{calendarDt },
+			#{calendarContents },
+			#{calendarColorCd },
+			#{calendarRegMmrSeq },
+			current_timestamp(),
+			#{centerSeq }
+		)
+	</select>
+	
+	<select id="updateCalendarData" parameterType="calendarVO">
+		UPDATE TB_CALENDAR
+		   SET calendar_dt = #{calendarDt }
+		     , calendar_contents = #{calendarContents }
+		     , calendar_color_cd = #{calendarColorCd }
+		 WHERE calendar_seq = #{calendarSeq }
+	</select>
+	
+	<select id="deleteCalendarData" parameterType="calendarVO">
+		DELETE
+		  FROM TB_CALENDAR
+		 WHERE calendar_seq = #{calendarSeq }
+	</select>
+
+	<select id="selectSchedulerList" parameterType="schedulerVO" resultType="schedulerVO">
+		SELECT tc.children_seq 
+			 , tc.children_name
+			 , tc.children_book_img
+			 , ts.scheduler_seq
+			 , ts.scheduler_week_cd
+			 , ts.scheduler_time_cd
+			 , ts.scheduler_reg_mmr_seq
+			 , ts.scheduler_reg_dt
+		  FROM TB_CHILDREN tc 
+		  LEFT OUTER JOIN TB_SCHEDULER ts ON tc.children_seq = ts.children_seq
+		 WHERE tc.children_position_cd = #{centerSeq }
+		   AND tc.children_active_yn = 'Y'
+		   AND ts.scheduler_seq IS NOT NULL
+		   <if test="childrenSeq != null and childrenSeq != '' ">
+		   AND tc.children_seq = #{childrenSeq }
+		   </if>
+		 ORDER BY ts.scheduler_time_cd, FIELD(ts.scheduler_week_cd, 'MON', 'TUE', 'WED', 'THU', 'FRI'), tc.children_seq
+	</select>
+	
+	<select id="insertSchedulerData" parameterType="schedulerVO">
+		INSERT INTO TB_SCHEDULER (
+			children_seq,
+			scheduler_week_cd,
+			scheduler_time_cd,
+			scheduler_reg_mmr_seq
+		)
+		VALUES(
+			#{childrenSeq },
+			#{schedulerWeekCd },
+			#{schedulerTimeCd },
+			#{schedulerRegMmrSeq }
+		)
+	</select>
+	
+	<select id="deleteSchedulerData" parameterType="schedulerVO">
+		DELETE 
+		  FROM TB_SCHEDULER 
+		 WHERE children_seq = #{childrenSeq }
+	</select>
+	
+</mapper>

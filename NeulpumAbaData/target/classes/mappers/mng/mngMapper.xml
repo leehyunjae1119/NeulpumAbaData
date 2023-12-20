@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.mng.dao.MngDao">
+
+	<select id="updateMember" parameterType="memberVO">
+		<choose>
+			<when test='memberSeq == "" or memberSeq == null or memberSeq == 0'>
+			INSERT INTO TB_MEMBER (
+				member_id,
+				member_pw,
+				member_name,
+				member_email,
+				member_cp,
+				member_auth_cd,
+				member_position_cd,
+				member_approval_yn
+				)
+			VALUES(
+				#{memberId },
+				#{memberPw },
+				#{memberName },
+				#{memberEmail },
+				#{memberCp },
+				#{memberAuthCd },
+				#{memberPositionCd },
+				#{memberApprovalYn }
+				)
+			</when>
+			<otherwise>
+			UPDATE
+				TB_MEMBER
+			SET
+				member_name = #{memberName },
+				member_email = #{memberEmail },
+				member_cp = #{memberCp },
+				member_auth_cd = #{memberAuthCd },
+				member_position_cd = #{memberPositionCd },
+				member_approval_yn = #{memberApprovalYn }
+			WHERE
+				member_seq = #{memberSeq }
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="updateChildren" parameterType="childrenVO">
+		<choose>
+			<when test='childrenSeq == "" or childrenSeq == null or childrenSeq == 0'>
+			INSERT INTO TB_CHILDREN (
+				children_name,
+				children_birth,
+				children_diagnosis,
+				children_memo,
+				children_position_cd,
+				children_group_cd,
+				children_active_yn,
+				children_prog_st_dt,
+				children_prog_ed_dt,
+				children_parents,
+				children_book_img
+			)
+			VALUES(
+				#{childrenName },
+				#{childrenBirth },
+				#{childrenDiagnosis },
+				#{childrenMemo },
+				#{childrenPositionCd },
+				#{childrenGroupCd },
+				#{childrenActiveYn },
+				#{childrenProgStDt },
+				#{childrenProgEdDt },
+				#{childrenParents },
+				#{childrenBookImg }
+			)
+			</when>
+			<otherwise>
+			UPDATE
+				TB_CHILDREN
+			SET
+				children_name = #{childrenName },      
+				children_birth = #{childrenBirth },     
+				children_diagnosis = #{childrenDiagnosis }, 
+				children_memo = #{childrenMemo },      
+				children_position_cd = #{childrenPositionCd },
+				children_group_cd = #{childrenGroupCd },   
+				children_active_yn = #{childrenActiveYn },  
+				children_prog_st_dt = #{childrenProgStDt },  
+				children_prog_ed_dt = #{childrenProgEdDt },  
+				children_parents = #{childrenParents },
+				children_book_img = #{childrenBookImg }
+			WHERE
+				children_seq = #{childrenSeq }
+			</otherwise>
+		</choose>
+		
+		<selectKey keyProperty="childrenSeq" resultType="Integer" order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+ 	</insert>
+ 	
+ 	<select id="autoInsertDomain" parameterType="domainVO">
+	 	INSERT INTO TB_DOMAIN (
+			children_seq,
+			domain_sort_order,
+			domain_name,
+			domain_contents,
+			domain_status_cd,
+			domain_tmp_seq
+		)
+		SELECT #{childrenSeq } AS children_seq
+			 , ttd.domain_sort_order
+			 , ttd.domain_name
+			 , ttd.domain_contents 
+			 , 'WIT' AS domain_status_cd
+			 , ttd.domain_seq 
+		  FROM TB_TMP_DOMAIN ttd
+		 WHERE center_seq = (SELECT children_position_cd
+		 					   FROM TB_CHILDREN 
+		 					  WHERE children_seq = #{childrenSeq })
+ 	</select>
+ 	<select id="selectDomainList" parameterType="domainVO" resultType="domainVO">
+		SELECT domain_seq
+			 , children_seq
+			 , domain_sort_order
+			 , domain_name
+			 , domain_contents
+			 , domain_status_cd
+			 , domain_reg_dt
+			 , domain_status_ch_dt
+			 , domain_tmp_seq
+		  FROM TB_DOMAIN
+		 WHERE children_seq = #{childrenSeq }
+		 ORDER BY domain_sort_order
+ 	</select>
+ 	<select id="autoInsertLto" parameterType="ltoVO">
+		INSERT INTO TB_LTO (
+			domain_seq,
+			lto_sort_order,
+			lto_name,
+			lto_contents,
+			lto_status_cd,
+			lto_tmp_seq
+		)
+		SELECT #{domainSeq }
+			 , ttl.lto_sort_order
+			 , ttl.lto_name
+			 , ttl.lto_contents
+			 , 'WIT'
+			 , ttl.lto_seq
+		  FROM TB_TMP_LTO ttl 
+		 WHERE domain_seq = #{domainTmpSeq };
+ 	</select>
+ 	
+ 	<select id="selectChdGroup" parameterType="chdGroupVO" resultType="chdGroupVO">
+ 		SELECT group_seq
+			 , group_name
+			 , group_posiotion_cd
+		  FROM TB_CHD_GROUP
+		 WHERE group_name = #{groupName }
+		   AND group_posiotion_cd = #{groupPosiotionCd }
+ 	</select>
+ 	
+ 	<select id="insertChdGroup" parameterType="chdGroupVO">
+ 		INSERT INTO TB_CHD_GROUP (
+			group_name,
+			group_posiotion_cd
+			)
+		VALUES(
+			#{groupName },
+			#{groupPosiotionCd }
+			)
+ 	</select>
+ 	
+	<select id="selectMemberList" parameterType="memberVO" resultType="memberVO">
+		SELECT * 
+		  FROM (
+		  	SELECT @ROWNUM := @ROWNUM + 1 AS rownum   			/* 번호 				*/
+				 , tm.member_seq                      			/* 회원 번호 			*/
+				 , tm.member_id                       			/* 회원 아이디 		*/
+				 , tm.member_name                     			/* 회원 이름			*/
+				 , tm.member_email                    			/* 회원 이메일			*/
+				 , tm.member_cp                       			/* 회원 연락처			*/
+				 , tm.member_auth_cd                  			/* 회원 권한 코드		*/
+				 , tm.member_position_cd              			/* 회원 소속 코드		*/
+				 , IFNULL(tc.center_name, '') AS center_name	/* 회원 소속 이름		*/
+				 , tm.member_approval_yn              			/* 회원 승인 여부		*/
+				 , tm.member_reg_dt                   			/* 회원 등록 일시		*/
+			  FROM TB_MEMBER tm
+			  LEFT OUTER JOIN TB_CENTER tc ON tm.member_position_cd = tc.center_seq 
+				 , (SELECT @ROWNUM := 0 ) rn
+			 WHERE 1=1
+			 <if test="memberName != null and memberName != ''">
+			 	AND tm.member_name LIKE CONCAT('%',#{memberName },'%')
+			 </if>
+			 <if test="memberPositionCd != null and memberPositionCd != ''">
+			 	AND tm.member_position_cd = #{memberPositionCd }
+			 </if>
+			 ORDER BY @ROWNUM DESC
+		  ) sub_query
+		 ORDER BY sub_query.rownum DESC
+		 LIMIT #{startNum }, 10
+	</select>
+	
+	<select id="selectMemberListCnt" parameterType="memberVO" resultType="memberVO">
+		SELECT CASE WHEN (COUNT(*) % 10) = 0
+			THEN TRUNCATE(COUNT(*) / 10, 0)
+			ELSE TRUNCATE(COUNT(*) / 10, 0) + 1 END AS page_cnt
+		FROM TB_MEMBER tm
+		WHERE 1=1
+		<if test="memberName != null and memberName != ''">
+			AND tm.member_name LIKE CONCAT('%',#{memberName },'%')
+		</if>
+		<if test="memberPositionCd != null and memberPositionCd != ''">
+			AND tm.member_position_cd = #{memberPositionCd }
+		</if>
+	</select>
+
+	<select id="selectMemberDetail" parameterType="memberVO" resultType="memberVO">
+		SELECT tm.member_seq                      			/* 회원 번호 			*/
+			 , tm.member_id                       			/* 회원 아이디 		*/
+			 , tm.member_pw                       			/* 회원 비밀번호 		*/
+			 , tm.member_name                     			/* 회원 이름			*/
+			 , tm.member_email                    			/* 회원 이메일			*/
+			 , tm.member_cp                       			/* 회원 연락처			*/
+			 , tm.member_auth_cd                  			/* 회원 권한 코드		*/
+			 , tm.member_position_cd              			/* 회원 소속 코드		*/
+			 , IFNULL(tc.center_name, '') AS center_name	/* 회원 소속 이름		*/
+			 , tm.member_approval_yn              			/* 회원 승인 여부		*/
+			 , tm.member_reg_dt                   			/* 회원 등록 일시		*/
+		  FROM TB_MEMBER tm
+		  LEFT OUTER JOIN TB_CENTER tc ON tm.member_position_cd = tc.center_seq 
+		 WHERE tm.member_seq = #{memberSeq }
+	</select>
+	
+	<select id="selectChildrenList" parameterType="childrenVO" resultType="childrenVO">
+		SELECT * 
+		  FROM (
+			SELECT @ROWNUM := @ROWNUM + 1 AS rownum  			/* 번호					*/
+				 , tc.children_seq                   			/* 아동 번호				*/
+				 , tc.children_name                  			/* 아동 이름				*/
+				 , tc.children_birth                 			/* 아동 생년월일			*/
+				 , tc.children_diagnosis             			/* 아동 진단명				*/
+				 , tc.children_memo                  			/* 아동 메모				*/
+				 , tc.children_position_cd           			/* 아동 소속 코드			*/
+				 , IFNULL(t1.center_name, '') AS center_name	/* 아동 소속 이름			*/
+				 , tc.children_group_cd              			/* 아동 그룹 코드			*/
+				 , IFNULL(t2.group_name, '') AS group_name		/* 아동 그룹 이름			*/
+				 , tc.children_active_yn             			/* 아동 활성화 여부			*/
+				 , tc.children_prog_st_dt            			/* 아동 프로그램 시작 일시	*/
+				 , tc.children_prog_ed_dt            			/* 아동 프로그램 종료 일시	*/
+				 , tc.children_parents               			/* 아동 부모님				*/
+				 , tc.children_book_img               			/* 아동 책 이미지			*/
+			  FROM TB_CHILDREN tc
+			  LEFT OUTER JOIN TB_CENTER t1 ON tc.children_position_cd = t1.center_seq 
+			  LEFT OUTER JOIN TB_CHD_GROUP t2 ON tc.children_group_cd = t2.group_seq  
+			     , (SELECT @ROWNUM := 0 ) rn
+			 WHERE 1=1
+			 <if test="childrenName != null and childrenName != ''">
+			 	AND tc.children_name LIKE CONCAT('%',#{childrenName },'%')
+			 </if>
+			 <if test="childrenPositionCd != null and childrenPositionCd != ''">
+			 	AND tc.children_position_cd = #{childrenPositionCd }
+			 </if>
+			 ORDER BY @ROWNUM DESC
+		  ) sub_query
+		 ORDER BY sub_query.rownum DESC
+		 LIMIT #{startNum }, 10
+	</select>
+	
+	<select id="selectChildrenListCnt" parameterType="childrenVO" resultType="childrenVO">
+		SELECT CASE WHEN (COUNT(*) % 10) = 0
+			THEN TRUNCATE(COUNT(*) / 10, 0)
+			ELSE TRUNCATE(COUNT(*) / 10, 0) + 1 END AS page_cnt
+		FROM TB_CHILDREN tc
+		WHERE 1=1
+		<if test="childrenName != null and childrenName != ''">
+		 	AND tc.children_name LIKE CONCAT('%',#{childrenName },'%')
+		</if>
+		<if test="childrenPositionCd != null and childrenPositionCd != ''">
+		 	AND tc.children_position_cd = #{childrenPositionCd }
+		</if>
+	</select>
+	
+	<select id="selectChildrenDetail" parameterType="childrenVO" resultType="childrenVO">
+		SELECT tc.children_seq                   			/* 아동 번호				*/
+			 , tc.children_name                  			/* 아동 이름				*/
+			 , tc.children_birth                 			/* 아동 생년월일			*/
+			 , tc.children_diagnosis             			/* 아동 진단명				*/
+			 , tc.children_memo                  			/* 아동 메모				*/
+			 , tc.children_position_cd           			/* 아동 소속 코드			*/
+			 , IFNULL(t1.center_name, '') AS center_name	/* 아동 소속 이름			*/
+			 , tc.children_group_cd              			/* 아동 그룹 코드			*/
+			 , IFNULL(t2.group_name, '') AS group_name		/* 아동 그룹 이름			*/
+			 , tc.children_active_yn             			/* 아동 활성화 여부			*/
+			 , tc.children_prog_st_dt            			/* 아동 프로그램 시작 일시	*/
+			 , tc.children_prog_ed_dt            			/* 아동 프로그램 종료 일시	*/
+			 , tc.children_parents               			/* 아동 부모님				*/
+			 , tc.children_book_img               			/* 아동 책 이미지			*/
+		  FROM TB_CHILDREN tc
+		  LEFT OUTER JOIN TB_CENTER t1 ON tc.children_position_cd = t1.center_seq 
+		  LEFT OUTER JOIN TB_CHD_GROUP t2 ON tc.children_group_cd = t2.group_seq  
+		 WHERE tc.children_seq = #{childrenSeq }
+	</select>
+
+	<select id="resetMemberPw" parameterType="memberVO">
+		UPDATE TB_MEMBER 
+		   SET member_pw = 'neulpum1234!'
+		 WHERE member_seq = #{memberSeq }
+	</select>
+</mapper>

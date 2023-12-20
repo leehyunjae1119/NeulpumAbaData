@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.cpm.dao.CpmComplateDao">
+
+	<select id="selectComplateList" resultType="complateVO" parameterType="complateVO">
+		SELECT *
+		  FROM (
+		  	SELECT @ROWNUM := @ROWNUM + 1 AS rownum
+				 , td.domain_name
+				 , tl.lto_name
+				 , ts.sto_name
+				 , ts.sto_status_cd
+				 , ts.sto_status_ch_dt
+			  FROM TB_DOMAIN td
+			  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq
+			  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq
+			     , (SELECT @ROWNUM := 0 ) rn
+			 WHERE ts.sto_status_cd IN ('CMP', 'RPT')
+			   AND td.children_seq = #{childrenSeq }
+			   <if test="startDate != null and startDate != ''">
+			   AND date_format(ts.sto_status_ch_dt, '%Y-%m-%d') <![CDATA[>=]]> #{startDate }
+			   </if>
+			   <if test="endDate != null and endDate != ''">
+			   AND date_format(ts.sto_status_ch_dt, '%Y-%m-%d') <![CDATA[<=]]> #{endDate }
+			   </if>
+			   <if test="domainSeq != null and domainSeq != ''">
+			   AND td.domain_seq = #{domainSeq }
+			   </if>
+			 ORDER BY @ROWNUM DESC
+		  	   ) sub_query
+		 ORDER BY sub_query.rownum DESC
+		 LIMIT #{startNum }, 10
+	</select>
+
+	<select id="selectComplateListCnt" resultType="complateVO" parameterType="complateVO">
+ 		SELECT CASE WHEN (COUNT(*) % 10) = 0
+		 	THEN TRUNCATE(COUNT(*) / 10, 0)
+			ELSE TRUNCATE(COUNT(*) / 10, 0) + 1 END AS page_cnt
+		  FROM TB_DOMAIN td
+		  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq
+		  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq
+		 WHERE ts.sto_status_cd IN ('CMP', 'RPT')
+		   AND td.children_seq = #{childrenSeq }
+		   <if test="startDate != null and startDate != ''">
+		   AND date_format(ts.sto_status_ch_dt, '%Y-%m-%d') <![CDATA[>=]]> #{startDate }
+		   </if>
+		   <if test="endDate != null and endDate != ''">
+		   AND date_format(ts.sto_status_ch_dt, '%Y-%m-%d') <![CDATA[<=]]> #{endDate }
+		   </if>
+		   <if test="domainSeq != null and domainSeq != ''">
+		   AND td.domain_seq = #{domainSeq }
+		   </if>
+	</select>
+
+</mapper>

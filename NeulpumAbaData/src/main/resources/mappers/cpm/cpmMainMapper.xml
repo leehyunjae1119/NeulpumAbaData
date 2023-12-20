@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.cpm.dao.CpmMainDao">
+
+	<select id="selectDomainList" resultType="domainVO" parameterType="domainVO">
+		SELECT domain_seq
+			 , children_seq
+			 , domain_sort_order
+			 , domain_name
+			 , domain_contents
+			 , domain_status_cd
+			 , domain_reg_dt
+			 , domain_status_ch_dt
+			 , domain_tmp_seq
+		  FROM TB_DOMAIN
+		 WHERE children_seq = #{childrenSeq }
+		 ORDER BY domain_sort_order ASC
+	</select>
+
+	<select id="selectLtoList" resultType="ltoVO" parameterType="domainVO">
+		SELECT lto_seq
+			 , domain_seq
+			 , lto_sort_order
+			 , lto_name
+			 , lto_contents
+			 , lto_status_cd
+			 , lto_reg_dt
+			 , lto_status_ch_dt
+			 , lto_tmp_seq
+		  FROM TB_LTO
+		 WHERE domain_seq IN (
+				SELECT domain_seq
+				  FROM TB_DOMAIN
+				 WHERE children_seq = #{childrenSeq }
+		       )
+		 ORDER BY lto_sort_order DESC
+	</select>
+
+	<select id="selectCounseling" resultType="counselingVO" parameterType="counselingVO">
+		SELECT counseling_seq
+			 , children_seq
+			 , counseling_contents
+			 , counseling_reg_mmr_seq
+			 , DATE_FORMAT(counseling_reg_dt, '%Y.%m.%d') AS counseling_reg_dt
+		  FROM TB_COUNSELING
+		 WHERE children_seq = #{childrenSeq }
+		 ORDER BY counseling_reg_dt DESC
+		 LIMIT 5
+	</select>
+
+	<select id="selectStoComplateData" resultType="domainVO" parameterType="domainVO">
+		SELECT td.domain_seq
+			 , td.domain_name
+			 , SUM(CASE WHEN ts.sto_status_cd = 'CMP' 
+				   THEN 1 
+				   ELSE 0 END) AS sto_complate_cnt
+		  FROM TB_DOMAIN td
+		  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq
+		  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+		 WHERE td.children_seq = #{childrenSeq }
+		 GROUP BY td.domain_seq
+		 ORDER BY MAX(ts.sto_status_ch_dt) DESC
+		 LIMIT 5
+	</select>
+	
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.tpm.dao.TpmDao">
+
+	<select id="selectTmpDomain" parameterType="tmpDomainVO" resultType="tmpDomainVO">
+		SELECT domain_seq
+			 , domain_sort_order
+			 , domain_name
+			 , domain_contents
+		  FROM TB_TMP_DOMAIN
+		 WHERE 1=1 
+		   AND center_seq = #{centerSeq }
+		 <if test="domainSeq != null and domainSeq != ''">
+		 	AND domain_seq = #{domainSeq }
+		 </if>
+		 ORDER BY domain_sort_order
+	</select>
+
+	<select id="selectTmpLto" parameterType="tmpLtoVO" resultType="tmpLtoVO">
+		SELECT lto_seq
+			 , domain_seq
+			 , lto_sort_order
+			 , lto_name
+			 , lto_contents
+		  FROM TB_TMP_LTO
+		 WHERE 1=1 
+		 <if test="domainSeq != null and domainSeq != ''">
+		 	AND domain_seq = #{domainSeq }
+		 </if>
+		 <if test="ltoSeq != null and ltoSeq != ''">
+		 	AND lto_seq = #{ltoSeq }
+		 </if>
+		 ORDER BY lto_sort_order
+	</select>
+
+	<select id="selectTmpSto" parameterType="tmpStoVO" resultType="tmpStoVO">
+		SELECT sto_seq
+			 , lto_seq
+			 , sto_sort_order
+			 , sto_name
+			 , sto_contents
+			 , sto_trial_cnt
+			 , sto_arr_std_pst
+			 , sto_urg_contents
+			 , sto_rnfc_contents
+		  FROM TB_TMP_STO
+		 WHERE 1=1 
+		 <if test="ltoSeq != null and ltoSeq != ''">
+		 	AND lto_seq = #{ltoSeq }
+		 </if>
+		 <if test="stoSeq != null and stoSeq != ''">
+		 	AND sto_seq = #{stoSeq }
+		 </if>
+		 ORDER BY sto_sort_order
+	</select>
+
+	<select id="updateSortOrder_step1" parameterType="tmpVO">
+		UPDATE ${targetTable } 
+		   SET ${targetColumn }_sort_order = #{newSortOrder }
+		 WHERE ${targetColumn }_seq = #{seq }
+	</select>
+	<select id="updateSortOrder_step2" parameterType="tmpVO">
+		UPDATE ${targetTable }
+		   SET ${targetColumn }_sort_order = #{oldSortOrder }
+		 WHERE ${targetColumn }_seq != #{seq }
+		   AND ${targetColumn }_sort_order = #{newSortOrder }
+		   <if test="targetColumn == 'domain'">
+		   AND center_seq = (SELECT center_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+		   <if test="targetColumn == 'lto'">
+		   AND domain_seq = (SELECT domain_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+		   <if test="targetColumn == 'sto'">
+		   AND lto_seq = (SELECT lto_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   </if>
+	</select>
+	
+	<select id="deleteProgram" parameterType="tmpVO">
+		DELETE FROM ${targetTable }
+		 WHERE ${targetColumn }_seq = #{seq }
+	</select>
+	
+	<select id="insertDomain" parameterType="tmpDomainVO">
+		INSERT INTO TB_TMP_DOMAIN(
+			domain_sort_order,
+			domain_name,
+			domain_contents,
+			center_seq
+			)
+		SELECT IFNULL(MAX(domain_sort_order), 0) + 1 AS domain_sort_order
+			 , #{domainName }
+			 , #{domainContents }
+			 , #{centerSeq }
+		  FROM TB_TMP_DOMAIN
+		 WHERE center_seq = #{centerSeq }
+	</select>
+	
+	<select id="updateDomain" parameterType="tmpDomainVO">
+		UPDATE TB_TMP_DOMAIN
+		   SET domain_name = #{domainName }
+		     , domain_contents = #{domainContents }
+		 WHERE domain_seq = #{domainSeq }
+	</select>
+	
+	<select id="insertLto" parameterType="tmpLtoVO">
+		INSERT INTO TB_TMP_LTO(
+			domain_seq,
+			lto_sort_order,
+			lto_name,
+			lto_contents
+			)
+		SELECT #{domainSeq }
+			 , IFNULL(MAX(lto_sort_order), 0) + 1 AS lto_sort_order
+			 , #{ltoName }
+			 , #{ltoContents }
+		  FROM TB_TMP_LTO
+		 WHERE domain_seq = #{domainSeq } 
+	</select>
+	
+	<select id="updateLto" parameterType="tmpLtoVO">
+		UPDATE TB_TMP_LTO
+		   SET lto_name = #{ltoName }
+		     , lto_contents = #{ltoContents }
+		 WHERE lto_seq = #{ltoSeq }
+	</select>
+	
+	<select id="insertSto" parameterType="tmpStoVO">
+		INSERT INTO TB_TMP_STO(
+			lto_seq,
+			sto_sort_order,
+			sto_name,
+			sto_contents,
+			sto_trial_cnt,
+			sto_arr_std_pst,
+			sto_urg_contents,
+			sto_rnfc_contents
+		)
+		SELECT #{ltoSeq }
+			 , IFNULL(MAX(sto_sort_order), 0) + 1 AS sto_sort_order
+			 , #{stoName }
+			 , #{stoContents }
+			 , #{stoTrialCnt }
+			 , #{stoArrStdPst }
+			 , #{stoUrgContents }
+			 , #{stoRnfcContents }
+		  FROM TB_TMP_STO
+		 WHERE lto_seq = #{ltoSeq }
+	</select>
+	
+	<select id="updateSto" parameterType="tmpStoVO">
+		UPDATE TB_TMP_STO
+		   SET sto_name = #{stoName }
+		     , sto_contents = #{stoContents }
+		     , sto_trial_cnt = #{stoTrialCnt }
+		     , sto_arr_std_pst = #{stoArrStdPst }
+		     , sto_urg_contents = #{stoUrgContents }
+		     , sto_rnfc_contents = #{stoRnfcContents }
+		 WHERE sto_seq = #{stoSeq }
+	</select>
+</mapper>

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-5.3.0-dist/css/bootstrap.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../bootstrap-icons/font/bootstrap-icons.css'>
+    
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/common.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/np-bs.css'>
+
+    <script src='../bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js'></script>
+    <script src='../jquery/jquery.min.js'></script>
+</head>
+
+<body> 
+    <script>
+        var isSidebarToggle = false;
+        $(document).ready(function () {
+            // START Main 1-1 함수
+            // $('#centerChoiceModal').modal('show');
+            $("#centerChoiceModal .modal-body .card").on('click', function (e) {
+                if(!$(e.target).hasClass("bi") && !$(this).hasClass("exCard")) {
+                    $('#centerChoiceModal').modal('hide');
+                }
+            })
+
+            $("#centerAddBtn").on("click", function(){
+                $(this).addClass("disabled");
+                $("#centerBoard").hide();
+                $("#centerEditer").show();
+            })
+            $("#centerSaveBtn").on("click", function(){
+                $("#centerAddBtn").removeClass("disabled");
+                $("#centerEditer").hide();
+                $("#centerBoard").show();
+            })
+            $("#centerCancelBtn").on("click", function(){
+                $("#centerAddBtn").removeClass("disabled");
+                $("#centerEditer").hide();
+                $("#centerBoard").show();
+            })
+            // END Main 1-1 함수
+
+            // START 사이드바 함수
+            if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+            } else {
+                $("main[name=main-wrap]").addClass("none-sub-sidebar");
+            }
+
+            $("#sidebarToggle").on("click", function () {
+                sidebrToggle();
+            });
+
+            $(".nav-sticky .nav-link").on("click", function () {
+                $(".nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+                if ($(".nav-sticky a.nav-link").eq(2).hasClass("active")) {
+                    $("main[name=main-wrap]").removeClass("none-sub-sidebar");
+                    sidebrToggle(1);
+                } else {
+                    $("main[name=main-wrap]").addClass("none-sub-sidebar");
+                    sidebrToggle(0);
+                }
+            });
+
+            $(".sub-nav-sticky .nav-link").on("click", function () {
+                $(".sub-nav-sticky .nav-link").removeClass("active");
+                $(this).addClass("active");
+            });
+            // END 사이드바 함수
+        });
+        // START Main 1-1 함수
+        function fn_onkeyup_centerName() {
+            let centerName = $("#centerName").val();
+            $("#exCenterName").text(centerName);
+        }
+        function fn_onchange_centerLeader() {
+            let centerLeader = $("#centerLeader > option:selected").attr("data-text");
+            $("#exCenterLeader").text(centerLeader);
+        }
+        function fn_onchange_centerRepresentativeImage() {
+            let centerRepresentativeImage = $("#centerRepresentativeImage > option:selected").val();
+            let imgPath = "../image/profile_img/"+centerRepresentativeImage+".jpg";
+            if(centerRepresentativeImage !== "00"){
+                $("#exCenterRepresentativeImage").attr("src", imgPath);
+            }
+        }
+        // END Main 1-1 함수
+
+        // START 사이드바 함수
+        function sidebrToggle(flag) {
+            if (flag === 0) {
+                isSidebarToggle = false;
+            } else if (flag === 1) {
+                isSidebarToggle = true;
+            } else {
+                isSidebarToggle = !isSidebarToggle
+            }
+
+            if (!isSidebarToggle) {
+                $('main.flex-nowrap').removeClass("sidebar-toggled");
+                $('.nav-sticky').removeClass("toggled");
+                $('.nav-sticky .dropdown a').addClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-lg").addClass("icon-md");
+                $("#sidebarToggle > i").removeClass("bi-arrow-right-circle-fill").addClass("bi-arrow-left-circle-fill");
+            } else {
+                $('main.flex-nowrap').addClass("sidebar-toggled");
+                $('.nav-sticky').addClass("toggled");
+                $('.nav-sticky .dropdown a').removeClass("dropdown-toggle");
+                $('.nav-sticky .nav .nav-item i.bi').removeClass("icon-md").addClass("icon-lg");
+                $("#sidebarToggle > i").removeClass("bi-arrow-left-circle-fill").addClass("bi-arrow-right-circle-fill");
+            }
+        }; 
+        // END 사이드바 함수
+    </script>
+    <main class="d-flex flex-nowrap none-sub-sidebar" name="main-wrap"> <!--sidebar-toggled-->
+        <!-- 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 nav-sticky"> <!--toggled-->
+            <a href="javascript:void(0);"
+                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+                style="height: calc(5rem - 1px);" id="logo">
+                <i class="bi bi-cloudy-fill logo"></i>
+                <span class="fs-4">늘품ABA</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white active" id="mai">
+                        <i class="bi bi-house-door icon-md"></i>
+                        <span>Main</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="dpm">
+                        <i class="bi bi-calendar-week icon-md"></i>
+                        <span>데일리 시트</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="cpm">
+                        <i class="bi bi-people icon-md"></i>
+                        <span>아동 관리</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="grp">
+                        <i class="bi bi-graph-up icon-md"></i>
+                        <span>그래프</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-journal-bookmark-fill icon-md"></i>
+                        <span>프로그램 편집</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-megaphone-fill icon-md"></i>
+                        <span>공지사항</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white" id="tpm">
+                        <i class="bi bi-person-gear icon-md"></i>
+                        <span>관리</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-toggle-btn">
+                <a id="sidebarToggle" onclick="">
+                    <i class="bi icon-lg bi-arrow-left-circle-fill"></i>
+                </a>
+            </div>
+            <hr>
+            <div class="dropdown px-3 pt-3">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="../lhj_profile.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>이현재</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="z-index: 1000;">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 서브 사이드바 -->
+        <div class="d-flex flex-column flex-shrink-0 sub-nav-sticky">
+            <div class="card child-card">
+                <div class="card-body">
+                    <h3 class="card-title">이종오</h3>
+                    <div class="card-text d-flex flex-column ">
+                        <span>1992.02.14</span>
+                        <span>건강하고 튼튼함</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto text-end">
+                <li class="nav-item"><a href="#" class="nav-link text-white" aria-current="page">데일리시트</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white active">상담일지</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">완료목록</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">보고서</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">문제행동</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">그래프</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">영상 및 교구</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-white">프로그램관리</a></li>
+            </ul>
+        </div>
+        <!-- 데일리 시트 -->
+        <div class="main-contents" >
+            <div class="row mb-4">
+                <div class="filter-list">
+                    <div class="flex-nowrap c-title mb-2">
+                        <i class="bi bi-funnel-fill"></i>
+                        <span>Class List</span>
+                    </div>
+                    <div class="flex-nowrap">
+                        <span class="badge">All</span>
+                        <span class="badge active">A Class</span>
+                        <span class="badge active">B Class</span>
+                        <span class="badge">C Class</span>
+                        <span class="badge">D Class</span>
+                        <span class="badge active">E Class</span>
+                        <span class="badge">F Class</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="filter-result">
+                    <div class="flex-nowrap c-title mb-2">
+                        <i class="bi bi-funnel"></i>
+                        <span>Filter List</span>
+                    </div>
+                    <div class="contents-box">
+                        <div class="row child-book-list my-3">
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_1.png">
+                                <div class="book-cover text-white">
+                                    <small class="cover-class">A Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_2.png">
+                                <div class="book-cover text-black">
+                                    <small class="cover-class">B Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                                <img src="../image/book_img/book_3.png">
+                                <div class="book-cover text-white">
+                                    <small class="cover-class">E Class</small>
+                                    <h5 class="cover-name">이현재</h5>
+                                    <small class="cover-birth">1991.11.19</small>
+                                </div>
+                                <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="flex-nowrap c-title mb-2">
+                    <i class="bi bi-bookmark-star-fill"></i>
+                    <span>All Child</span>
+                </div>
+                <div class="contents-box">
+                    <div class="row child-book-list my-3">
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_1.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_2.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_3.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_4.png">
+                            <div class="book-cover text-white">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_8.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_5.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_6.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 style-book">
+                            <img src="../image/book_img/book_7.png">
+                            <div class="book-cover text-black">
+                                <small class="cover-class">A Class</small>
+                                <h5 class="cover-name">이현재</h5>
+                                <small class="cover-birth">1991.11.19</small>
+                            </div>
+                            <small class="text-center">2023.08.05 ~ 2023.12.31</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- main 1-1 -->
+        <div class="modal fade" id="centerChoiceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">센터 선택</h5>
+                        <button type="button" class="btn btn-success" id="centerAddBtn">
+                            <i class="bi bi-plus-lg" style="margin-right: 3px;"></i>
+                            <span>추가</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="c-flex f-between form-center-editer" id="centerEditer" style="display: none;">
+                            <div class="form-area" style="padding: 0.5rem;">
+                                <div class="card exCard" style="width: 15rem;">
+                                    <div>
+                                        <img id="exCenterRepresentativeImage" src="../image/profile_img/01.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label" id="exCenterName">센터명</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4 id="exCenterLeader">이름</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" >
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 0 명</sapn></br>
+                                            <sapn>아동 - 0 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-area" style="padding: 0.5rem;">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="projectName" class="form-label">센터명</label>
+                                        <input type="text" class="form-control" id="centerName" placeholder="센터명을 입력해주세요..." onkeyup="fn_onkeyup_centerName();">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">센터장</label>
+                                        <select class="form-select" id="centerLeader" onchange="fn_onchange_centerLeader();">
+                                            <option data-text="이름" selected>센터장을 선택해주세요...</option>
+                                            <option value="1" data-text="김선혜">김선혜</option>
+                                            <option value="2" data-text="이종오">이종오</option>
+                                            <option value="3" data-text="이현재">이현재</option>
+                                            <option value="4" data-text="이예린">이예린</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">센터 이미지</label>
+                                        <select class="form-select" id="centerRepresentativeImage" onchange="fn_onchange_centerRepresentativeImage();">
+                                            <option value="00" selected>센터 대표 이미지를 선택해주세요...</option>
+                                            <option value="01">01 - 여성 베이지</option>
+                                            <option value="02">02 - 남성 블루</option>
+                                            <option value="03">03 - 여성 퍼플</option>
+                                            <option value="04">04 - 남성 오렌지</option>
+                                            <option value="05">05 - 남성 옐로우</option>
+                                            <option value="06">06 - 여성 핑크</option>
+                                            <option value="07">07 - 남성 브라운</option>
+                                            <option value="08">08 - 여성 민트</option>
+                                        </select>
+                                    </div>
+                                </form>
+                                <div class="form-btn-area">
+                                    <button type="button" class="btn btn-primary" id="centerSaveBtn">저장</button>
+                                    <button type="button" class="btn btn-secondary" id="centerCancelBtn">취소</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="c-flex flex-nowrap pb-3" id="centerBoard">
+                            <div class="item-xy-center m-3">
+                                <div class="card" style="width: 15rem;">
+                                    <div>
+                                        <img src="../image/profile_img/01.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label">늘품ABA</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4>김선혜</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 3 명</sapn></br>
+                                            <sapn>아동 - 9 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-xy-center m-3">
+                                <div class="card" style="width: 15rem;">
+                                    <div>
+                                        <img src="../image/profile_img/02.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label">토리ABA</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4>김선혜</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 3 명</sapn></br>
+                                            <sapn>아동 - 9 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-xy-center m-3"> 
+                                <div class="card" style="width: 15rem;">
+                                    <div>
+                                        <img src="../image/profile_img/03.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label">링크아이</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4>김선혜</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 3 명</sapn></br>
+                                            <sapn>아동 - 9 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-xy-center m-3"> 
+                                <div class="card" style="width: 15rem;">
+                                    <div>
+                                        <img src="../image/profile_img/04.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label">늘품ABA</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4>김선혜</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 3 명</sapn></br>
+                                            <sapn>아동 - 9 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-xy-center m-3">
+                                <div class="card" style="width: 15rem;">
+                                    <div>
+                                        <img src="../image/profile_img/05.jpg" class="card-img-top" alt="...">
+                                        <div class="card-img-overlay card-img-overbody">
+                                            <span class="card-img-label">늘품ABA</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="z-index: 100;">
+                                        <div class="card-title f-between">
+                                            <div>
+                                                <span>센터장</span>
+                                                <h4>김선혜</h4>
+                                            </div>
+                                            <div class="dropup dropdown">
+                                                <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Edit</a>
+                                                    <a href="javascript:void(0);" class="dropdown-item">Center Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-text">
+                                            <sapn>선생님 - 3 명</sapn></br>
+                                            <sapn>아동 - 9 명</sapn>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main 1-2 -->
+        <div class="main-contents" style="display: none;">
+            <div class="">
+                <div class="row">
+                    <div class="col-sm-8 mb-3">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <table class="table table-bordered time-table">
+                                    <thead>
+                                        <th scope="col"></th>
+                                        <th scope="col">월</th>
+                                        <th scope="col">화</th>
+                                        <th scope="col">수</th>
+                                        <th scope="col">목</th>
+                                        <th scope="col">금</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">10:00 ~ </br>11:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">11:00 ~ </br>12:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">12:00 ~ </br>1:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">1:00 ~ </br>2:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2:00 ~ </br>3:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3:00 ~ </br>4:00</th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="notice-label">
+                                    <i class="bi bi-chat-right-heart-fill"></i>
+                                    <p class="m-0">공지사항</p>
+                                </div>
+                                <div class="notice-list-group">
+                                    <a href="#" class="list-item notice-card">
+                                        <span class="position-absolute top-0 start-100 translate-middle badge">NEW</span>
+                                        <div class="d-flex w-100 justify-content-between my-2">
+                                            <h5 class="mb-1 notice-card-title">공지사항 전달드립니다.</h5>
+                                            <small class="text-body-secondary">오늘</small>
+                                        </div>
+                                        <span class="notice-card-contents">동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세</span>
+                                    </a>
+                                    <a href="#" class="list-item notice-card">
+                                        <div class="d-flex w-100 justify-content-between my-2">
+                                            <h5 class="mb-1 notice-card-title">공지사항 전달드립니다.</h5>
+                                            <small class="text-body-secondary">어제</small>
+                                        </div>
+                                        <span class="notice-card-contents">동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세</span>
+                                    </a>
+                                    <a href="#" class="list-item notice-card">
+                                        <div class="d-flex w-100 justify-content-between my-2">
+                                            <h5 class="mb-1 notice-card-title">공지사항 전달드립니다. 공지사항 전달드립니다. 공지사항 전달드립니다.</h5>
+                                            <small class="text-body-secondary">2023.07.15</small>
+                                        </div>
+                                        <span class="notice-card-contents">동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <div class="card note-card">
+                                    <div class="card-contents">
+                                        <h5 class="card-title">메모장</h5>
+                                        <span>내용...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                        <div class="card sticky-card">
+                            <div class="card-body">
+                                <h4 class="scheduler-title mt-2 mx-2">October</h4>
+                                <div>
+                                    <table class="table table-borderless scheduler-table">
+                                        <thead>
+                                            <th>Mon</th>
+                                            <th>Tus</th>
+                                            <th>Wed</th>
+                                            <th>Thu</th>
+                                            <th>Fri</th>
+                                            <th>Sat</th>
+                                            <th>Sun</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>1</td>
+                                                <td>2</td>
+                                                <td>3</td>
+                                                <td>4</td>
+                                                <td>5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>6</td>
+                                                <td>7</td>
+                                                <td>8</td>
+                                                <td>9</td>
+                                                <td>10</td>
+                                                <td>11</td>
+                                            </tr>
+                                            <tr>
+                                                <td>12</td>
+                                                <td>13</td>
+                                                <td>14</td>
+                                                <td>15</td>
+                                                <td>16</td>
+                                                <td>17</td>
+                                                <td>18</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19</td>
+                                                <td>20</td>
+                                                <td>21</td>
+                                                <td>22</td>
+                                                <td>23</td>
+                                                <td>24</td>
+                                                <td>25</td>
+                                            </tr>
+                                            <tr>
+                                                <td>26</td>
+                                                <td><span>27</span></td>
+                                                <td>28</td>
+                                                <td>29</td>
+                                                <td>30</td>
+                                                <td>31</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4 class="scheduler-title mt-4 mx-2">Schedule</h4>
+                                <div class="f-column scheduler-contents">
+                                    <div class="d-flex flex-nowrap f-start mt-2 mx-2">
+                                        <small><i class="bi bi-record-circle text-success mr-1"></i></small>
+                                        <div class="f-column w-100 mx-2">
+                                            <div class="f-between">
+                                                <small class="text-body-secondary">오늘</small>
+                                                <div class="dropup dropdown">
+                                                    <a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="bi bi-three-dots-vertical"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a href="javascript:void(0);" class="dropdown-item">Edit</a>
+                                                        <a href="javascript:void(0);" class="dropdown-item">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span>이현재 휴가</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="scheduler-btn-area">
+                                    <button type="button" class="btn btn-outline-success" id="centerAddBtn">
+                                        <span>Add Schedule</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 아동 프로그램관리 1-2 -->
+        <div class="main-contents" style="display:none;">
+            <div class="row">
+                <div class="col-sm-12 mb-3">
+                    <div class="card contents-card">
+                        <div class="card-body">
+                            <h5 class="card-title">커리큘럼</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <div class="card contents-card">
+                        <div class="card-body">
+                            <h5 class="card-title">단기 목표 바 차트</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card contents-card">
+                        <div class="card-body">
+                            <h5 class="card-title">상담일지</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
+
+
+<!-- #region -->

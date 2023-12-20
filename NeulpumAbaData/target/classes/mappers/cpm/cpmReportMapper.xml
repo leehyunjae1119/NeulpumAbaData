@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neulpum.np.cpm.dao.CpmReportDao">
+
+	<select id="selectReportDataList" resultType="reportVO" parameterType="reportVO">
+		SELECT td.domain_seq
+			 , td.domain_name 
+			 , tl.lto_seq 
+			 , tl.lto_name 
+			 , ts.sto_seq 
+			 , ts.sto_name 
+			 , DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') AS sto_status_ch_dt
+			 , CASE WHEN DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') > #{reportEndDt }
+			 	THEN 'ING'
+			 	ELSE ts.sto_status_cd END AS sto_status_cd 
+		  FROM TB_DOMAIN td 
+		  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq 
+		  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+		  LEFT OUTER JOIN TB_STO_POINT tsp ON ts.sto_seq = tsp.sto_seq
+		 WHERE td.children_seq = #{childrenSeq }
+		   AND ts.sto_status_cd IN ('CMP', 'ING')
+		   AND DATE_FORMAT(tsp.point_reg_dt, '%Y-%m-%d') BETWEEN #{reportStartDt } AND #{reportEndDt }
+		 GROUP BY ts.sto_seq
+		 ORDER BY td.domain_sort_order, tl.lto_sort_order, ts.sto_sort_order
+	</select>
+	
+	<select id="selectReportStoComplateChartData" resultType="reportVO" parameterType="reportVO">
+		SELECT mq.domain_seq
+			 , mq.domain_name
+			 , SUM(CASE WHEN mq.sto_status_cd IN ('CMP', 'ING') THEN 1 ELSE 0 END) AS sto_ing_cnt
+			 , SUM(CASE WHEN mq.sto_status_cd IN ('CMP') THEN 1 ELSE 0 END) AS sto_cmp_cnt
+		  FROM (
+		  		SELECT td.domain_seq
+					 , td.domain_name 
+					 , td.domain_sort_order 
+					 , tl.lto_seq 
+					 , tl.lto_name 
+					 , tl.lto_sort_order 
+					 , ts.sto_seq 
+					 , ts.sto_name 
+					 , ts.sto_sort_order 
+					 , DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') AS sto_status_ch_dt
+					 , DATE_FORMAT(tsp.point_reg_dt, '%Y-%m-%d') AS point_reg_dt
+					 , CASE WHEN ts.sto_status_ch_dt > tsp.point_reg_dt THEN 'ING'
+					 	WHEN tsp.point_reg_dt IS NULL AND DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') NOT BETWEEN #{reportStartDt } AND #{reportEndDt } THEN 'WIT'
+					 	ELSE ts.sto_status_cd END AS sto_status_cd 
+				  FROM TB_DOMAIN td 
+				  LEFT OUTER JOIN TB_LTO tl ON td.domain_seq = tl.domain_seq 
+				  LEFT OUTER JOIN TB_STO ts ON tl.lto_seq = ts.lto_seq 
+				  LEFT OUTER JOIN (SELECT sto_seq, MAX(point_reg_dt) AS point_reg_dt
+				  					 FROM TB_STO_POINT 
+				  					WHERE DATE_FORMAT(point_reg_dt, '%Y-%m-%d') BETWEEN #{reportStartDt } AND #{reportEndDt }
+				  					GROUP BY sto_seq
+				  				  ) tsp ON ts.sto_seq = tsp.sto_seq
+				 WHERE td.children_seq = #{childrenSeq }
+			   ) mq
+		 GROUP BY mq.domain_seq
+		 ORDER BY mq.domain_sort_order
+	</select>
+	
+	<select id="selectReportLtoComplateChartData" resultType="java.util.HashMap" parameterType="reportVO">
+		SELECT td.domain_seq AS domain_seq
+			 , td.domain_name AS domain_name
+			 <foreach collection="dateList" item="dtm">
+				 , SUM(CASE WHEN date_format(tl.lto_status_ch_dt, '%Y-%m-%d') <![CDATA[<=]]> #{dtm } THEN 1 ELSE 0 END) AS #{dtm }
+			 </foreach>
+		  FROM TB_DOMAIN td 
+		  LEFT OUTER JOIN (
+		  	   SELECT *
+		  	     FROM TB_LTO
+		  	    WHERE lto_status_cd IN ('CMP', 'RPT')
+		  	   ) tl ON td.domain_seq = tl.domain_seq 
+		 WHERE td.children_seq = #{childrenSeq }
+		 GROUP BY td.domain_seq
+		 ORDER BY td.domain_sort_order
+	</select>
+
+</mapper>
