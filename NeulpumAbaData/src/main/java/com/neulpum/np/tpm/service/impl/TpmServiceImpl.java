@@ -104,6 +104,7 @@ public class TpmServiceImpl implements TpmService {
 		
 		if("dto".equals(tmpVO.getTarget())) {
 			TmpDomainVO tmpDomainVO = new TmpDomainVO();
+			tmpDomainVO.setCenterSeq(tmpVO.getCenterSeq());
 			List<TmpDomainVO> tmpDtoList = selectTmpDomain(tmpDomainVO);
 			
 			int sortOrder = 0;

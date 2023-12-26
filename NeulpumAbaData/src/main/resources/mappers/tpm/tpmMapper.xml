@@ -66,13 +66,13 @@
 		 WHERE ${targetColumn }_seq != #{seq }
 		   AND ${targetColumn }_sort_order = #{newSortOrder }
 		   <if test="targetColumn == 'domain'">
-		   AND center_seq = (SELECT center_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   AND center_seq = (SELECT * FROM (SELECT center_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq }) a)
 		   </if>
 		   <if test="targetColumn == 'lto'">
-		   AND domain_seq = (SELECT domain_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   AND domain_seq = (SELECT * FROM (SELECT domain_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq }) a)
 		   </if>
 		   <if test="targetColumn == 'sto'">
-		   AND lto_seq = (SELECT lto_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq })
+		   AND lto_seq = (SELECT * FROM (SELECT lto_seq FROM ${targetTable } WHERE ${targetColumn }_seq = #{seq }) a)
 		   </if>
 	</select>
 	

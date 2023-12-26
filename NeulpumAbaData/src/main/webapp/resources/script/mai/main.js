@@ -57,14 +57,20 @@ $(document).ready(function() {
 		
 		var weekCdArr = new Array();
 		var timeCdArr = new Array();
+		var memoArr = new Array();
 		
 		$(".weekInputArea a.list-group-item.active").each(function(i, element) {
 			weekCdArr.push($(this).parent().data("value"));
 			timeCdArr.push($(this).data("value"));
+			
+			var memo = $(this).parent().parent().find(".scheduler-textarea").val().replace(/,/g, '@A');
+			memo = memo ? memo : ' ';
+			memoArr.push(memo);
 		});
 		
 		param.schedulerWeekCd = weekCdArr.toString();
 		param.schedulerTimeCd = timeCdArr.toString();
+		param.schedulerMemo = memoArr.toString();
 		
 		$.ajax({
 			url: "/mai/ajax.saveSchedulerData"
@@ -85,11 +91,12 @@ $(document).ready(function() {
 	$(".weekInputArea a.list-group-item").on("click", function() {
 		
 		if(!$(this).hasClass("active")) {
-//			$(this).parent().find(".list-group-item").removeClass("active");
 			$(this).addClass("active");
 		} else {
 			$(this).removeClass("active");
 		}
+		
+		chkInputTextarea();
 	});
 	
 	$.mainInit = function() {
@@ -119,6 +126,12 @@ function setSchedulerData(childrenSeq) {
 		, success : function(data) {
 			data.resultList.forEach(function(elt, i, array) {	
 				$(".weekInputArea .list-group[data-value="+elt.schedulerWeekCd+"]").find(".list-group-item[data-value="+elt.schedulerTimeCd+"]").addClass("active");
+
+				if(elt.schedulerMemo) {
+					$("#textarea_"+elt.schedulerWeekCd).val(elt.schedulerMemo.replace(/@A/g, ','));
+				} else {
+					$("#textarea_"+elt.schedulerWeekCd).val("");
+				}
 			});
 		}
 		, error : function(request, status, error) {
@@ -134,11 +147,26 @@ function chkInputSelected() {
 	
 	if(!isNonSelected) {
 		$(".weekInputArea a.list-group-item").removeClass("disabled");
+		
 		var childrenSeq = $("#schedulerChildrenSelect > option:selected").val();
 		setSchedulerData(childrenSeq);
 	} else {
 		$(".weekInputArea a.list-group-item").addClass("disabled");
 	}
+	
+	chkInputTextarea();
+}
+
+function chkInputTextarea() {
+	$(".weekInputArea").each(function(i, element) {
+		
+		if($(this).find(".list-group-item.active").length > 0) {
+			$(this).find(".scheduler-textarea").prop("disabled", false);
+		} else {
+			$(this).find(".scheduler-textarea").prop("disabled", true);
+			$(this).find(".scheduler-textarea").val("");
+		}
+	});
 }
 
 function schedulerInit() {
@@ -161,7 +189,7 @@ function makeScheduler(dataList) {
 		var tooltipContents = '아동 스케줄 상세\n';
 		tooltipContents += '\n이름 : ' + elt.childrenName;
 		tooltipContents += '\n요일 : ' + getKoreaWeekName(elt.schedulerWeekCd);
-		tooltipContents += '\n수업 : ' + elt.schedulerTimeCd.substr(1,1) + '교시';
+		tooltipContents += '\n내용 : ' + elt.schedulerMemo;
 		
 		var html = '';
 		

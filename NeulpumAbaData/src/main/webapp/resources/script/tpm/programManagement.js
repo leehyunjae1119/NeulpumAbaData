@@ -138,7 +138,7 @@ $(document).ready(function() {
 		
 		if(ltoName) {
 			$("#ltoList").append(html);
-			$("#addltoName").val("");
+			$("#addLtoName").val("");
 		}
 		
 		fn_checkItemEmpty("ltoName");
@@ -676,7 +676,8 @@ function fn_deleteProgram() {
 		seq : removeSeq,
 		domainSeq : selectDomainSeq,
 		ltoSeq : selectLtoSeq,
-		stoSeq : selectStoSeq
+		stoSeq : selectStoSeq,
+		centerSeq : sessionStorage.getItem("centerSeq")
 	};
 	
 	$.ajax({

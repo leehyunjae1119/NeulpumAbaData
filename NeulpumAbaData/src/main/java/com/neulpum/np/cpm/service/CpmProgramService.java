@@ -35,6 +35,8 @@ public interface CpmProgramService {
 	
 	public ProgramVO updateStatusCd(ProgramVO programVO) throws Exception;
 	
+	public ProgramVO selectProgramStatusCd(ProgramVO programVO) throws Exception;
+	
 	public List<DomainVO> selectTmpDomainSelectbox(DomainVO domainVO) throws Exception;
 	
 	public List<LtoVO> selectTmpLtoSelectbox(LtoVO ltoVO) throws Exception;

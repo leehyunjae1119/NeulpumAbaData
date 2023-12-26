@@ -488,6 +488,7 @@ function fn_makeDomainList() {
 	var html = '';
 	
 	domainList.forEach(function(item, index, array) {
+		html += '<div>';
 		html += '	<li class="list-group-item dto-item '+getItemStatusStyle(item.domainStatusCd)+'" data-seq="'+item.domainSeq+'" data-order="'+item.domainSortOrder+'" >';
 		html += '		<span>'+item.domainName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
@@ -517,6 +518,7 @@ function fn_makeDomainList() {
 		html += '			</div>';
 		html += '		</div>';
 		html += '	</div>';
+		html += '</div>';
 	});
 
 	$("#stoListArea").empty();
@@ -538,8 +540,8 @@ function fn_renderDomainItemEvent() {
 			fn_itemStatusCollapse();
 			//lto 리스트 생성
 			fn_makeLtoList();
-			
-			$.selectLtoChartData(selectStoSeq);
+//			
+//			$.selectLtoChartData(selectStoSeq);
 		}
 	});
 }
@@ -580,6 +582,7 @@ function fn_makeLtoList() {
 	var html = '';
 	
 	ltoList.forEach(function(item, index, array) {
+		html += '<div>';
 		html += '	<li class="list-group-item lto-item '+getItemStatusStyle(item.ltoStatusCd)+'" data-seq="'+item.ltoSeq+'" data-order="'+item.ltoSortOrder+'">';
 		html += '		<span>'+item.ltoName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
@@ -609,6 +612,7 @@ function fn_makeLtoList() {
 		html += '			</div>';
 		html += '		</div>';
 		html += '	</div>';
+		html += '</div>';
 	});
 	$("#stoListArea").empty();
 	$("#ltoListArea").empty();
@@ -629,8 +633,8 @@ function fn_renderLtoItemEvent() {
 			fn_itemStatusCollapse();
 			//sto 리스트 생성
 			fn_makeStoList();
-			
-			$.selectLtoChartData(selectStoSeq);
+//			
+//			$.selectLtoChartData(selectStoSeq);
 		}
 	});
 }
@@ -671,6 +675,7 @@ function fn_makeStoList() {
 	var html = '';
 	
 	stoList.forEach(function(item, index, array) {
+		html += '<div>';
 		html += '	<li class="list-group-item sto-item '+getItemStatusStyle(item.stoStatusCd)+'" data-seq="'+item.stoSeq+'" data-order="'+item.stoSortOrder+'">';
 		html += '		<span>'+item.stoName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
@@ -700,6 +705,7 @@ function fn_makeStoList() {
 		html += '			</div>';
 		html += '		</div>';
 		html += '	</div>';
+		html += '</div>';
 	});
 	
 	$("#stoListArea").empty();
@@ -833,13 +839,13 @@ function fn_onclickOrderBtn(targetArea, targerOrder, upDown) {
 	if(upDown === "up"){
 		$("."+targetArea+"-item:eq("+targetIndex+")").attr("data-order", beforeOrder);
 		$("."+targetArea+"-item:eq("+beforeIndex+")").attr("data-order", targerOrder);
-		$("."+targetArea+"-item:eq("+targetIndex+")").insertBefore($("."+targetArea+"-item:eq("+beforeIndex+")"));
+		$("."+targetArea+"-item:eq("+targetIndex+")").parent("div").insertBefore($("."+targetArea+"-item:eq("+beforeIndex+")").parent("div"));
 	} else {
 		$("."+targetArea+"-item:eq("+targetIndex+")").attr("data-order", afterOrder);
 		$("."+targetArea+"-item:eq("+afterIndex+")").attr("data-order", targerOrder);
-		$("."+targetArea+"-item:eq("+targetIndex+")").insertAfter($("."+targetArea+"-item:eq("+afterIndex+")"));
+		$("."+targetArea+"-item:eq("+targetIndex+")").parent("div").insertAfter($("."+targetArea+"-item:eq("+afterIndex+")").parent("div"));
 	}
-
+	
 }
 
 function fn_updateSortOrder(targetArea, seq, order, updown) {
@@ -926,7 +932,8 @@ function fn_deleteProgram() {
 		seq : removeSeq,
 		domainSeq : selectDomainSeq,
 		ltoSeq : selectLtoSeq,
-		stoSeq : selectStoSeq
+		stoSeq : selectStoSeq,
+		childrenSeq : _childrenInfo.childrenSeq
 	};
 	
 	$.ajax({
@@ -995,31 +1002,7 @@ function fn_updateStatus(targetType, statusCd) {
 		, contentType : 'application/json; charset=utf-8'
 		, async : true
 		, success : function(data) {
-			$("#domainListArea > .accordion-collapse.show").find("button").removeClass("active");
-			$("#domainListArea > .accordion-collapse.show").find("button[data-value="+data.result.domainStatusCd+"]").addClass("active");
-		
-			$("#domainListArea > li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
-			$("#domainListArea > li.active").addClass("list-status-"+data.result.domainStatusCd.toLowerCase());
-			
-			$("#ltoListArea > .accordion-collapse.show").find("button").removeClass("active");
-			$("#ltoListArea > .accordion-collapse.show").find("button[data-value="+data.result.ltoStatusCd+"]").addClass("active");
-			
-			if(selectLtoSeq){
-				$("#ltoListArea > li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
-				$("#ltoListArea > li.active").addClass("list-status-"+data.result.ltoStatusCd.toLowerCase());
-			}
-			
-			$("#stoListArea > .accordion-collapse.show").find("button").removeClass("active");
-			$("#stoListArea > .accordion-collapse.show").find("button[data-value="+data.result.stoStatusCd+"]").addClass("active");
-			
-			if(selectStoSeq){
-				$("#stoListArea > li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
-				$("#stoListArea > li.active").addClass("list-status-"+data.result.stoStatusCd.toLowerCase());
-			
-				$("#detailStoStatusCd").html(getStatusBadge(data.result.stoStatusCd));
-				
-				$.selectLtoChartData(selectStoSeq);
-			}
+			fn_renderStatus();
 		}
 		, error : function(request, status, error) {
 			fn_alert("저장에 실패했습니다. 담당자에게 연락하세요.", "warning");
@@ -1027,4 +1010,46 @@ function fn_updateStatus(targetType, statusCd) {
 	});
 }
 
-
+function fn_renderStatus() {
+	var url = "/cpm/ajax.selectProgramStatusCd";
+	var param = {
+			domainSeq : selectDomainSeq,
+			ltoSeq : selectLtoSeq,
+			stoSeq : selectStoSeq
+	};
+	
+	$.ajax({
+		url: url
+		, type : "post"
+		, data : JSON.stringify(param)
+		, contentType : 'application/json; charset=utf-8'
+		, async : true
+		, success : function(data) {
+			$("#domainListArea .accordion-collapse.show").find("button").removeClass("active");
+			$("#domainListArea .accordion-collapse.show").find("button[data-value="+data.result.domainStatusCd+"]").addClass("active");
+		
+			$("#domainListArea li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
+			$("#domainListArea li.active").addClass("list-status-"+data.result.domainStatusCd.toLowerCase());
+			
+			$("#ltoListArea .accordion-collapse.show").find("button").removeClass("active");
+			$("#ltoListArea .accordion-collapse.show").find("button[data-value="+data.result.ltoStatusCd+"]").addClass("active");
+			
+			if(selectLtoSeq){
+				$("#ltoListArea li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
+				$("#ltoListArea li.active").addClass("list-status-"+data.result.ltoStatusCd.toLowerCase());
+			}
+			
+			$("#stoListArea .accordion-collapse.show").find("button").removeClass("active");
+			$("#stoListArea .accordion-collapse.show").find("button[data-value="+data.result.stoStatusCd+"]").addClass("active");
+			
+			if(selectStoSeq){
+				$("#stoListArea li.active").removeClass("list-status-wit list-status-ing list-status-cmp list-status-rpt list-status-stp");
+				$("#stoListArea li.active").addClass("list-status-"+data.result.stoStatusCd.toLowerCase());
+			
+				$("#detailStoStatusCd").html(getStatusBadge(data.result.stoStatusCd));
+			}
+		}
+		, error : function(request, status, error) {
+		}
+	});
+}

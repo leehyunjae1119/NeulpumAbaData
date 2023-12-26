@@ -22,4 +22,6 @@ public class TmpVO implements Serializable{
 	private int domainSeq;
 	private int ltoSeq;
 	private int stoSeq;
+	private int centerSeq;
+	
 }

@@ -213,11 +213,15 @@
 							<span>월요일</span>
 						</div>
 						<div class="list-group list-group-flush" data-value="MON">
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="01">1교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="02">2교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="03">3교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="04">4교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="05">5교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="01">1교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="02">2교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="03">3교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="04">4교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="05">5교시</a>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control scheduler-textarea" placeholder="" id="textarea_MON" maxlength="200"></textarea>
+							<label for="textarea_MON">Comments</label>
 						</div>
 					</div>
 					<div class="card weekInputArea tue">
@@ -225,11 +229,15 @@
 							<span>화요일</span>
 						</div>
 						<div class="list-group list-group-flush" data-value="TUE">
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="01">1교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="02">2교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="03">3교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="04">4교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="05">5교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="01">1교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="02">2교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="03">3교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="04">4교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="05">5교시</a>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control scheduler-textarea" placeholder="" id="textarea_TUE" maxlength="200"></textarea>
+							<label for="textarea_TUE">Comments</label>
 						</div>
 					</div>
 					<div class="card weekInputArea wed">
@@ -237,11 +245,15 @@
 							<span>수요일</span>
 						</div>
 						<div class="list-group list-group-flush" data-value="WED">
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="01">1교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="02">2교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="03">3교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="04">4교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="05">5교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="01">1교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="02">2교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="03">3교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="04">4교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="05">5교시</a>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control scheduler-textarea" placeholder="" id="textarea_WED" maxlength="200"></textarea>
+							<label for="textarea_WED">Comments</label>
 						</div>
 					</div>
 					<div class="card weekInputArea thu">
@@ -249,11 +261,15 @@
 							<span>목요일</span>
 						</div>
 						<div class="list-group list-group-flush" data-value="THU">
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="01">1교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="02">2교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="03">3교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="04">4교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="05">5교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="01">1교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="02">2교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="03">3교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="04">4교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="05">5교시</a>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control scheduler-textarea" placeholder="" id="textarea_THU" maxlength="200"></textarea>
+							<label for="textarea_THU">Comments</label>
 						</div>
 					</div>
 					<div class="card weekInputArea fri">
@@ -261,11 +277,15 @@
 							<span>금요일</span>
 						</div>
 						<div class="list-group list-group-flush" data-value="FRI">
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="01">1교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="02">2교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="03">3교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="04">4교시</a>
-							<a href="javascript:void(0);" class="list-group-item mh-5" data-value="05">5교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="01">1교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="02">2교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="03">3교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="04">4교시</a>
+							<a href="javascript:void(0);" class="list-group-item mh-4" data-value="05">5교시</a>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control scheduler-textarea" placeholder="" id="textarea_FRI" maxlength="200"></textarea>
+							<label for="textarea_FRI">Comments</label>
 						</div>
 					</div>
 				</div>

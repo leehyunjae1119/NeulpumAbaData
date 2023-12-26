@@ -19,6 +19,7 @@ public class ProgramVO implements Serializable{
 	private int oldSortOrder;
 	private int newSortOrder;
 	
+	private int childrenSeq;
 	private int domainSeq;
 	private int ltoSeq;
 	private int stoSeq;

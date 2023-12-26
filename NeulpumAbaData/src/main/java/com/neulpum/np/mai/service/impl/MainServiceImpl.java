@@ -76,6 +76,7 @@ public class MainServiceImpl implements MaiService {
 		
 		String[] weekCdArray = schedulerVO.getSchedulerWeekCd().split(",");
 		String[] timeCdArray = schedulerVO.getSchedulerTimeCd().split(",");
+		String[] memoArray = schedulerVO.getSchedulerMemo().split(",");
 		
 		maiDao.deleteSchedulerData(schedulerVO);
 		
@@ -86,6 +87,7 @@ public class MainServiceImpl implements MaiService {
 			paramVO.setSchedulerWeekCd(weekCd);
 			paramVO.setSchedulerTimeCd(timeCdArray[index]);
 			paramVO.setSchedulerRegMmrSeq(schedulerVO.getSchedulerRegMmrSeq());
+			paramVO.setSchedulerMemo(memoArray[index].trim());
 		
 			result += maiDao.insertSchedulerData(paramVO);
 			index++;

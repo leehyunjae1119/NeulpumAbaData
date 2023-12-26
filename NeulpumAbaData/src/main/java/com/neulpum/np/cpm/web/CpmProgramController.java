@@ -213,6 +213,21 @@ public class CpmProgramController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/ajax.selectProgramStatusCd", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String selectProgramStatusCd(HttpServletRequest request, HttpServletResponse response, @RequestBody ProgramVO programVO, Model model) throws Exception {
+		
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		ProgramVO result = cpmProgramService.selectProgramStatusCd(programVO);
+		resultMap.put("result", result);
+		
+		json = objectMapper.writeValueAsString(resultMap);
+		return json;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/ajax.selectTmpDomainSelectbox", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public String selectTmpDomainSelectbox(HttpServletRequest request, HttpServletResponse response, @RequestBody DomainVO domainVO, Model model) throws Exception {
 		

@@ -104,6 +104,7 @@ public class CpmProgramServiceImpl implements CpmProgramService {
 		
 		if("dto".equals(programVO.getTarget())) {
 			DomainVO DomainVO = new DomainVO();
+			DomainVO.setChildrenSeq(programVO.getChildrenSeq());
 			List<DomainVO> DtoList = selectDomain(DomainVO);
 			
 			int sortOrder = 0;
@@ -258,10 +259,15 @@ public class CpmProgramServiceImpl implements CpmProgramService {
 		
 		if(!"".equals(targetColumn) && !"".equals(targetTable)) {
 			result = cpmProgramDao.updateStatusCd(programVO);
-			resultVO = cpmProgramDao.selectProgramStatusCd(programVO);
 		} else {
 			throw new Exception();
 		}
+		return resultVO;
+	}
+	
+	@Override
+	public ProgramVO selectProgramStatusCd(ProgramVO programVO) throws Exception {
+		ProgramVO resultVO = cpmProgramDao.selectProgramStatusCd(programVO);
 		return resultVO;
 	}
 	

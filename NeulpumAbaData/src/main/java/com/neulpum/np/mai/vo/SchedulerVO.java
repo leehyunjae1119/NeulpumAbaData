@@ -21,6 +21,7 @@ public class SchedulerVO implements Serializable{
 	private String schedulerTimeCd;
 	private int schedulerRegMmrSeq;
 	private String schedulerRegDt;
+	private String schedulerMemo;
 	
 	private int centerSeq;
 	private String childrenName;

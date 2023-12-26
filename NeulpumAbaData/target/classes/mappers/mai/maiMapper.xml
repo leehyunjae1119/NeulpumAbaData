@@ -104,6 +104,7 @@
 			 , ts.scheduler_time_cd
 			 , ts.scheduler_reg_mmr_seq
 			 , ts.scheduler_reg_dt
+			 , ts.scheduler_memo
 		  FROM TB_CHILDREN tc 
 		  LEFT OUTER JOIN TB_SCHEDULER ts ON tc.children_seq = ts.children_seq
 		 WHERE tc.children_position_cd = #{centerSeq }
@@ -120,13 +121,15 @@
 			children_seq,
 			scheduler_week_cd,
 			scheduler_time_cd,
-			scheduler_reg_mmr_seq
+			scheduler_reg_mmr_seq,
+			scheduler_memo
 		)
 		VALUES(
 			#{childrenSeq },
 			#{schedulerWeekCd },
 			#{schedulerTimeCd },
-			#{schedulerRegMmrSeq }
+			#{schedulerRegMmrSeq },
+			#{schedulerMemo }
 		)
 	</select>
 	
