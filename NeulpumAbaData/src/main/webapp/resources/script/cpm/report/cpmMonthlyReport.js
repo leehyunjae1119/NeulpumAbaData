@@ -28,7 +28,7 @@ function makeMonthlyReport(data) {
 			if(data.stoStatusCd === 'ING' && data.domainSeq === domain.domainSeq){
 				if(ltoSeq !== data.ltoSeq){
 					if(index !== 0 && detailContents !== ''){
-						detailContents = '<br>';
+						detailContents += '<br>';
 					}
 					detailContents += data.ltoName;
 					detailContents += ' - ';

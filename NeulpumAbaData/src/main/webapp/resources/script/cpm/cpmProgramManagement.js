@@ -105,6 +105,12 @@ $(document).ready(function() {
 		editModalTarget = "sto";
 		isEditModalAdd = true;
 		
+		$("#stoTrialCnt").val("15");
+		$("#stoArrStdPst").val("90");
+		$("#stoUrgContents").val("");
+		$("#stoRnfcContents").val("");
+		$("#stoMemoContents").val("");
+		
 		$(".stoItem").remove();
 		$("#addStoName").val("");
 		$("#stoEditModal").modal("show");
@@ -787,13 +793,13 @@ function getStatusBadge(statusCd) {
 		html = '<h5 class="sto-detail-status"><span class="badge text-bg-success">진행 중</span></h5>';
 		break;
 	case "CMP":
-		html = '<h5 class="sto-detail-status"><span class="badge text-bg-primary">준거 도달</span></h5>';
+		html = '<h5 class="sto-detail-status"><span class="badge text-bg-danger">준거 도달</span></h5>';
 		break;
 	case "RPT":
 		html = '<h5 class="sto-detail-status"><span class="badge text-bg-warning">레파토리</span></h5>';
 		break;
 	case "STP":
-		html = '<h5 class="sto-detail-status"><span class="badge text-bg-danger">중단</span></h5>';
+		html = '<h5 class="sto-detail-status"><span class="badge text-bg-primary">중단</span></h5>';
 		break;
 	default:
 		html = '<h5 class="sto-detail-status"><span class="badge text-bg-light">대기 중</span></h5>';
@@ -900,6 +906,9 @@ $(document).on("click", ".removeBtn", function() {
 });
 
 $(document).on("click", ".editBtn", function() {
+	
+	$(this).parent().parent().trigger("click");
+	
 	editSeq = $(this).parent().parent().data("seq");
 	editModalTarget = $(this).data("target");
 	isEditModalAdd = false;
