@@ -20,4 +20,6 @@ public interface CpmDailySheetService {
 	public List<List<DailySheetVO>> ltoChartDataSelect(DailySheetVO dailySheetVO) throws Exception;
 	
 	public int updateStoRound(StoVO stoVO) throws Exception;
+	
+	public String selectStoStatusCd(StoVO stoVO) throws Exception;
 }

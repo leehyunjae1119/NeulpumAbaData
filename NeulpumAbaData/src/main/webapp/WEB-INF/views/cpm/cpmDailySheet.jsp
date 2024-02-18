@@ -38,6 +38,9 @@
 									<p>[강화 계획] - ${sto.stoDetil.stoRnfcContents }</p>
 									<p>[메모] - ${sto.stoDetil.stoMemoContents }</p>
 								</div>
+								<c:if test="${sto.stoDetil.stoStatusCd eq 'CMP' }">
+									<span class="badge text-bg-danger daily-cmp-badge">준거도달</span>
+								</c:if>
 							</div>
 							<div class="daily-sto-point-edit" data-seq="${sto.stoDetil.stoSeq }" data-cnt="${sto.stoDetil.stoTrialCnt }" data-pst="${sto.stoDetil.stoArrStdPst }">
 								<!-- 포인트 카드 -->

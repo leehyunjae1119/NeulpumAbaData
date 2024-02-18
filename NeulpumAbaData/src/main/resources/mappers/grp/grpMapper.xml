@@ -170,6 +170,7 @@
 			 , children_group_cd
 		FROM TB_CHILDREN
 		WHERE children_position_cd = #{centerSeq }
+		  AND children_active_yn = 'Y'
 	</select>
 	
 	<select id="selectGrpGroupList" resultType="grpGraphVO" parameterType="grpGraphVO">

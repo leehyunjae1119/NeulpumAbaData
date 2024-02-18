@@ -61,6 +61,11 @@ public class CpmDailySheetController {
 		
 		cpmDailySheetService.insertStoPointData(stoPointVO);
 		
+		StoVO stoVO = new StoVO();
+		stoVO.setStoSeq(stoPointVO.getStoSeq());
+		String stoStatusCd = cpmDailySheetService.selectStoStatusCd(stoVO);
+		
+		resultMap.put("stoStatusCd", stoStatusCd);
 		json = objectMapper.writeValueAsString(resultMap);
 		return json;
 	}
@@ -75,6 +80,11 @@ public class CpmDailySheetController {
 		
 		cpmDailySheetService.deleteStoPointData(stoPointVO);
 		
+		StoVO stoVO = new StoVO();
+		stoVO.setStoSeq(stoPointVO.getStoSeq());
+		String stoStatusCd = cpmDailySheetService.selectStoStatusCd(stoVO);
+		
+		resultMap.put("stoStatusCd", stoStatusCd);
 		json = objectMapper.writeValueAsString(resultMap);
 		return json;
 	}

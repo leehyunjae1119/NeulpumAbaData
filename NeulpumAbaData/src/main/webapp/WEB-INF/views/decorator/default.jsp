@@ -51,6 +51,7 @@
     <script src='../script/common/formatUtil.js?version=${RESC_VERSION }'></script>
     <script src='../script/common/colorUtil.js?version=${RESC_VERSION }'></script>
 	<script src='../script/common/printUtil.js?version=${RESC_VERSION }'></script>
+	<script src='../script/common/authUtil.js?version=${RESC_VERSION }'></script>
     
 	<sitemesh:write property="head"></sitemesh:write>
 	

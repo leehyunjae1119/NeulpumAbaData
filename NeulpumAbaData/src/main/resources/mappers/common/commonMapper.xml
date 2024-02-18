@@ -130,4 +130,24 @@
 		 WHERE member_seq = #{memberSeq }
 	</select>
 	
+	<select id="selectAccessRecord" parameterType="memberVO" resultType="memberVO">
+		SELECT member_seq
+			 , center_seq
+		  FROM TB_ACCESS_RECORD
+		 WHERE member_seq = #{memberSeq }
+	</select>
+	
+	<select id="updateAccessRecord" parameterType="memberVO">
+		INSERT INTO TB_ACCESS_RECORD (
+			member_seq, 
+			center_seq
+		)
+		VALUES (
+			#{memberSeq },
+			#{centerSeq }
+		)
+		ON DUPLICATE KEY UPDATE 
+			center_seq = #{centerSeq }
+	</select>
+	
 </mapper>

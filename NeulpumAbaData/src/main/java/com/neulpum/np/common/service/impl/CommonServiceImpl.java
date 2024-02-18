@@ -82,5 +82,17 @@ public class CommonServiceImpl implements CommonService {
 		int result = commonDao.saveProfileInfo(memberVO);
 		return result;
 	}
+	
+	@Override
+	public MemberVO selectAccessRecord(MemberVO memberVO) throws Exception {
+		MemberVO result = commonDao.selectAccessRecord(memberVO);
+		return result;
+	}
+	
+	@Override
+	public int updateAccessRecord(MemberVO memberVO) throws Exception {
+		int result = commonDao.updateAccessRecord(memberVO);
+		return result;
+	}
 
 }

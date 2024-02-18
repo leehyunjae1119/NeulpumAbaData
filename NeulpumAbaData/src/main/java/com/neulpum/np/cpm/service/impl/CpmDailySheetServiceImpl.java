@@ -106,5 +106,10 @@ public class CpmDailySheetServiceImpl implements CpmDailySheetService {
 		}
 		
 		return resultList;
+	}
+
+	@Override
+	public String selectStoStatusCd(StoVO stoVO) throws Exception {
+		return cpmDailySheetDao.selectStoStatusCd(stoVO);
 	} 
 }

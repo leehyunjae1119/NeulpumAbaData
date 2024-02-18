@@ -61,5 +61,12 @@ public class CpmDailySheetDaoImpl implements CpmDailySheetDao{
 	public StoVO dailySheetStoRoundSelect(StoVO stoVO) throws Exception {
 		return sqlSession.selectOne(namespace + "dailySheetStoRoundSelect", stoVO);
 	}
+
+	@Override
+	public String selectStoStatusCd(StoVO stoVO) throws Exception {
+		StoVO result = sqlSession.selectOne(namespace + "selectStoStatusCd", stoVO);
+		String resultStr = result.getStoStatusCd();
+		return resultStr;
+	}
 	
 }

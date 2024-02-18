@@ -15,7 +15,7 @@
 				<p class="m-0" style="font-size: 20px;">Management</p>
 			</div>
 			<div class="d-flex f-align-center">
-				<button type="button" id="centerManagementBtn" class="btn btn-secondary me-1">센터 관리</button>
+				<button type="button" id="centerManagementBtn" class="btn btn-secondary me-1 auth-hidden-item" data-auth="master">센터 관리</button>
 				<div>
 					<input type="radio" class="btn-check" name="managementBtn" id="memberMngBtn" value="member" checked>
 					<label class="btn btn-outline-success" for="memberMngBtn">선생님</label>
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="title-btn-area d-flex f-align-center me-2">
-				<button type="button" class="btn btn-outline-success" id="addInfoBtn">Add Member</button>
+				<button type="button" class="btn btn-outline-success auth-hidden-item" data-auth="master" id="addInfoBtn">Add Member</button>
 			</div>
 		</div>
 		<div class="mb-3">
@@ -114,27 +114,27 @@
 										<input type="password" class="form-control" id="memberPw" data-title="비밀번호" data-type="password">
 									</div>
 									<div class="pwArea" id="pwResetArea" style="display: none;">
-										<button type="button" class="btn btn-secondary" id="pwResetBtn">초기화</button>
+										<button type="button" class="btn btn-secondary auth-disabled-item" data-auth="master" id="pwResetBtn">초기화</button>
 										<span class="font-bs-color ms-2">( 초기화 패스워드 : neulpum1234! )</span>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td><label for="" class="">이름</label></td>
-								<td><input type="text" class="form-control" id="memberName" data-title="이름" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="memberName" data-title="이름" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">이메일</label></td>
-								<td><input type="text" class="form-control" id="memberEmail" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="memberEmail" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">연락처</label></td>
-								<td><input type="text" class="form-control" id="memberCp" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="memberCp" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">권한 등급</label></td>
 								<td>
-									<select class="form-select" id="memberAuthCd" >
+									<select class="form-select auth-disabled-item" data-auth="master" id="memberAuthCd" >
 										<option value="level3" selected>level3</option>
 										<option value="level2">level2</option>
 										<option value="level1">level1</option>
@@ -145,7 +145,7 @@
 							<tr>
 								<td><label for="" class="">소속 센터</label></td>
 								<td>
-									<select class="form-select" id="memberPositionCd" >
+									<select class="form-select auth-disabled-item" data-auth="master" id="memberPositionCd" >
 										<option value="0" selected>없음</option>
 										<c:forEach var="center" items="${centerList }">
 											<option value="${center.centerSeq }">${center.centerName }</option>
@@ -157,10 +157,10 @@
 								<td><label for="" class="">사용 여부</label></td>
 								<td>
 									<div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-										<input type="radio" class="btn-check" name="memberUseYn" id="memberUseYn_Y" autocomplete="off" value="Y" checked>
-										<label class="btn btn-outline-secondary" for="memberUseYn_Y">활성화</label>
-										<input type="radio" class="btn-check" name="memberUseYn" id="memberUseYn_N" autocomplete="off" value="N">
-										<label class="btn btn-outline-secondary" for="memberUseYn_N">비활성화</label>
+										<input type="radio" class="btn-check auth-disabled-item" data-auth="master" name="memberUseYn" id="memberUseYn_Y" autocomplete="off" value="Y" checked>
+										<label class="btn btn-outline-secondary auth-disabled-item" data-auth="master" for="memberUseYn_Y">활성화</label>
+										<input type="radio" class="btn-check auth-disabled-item" data-auth="master" name="memberUseYn" id="memberUseYn_N" autocomplete="off" value="N">
+										<label class="btn btn-outline-secondary auth-disabled-item" data-auth="master" for="memberUseYn_N">비활성화</label>
 									</div>
 								</td>
 							</tr>
@@ -169,7 +169,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-success saveInfoBtn">Save</button>
+					<button type="button" class="btn btn-success saveInfoBtn auth-hidden-item" data-auth="master" >Save</button>
 				</div>
 			</div>
 		</div>
@@ -194,7 +194,7 @@
 								<td>
 									<div class="f-between m-0">
 										<img id="sampleImg" src="../image/book_img/book_1.png" style="width: 26px; margin-right: 1rem;">
-										<select class="form-select" id="childrenBookImg" >
+										<select class="form-select auth-disabled-item" data-auth="master" id="childrenBookImg" >
 											<option value="" selected>랜덤</option>
 											<option value="book_1">Blue</option>
 											<option value="book_2">White</option>
@@ -211,20 +211,20 @@
 							</tr>
 							<tr>
 								<td><label for="" class="">이름</label></td>
-								<td><input type="text" class="form-control" id="childrenName" data-title="이름" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="childrenName" data-title="이름" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">생일</label></td>
-								<td><input type="date" class="form-control" id="childrenBirth" data-title="생일" placeholder=""></td>
+								<td><input type="date" class="form-control auth-disabled-item" data-auth="master" id="childrenBirth" data-title="생일" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">부모님</label></td>
-								<td><input type="text" class="form-control" id="childrenParents" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="childrenParents" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">소속 센터</label></td>
 								<td>
-									<select class="form-select" id="childrenPositionCd" >
+									<select class="form-select auth-disabled-item" data-auth="master" id="childrenPositionCd" >
 										<option value="0" selected>없음</option>
 										<c:forEach var="center" items="${centerList }">
 											<option value="${center.centerSeq }">${center.centerName }</option>
@@ -234,32 +234,32 @@
 							</tr>
 							<tr>
 								<td><label for="" class="">반</label></td>
-								<td><input type="text" class="form-control" id="groupName" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="groupName" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">진단명</label></td>
-								<td><input type="text" class="form-control" id="childrenDiagnosis" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="childrenDiagnosis" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">메모</label></td>
-								<td><input type="text" class="form-control" id="childrenMemo" placeholder=""></td>
+								<td><input type="text" class="form-control auth-disabled-item" data-auth="master" id="childrenMemo" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">프로그램 시작</label></td>
-								<td><input type="date" class="form-control" id="childrenProgStDt" data-title="프로그램 시작일" placeholder=""></td>
+								<td><input type="date" class="form-control auth-disabled-item" data-auth="master" id="childrenProgStDt" data-title="프로그램 시작일" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">프로그램 종료</label></td>
-								<td><input type="date" class="form-control" id="childrenProgEdDt" data-title="프로그램 종료일" placeholder=""></td>
+								<td><input type="date" class="form-control auth-disabled-item" data-auth="master" id="childrenProgEdDt" data-title="프로그램 종료일" placeholder=""></td>
 							</tr>
 							<tr>
 								<td><label for="" class="">사용 여부</label></td>
 								<td>
 									<div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
-										<input type="radio" class="btn-check" name="childrenUseYn" id="childrenUseYn_Y" autocomplete="off" value="Y" checked>
-										<label class="btn btn-outline-secondary" for="childrenUseYn_Y">활성화</label>
-										<input type="radio" class="btn-check" name="childrenUseYn" id="childrenUseYn_N" autocomplete="off" value="N">
-										<label class="btn btn-outline-secondary" for="childrenUseYn_N">비활성화</label>
+										<input type="radio" class="btn-check auth-disabled-item" data-auth="master" name="childrenUseYn" id="childrenUseYn_Y" autocomplete="off" value="Y" checked>
+										<label class="btn btn-outline-secondary auth-disabled-item" data-auth="master" for="childrenUseYn_Y">활성화</label>
+										<input type="radio" class="btn-check auth-disabled-item" data-auth="master" name="childrenUseYn" id="childrenUseYn_N" autocomplete="off" value="N">
+										<label class="btn btn-outline-secondary auth-disabled-item" data-auth="master" for="childrenUseYn_N">비활성화</label>
 									</div>
 								</td>
 							</tr>
@@ -268,7 +268,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-success saveInfoBtn">Save</button>
+					<button type="button" class="btn btn-success saveInfoBtn auth-hidden-item data-auth="master"">Save</button>
 				</div>
 			</div>
 		</div>

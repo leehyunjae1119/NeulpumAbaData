@@ -26,6 +26,11 @@ $(document).ready(function () {
             	
             	if(Chart.getChart("myChart")){
         			myChart.destroy();
+        			_labels = new Array();
+        			_datasetsList = new Array();
+        			_annotations = new Object();
+        			_chartWidth = 0;
+        			_dataList = new Array();
         		}
             	
             	if(res.dataList.length > 0 ){

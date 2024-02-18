@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import com.neulpum.np.mai.vo.CalendarVO;
 import com.neulpum.np.mai.vo.MaiVO;
 import com.neulpum.np.mai.vo.SchedulerVO;
 import com.neulpum.np.mng.vo.ChildrenVO;
+import com.neulpum.np.mng.vo.MemberVO;
 
 @Controller
 public class MaiController {
@@ -56,15 +58,26 @@ public class MaiController {
 		
 		ChildrenVO cparamVO = new ChildrenVO();
 		if(request.getParameter("centerSeq") == null || StringUtils.isEmpty(request.getParameter("centerSeq"))) {
-			cparamVO.setChildrenPositionCd(lgnVO.getMemberPositionCd());
+//			cparamVO.setChildrenPositionCd(lgnVO.getMemberPositionCd());
+			MemberVO memberVO = new MemberVO();
+			memberVO.setMemberSeq(lgnVO.getMemberSeq());
+			MemberVO arVO = commonService.selectAccessRecord(memberVO);
+			
+			try {
+				cparamVO.setChildrenPositionCd(arVO.getCenterSeq());
+			} catch (Exception e) {
+				return "redirect:/lgn/signOut";
+			}
+			
 		} else {
 			cparamVO.setChildrenPositionCd(Integer.parseInt(request.getParameter("centerSeq")));
+			
 		}
 		List<ChildrenVO> childrenList = commonService.selectChildrenList(cparamVO);
 		
-		
 		model.addAttribute("memoData", memoData);
 		model.addAttribute("childrenList", childrenList);
+		model.addAttribute("_centerSeq", cparamVO.getChildrenPositionCd());
 		
 		return "/mai/main";
 	}

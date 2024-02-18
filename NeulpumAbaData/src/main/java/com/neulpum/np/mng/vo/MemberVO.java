@@ -32,5 +32,7 @@ public class MemberVO extends PagingVO implements Serializable{
 	
 	private String centerName;			// 회원 소속 이름
 	private String memberPosition;   	// 회원 소속 코드  
+	
+	private int centerSeq;				// 센터 번호 
 
 }

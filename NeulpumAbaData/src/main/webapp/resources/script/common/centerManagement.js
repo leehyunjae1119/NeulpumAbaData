@@ -237,6 +237,7 @@ function appendCenterList(centerList) {
 				//센터번호 세션에 저장
 				sessionStorage.clear();
 				sessionStorage.setItem("centerSeq", centerSeq);
+				updateAccessRecord(centerSeq);
 				fn_formUrlMove(centerChoiseMoveUrl, "GET");
 			}
 		});
@@ -258,6 +259,29 @@ function appendCenterList(centerList) {
 				deleteCenter(centerSeq);
 			}, "danger");
 		});
+	});
+}
+
+function updateAccessRecord(centerSeq) {
+	
+	var param = {
+			centerSeq : centerSeq
+		};
+	
+	console.log(param)
+	
+	$.ajax({
+		url: "/common/ajax.updateAccessRecord"
+		, type : "post"
+		, data : JSON.stringify(param)
+		, contentType : 'application/json; charset=utf-8'
+		, async : false
+		, success : function(data) {
+			console.log('성공');
+		}
+		, error : function(request, status, error) {
+			console.log('실패');
+		}
 	});
 }
 

@@ -28,4 +28,6 @@ public interface CpmDailySheetDao {
 	
 	public int updateStoRound(StoVO stoVO) throws Exception;
 	
+	public String selectStoStatusCd(StoVO stoVO) throws Exception;
+	
 }

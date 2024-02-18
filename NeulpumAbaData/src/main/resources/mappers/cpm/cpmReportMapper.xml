@@ -42,7 +42,9 @@
 					 , ts.sto_sort_order 
 					 , DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') AS sto_status_ch_dt
 					 , DATE_FORMAT(tsp.point_reg_dt, '%Y-%m-%d') AS point_reg_dt
-					 , CASE WHEN ts.sto_status_ch_dt > tsp.point_reg_dt THEN 'ING'
+					 , CASE  
+						WHEN ts.sto_status_cd = 'CMP' AND DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') BETWEEN #{reportStartDt } AND #{reportEndDt } THEN 'CMP'
+						WHEN DATE_FORMAT(tsp.point_reg_dt, '%Y-%m-%d') BETWEEN #{reportStartDt } AND #{reportEndDt } THEN 'ING'
 					 	WHEN tsp.point_reg_dt IS NULL AND DATE_FORMAT(ts.sto_status_ch_dt, '%Y-%m-%d') NOT BETWEEN #{reportStartDt } AND #{reportEndDt } THEN 'WIT'
 					 	ELSE ts.sto_status_cd END AS sto_status_cd 
 				  FROM TB_DOMAIN td 

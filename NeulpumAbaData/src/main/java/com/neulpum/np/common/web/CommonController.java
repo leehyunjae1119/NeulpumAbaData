@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neulpum.np.common.service.CommonService;
+import com.neulpum.np.common.utils.SessionManager;
 import com.neulpum.np.common.vo.CenterVO;
 import com.neulpum.np.lgn.vo.LgnVO;
 import com.neulpum.np.mng.vo.ChdGroupVO;
@@ -30,6 +31,9 @@ public class CommonController {
 
 	@Inject
 	CommonService commonService;
+	
+	@Inject
+	SessionManager sessionManager;
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajax.selectCenterLeader", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
@@ -157,6 +161,23 @@ public class CommonController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		commonService.saveProfileInfo(memberVO);
+		
+		json = objectMapper.writeValueAsString(resultMap);
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajax.updateAccessRecord", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String updateAccessRecord(HttpServletRequest request, HttpServletResponse response, Model model, @RequestBody MemberVO memberVO) throws Exception {
+		
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		LgnVO lgnVO = (LgnVO)sessionManager.getSession(request);
+		memberVO.setMemberSeq(lgnVO.getMemberSeq());
+		
+		commonService.updateAccessRecord(memberVO);
 		
 		json = objectMapper.writeValueAsString(resultMap);
 		return json;

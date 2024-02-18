@@ -125,4 +125,10 @@
 		 WHERE sto_seq = #{stoSeq }
 	</select>
 	
+	<select id="selectStoStatusCd" parameterType="stoVO" resultType="stoVO">
+		SELECT sto_status_cd
+		  FROM TB_STO
+		 WHERE sto_seq = #{stoSeq }
+	</select>
+	
 </mapper>

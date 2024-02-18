@@ -151,6 +151,28 @@ function getStoSeq(obj) {
 	return $(obj).parents(".daily-sto-point-edit").data("seq");
 }
 
+
+function chkStoStatus(stoSeq, stoStatusCd) {
+	
+	if(stoStatusCd === 'CMP') {
+		var html = '<span class="badge text-bg-danger daily-cmp-badge">준거도달</span>';
+		
+		if($("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-cmp-badge").length <= 0
+			&& $("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-cmp-badge.out").length <= 0){
+			$("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-sto-contents").append(html);
+		}
+	} else {
+		
+		if($("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-cmp-badge").length > 0){
+			$("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-cmp-badge").addClass("out");
+			
+			setTimeout(function() {
+				$("div.daily-sto-point-edit[data-seq="+stoSeq+"]").parent().find(".daily-cmp-badge").remove();
+			}, 500);
+		}
+	}
+}
+
 function insertStoPointData(stoSeq, pointRpnCd) {
 	var param = {
 			stoSeq : stoSeq,
@@ -162,8 +184,9 @@ function insertStoPointData(stoSeq, pointRpnCd) {
 		, type : "post"
 		, data : JSON.stringify(param)
 		, contentType : 'application/json; charset=utf-8'
-		, async : true
+		, async : false
 		, success : function(data) {
+			chkStoStatus(stoSeq, data.stoStatusCd);
 		}
 		, error : function(request, status, error) {
 			$(".daily-sto-point-edit[data-seq="+stoSeq+"]").find(".reply-btn").trigger("click");
@@ -171,6 +194,7 @@ function insertStoPointData(stoSeq, pointRpnCd) {
 		}
 	});
 }
+
 
 function deleteStoPointData(stoSeq) {
 	var param = {
@@ -182,8 +206,9 @@ function deleteStoPointData(stoSeq) {
 		, type : "post"
 		, data : JSON.stringify(param)
 		, contentType : 'application/json; charset=utf-8'
-		, async : true
+		, async : false
 		, success : function(data) {
+			chkStoStatus(stoSeq, data.stoStatusCd);
 		}
 		, error : function(request, status, error) {
 			fn_alert("처리에 실패했습니다. 담당자에게 연락하세요.", "warning");

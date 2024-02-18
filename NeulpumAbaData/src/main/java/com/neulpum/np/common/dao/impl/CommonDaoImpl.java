@@ -78,6 +78,17 @@ public class CommonDaoImpl implements CommonDao {
 		int result = sqlSession.update(namespace + "saveProfileInfo", memberVO);
 		return result;
 	}
-
+	
+	@Override
+	public MemberVO selectAccessRecord(MemberVO memberVO) throws Exception {
+		MemberVO result = sqlSession.selectOne(namespace + "selectAccessRecord", memberVO);
+		return result;
+	}
+	
+	@Override
+	public int updateAccessRecord(MemberVO memberVO) throws Exception {
+		int result = sqlSession.insert(namespace + "updateAccessRecord", memberVO);
+		return result;
+	}
 
 }

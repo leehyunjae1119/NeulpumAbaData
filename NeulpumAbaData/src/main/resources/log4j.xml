@@ -12,29 +12,29 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.neulpum.np">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.springframework.beans">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 	
 	<!-- SQL Loggers -->
 	<logger name="jdbc.sqlonly" additivity="false"> 
-		<level value="info"/> 
+		<level value="WARN"/> 
 		<appender-ref ref="console"/> 
 	</logger>
 	<logger name="jdbc.sqltiming" additivity="false">
@@ -50,7 +50,7 @@
 		<appender-ref ref="console"/> 
 	</logger>
 	<logger name="jdbc.resultsettable" additivity="false"> 
-		<level value="info"/>  
+		<level value="WARN"/>  
 		<appender-ref ref="console"/> 
 	</logger> 
 

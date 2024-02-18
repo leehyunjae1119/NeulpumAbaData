@@ -39,4 +39,10 @@ public interface CommonService {
 	
 	// 센터 등록 조회 
 	public int saveProfileInfo(MemberVO memberVO) throws Exception;
+	
+	// 센터 접속 이력 조회
+	public MemberVO selectAccessRecord(MemberVO memberVO) throws Exception;
+	
+	// 센터 접속 이력 저장
+	public int updateAccessRecord(MemberVO memberVO) throws Exception;
 }

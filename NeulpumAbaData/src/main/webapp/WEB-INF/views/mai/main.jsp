@@ -1,6 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
+	<script>
+		var _centerSeq = '${_centerSeq}';
+		if(!sessionStorage.getItem("centerSeq")){
+			sessionStorage.setItem("centerSeq", _centerSeq);
+		}
+	</script>
 
 	<script src="../script/mai/main.js?version=${RESC_VERSION }"></script>
 	<script src="../script/mai/maiNotice.js?version=${RESC_VERSION }"></script>

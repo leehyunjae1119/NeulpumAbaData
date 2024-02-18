@@ -31,4 +31,8 @@ public interface CommonDao {
 	public MemberVO selectProfileInfo(MemberVO memberVO) throws Exception;
 	
 	public int saveProfileInfo(MemberVO memberVO) throws Exception;
+	
+	public MemberVO selectAccessRecord(MemberVO memberVO) throws Exception;
+	
+	public int updateAccessRecord(MemberVO memberVO) throws Exception;
 }

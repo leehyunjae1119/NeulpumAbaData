@@ -6,8 +6,8 @@ var _isChildrenChoice = _pathName.includes("/children");
 var _childrenInfo;
 
 $(document).ready(function () {
-	//최초 설정
 	
+	//최초 설정
 	$("#npDropdownUserName").text(_authName);
 	
 	if(JSON.parse(sessionStorage.getItem("_isSidebarToggle"))){
