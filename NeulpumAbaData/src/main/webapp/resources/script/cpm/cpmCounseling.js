@@ -1,3 +1,5 @@
+var authArray = ['master', 'level1', 'level2', 'level3'];
+
 $(document).ready(function() {
 	
 	$("#startDate, #endDate, #counselingRegMmrSeq").on('change', function() {
@@ -75,13 +77,15 @@ function makeInfoRow(dataList) {
 		html += '			<h5 class="card-title">'+elt.counselingRegDt+'<small class="mx-3">'+elt.memberName+'</small></h5>';
 		html += '			<span class="counseling-contents viewElement">'+fn_escapeHtml(elt.counselingContents)+'</span>';
 
-		if(_authSeq === elt.counselingRegMmrSeq){
-			html += '			<button type="button" class="btn contents-edit-btn viewElement"><i class="bi bi-pencil-square"></i></button>';
-			html += '			<textarea class="contents-textarea w-100 editElement" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" style="display:none;">'+elt.counselingContents+'</textarea>';
-			html += '			<div class="card-edit-area editElement" style="display:none;">';
-			html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 saveBtn">저장</button>';
-			html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 removeBtn">삭제</button>';
-			html += '			</div>';
+		if(authArray.includes(_authCd)){
+			if(_authSeq === elt.counselingRegMmrSeq || _authCd === 'master'){
+				html += '			<button type="button" class="btn contents-edit-btn viewElement"><i class="bi bi-pencil-square"></i></button>';
+				html += '			<textarea class="contents-textarea w-100 editElement" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" style="display:none;">'+elt.counselingContents+'</textarea>';
+				html += '			<div class="card-edit-area editElement" style="display:none;">';
+				html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 saveBtn">저장</button>';
+				html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 removeBtn">삭제</button>';
+				html += '			</div>';
+			}
 		}
 		
 		html += '		</div>';

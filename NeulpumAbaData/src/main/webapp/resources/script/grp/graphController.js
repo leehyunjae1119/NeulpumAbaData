@@ -19,6 +19,9 @@ function selectChartData() {
 		param = { memberSeq : $("#ind_indicatorSelect").val() };
 		
 	} else if(_searchStd === "child") {
+		if(!$("#chi_childSelect").val()) {
+			return returnData;
+		}
 		param = { childrenSeq : $("#chi_childSelect").val() };
 		
 	} else if(_searchStd === "class") {
@@ -43,6 +46,10 @@ function selectChartData() {
 	} else {
 		param.startDate = $("#startDate").val();
 		param.endDate = $("#endDate").val();
+	}
+	
+	if(_graphType === 2){
+		param.domainSeq = $("#domainSelect").val();
 	}
 	
 	$.ajax({

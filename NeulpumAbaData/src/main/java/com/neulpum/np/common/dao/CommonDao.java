@@ -35,4 +35,8 @@ public interface CommonDao {
 	public MemberVO selectAccessRecord(MemberVO memberVO) throws Exception;
 	
 	public int updateAccessRecord(MemberVO memberVO) throws Exception;
+	
+	public int updateMemberPositionCd(CenterVO centerVO) throws Exception;
+	
+	public int updateCenterManager(CenterVO centerVO) throws Exception;
 }

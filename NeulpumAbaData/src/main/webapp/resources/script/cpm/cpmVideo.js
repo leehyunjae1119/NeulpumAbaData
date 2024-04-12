@@ -1,6 +1,8 @@
+var authArray = ['master', 'level1', 'level2', 'level3'];
+
 $(document).ready(function() {
 	
-	$("#addVideoMoal").on("hidden.bs.modal", function() {
+	$("#addVideoModal").on("hidden.bs.modal", function() {
 		$("#videoSeqInput").val("0");
 		$("#videoUrlInput").val("");
 		$("#videoContentsInput").val("");
@@ -119,10 +121,12 @@ function makeInfoRow(dataList) {
 		html += '				<p class="card-text videoContents">'+elt.videoContents+'</p>';
 		html += '				<div class="f-between f-align-end">';
 		html += '					<small>'+elt.videoRegDt+'</small>';
-		html += '					<div class="btn-group btn-group-sm" role="group" >';
-		html += '						<button type="button" class="btn btn-outline-success editBtn">Edit</button>';
-		html += '						<button type="button" class="btn btn-outline-success removeBtn">Remove</button>';
-		html += '					</div>';
+		if(authArray.includes(_authCd)){
+			html += '					<div class="btn-group btn-group-sm" role="group" >';
+			html += '						<button type="button" class="btn btn-outline-success editBtn">Edit</button>';
+			html += '						<button type="button" class="btn btn-outline-success removeBtn">Remove</button>';
+			html += '					</div>';
+		}
 		html += '				</div>';
 		html += '			</div>';
 		html += '		</div>';

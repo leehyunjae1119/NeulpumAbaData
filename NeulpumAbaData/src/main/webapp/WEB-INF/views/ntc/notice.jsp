@@ -12,7 +12,7 @@
 			<p class="m-0" style="font-size: 20px;">Notice</p>
 		</div>
 		<div class="title-btn-area">
-			<button type="button" class="btn btn-outline-success" id="addNoticeBtn">Add notice</button>
+			<button type="button" class="btn btn-outline-success auth-hidden-item" data-auth="master level1 level2" id="addNoticeBtn">Add notice</button>
 		</div>
 	</div>
 	<div class="search-area f-end mb-3">

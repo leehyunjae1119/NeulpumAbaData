@@ -54,6 +54,8 @@ public class LgnController {
 		LgnVO result = lgnService.signIn(lgnVO);
 		String messageCd = "";
 		
+		sessionManager.expires(request);
+		
 		if(result == null) {
 			messageCd = MESSAGE_CODE_FAIL;
 			

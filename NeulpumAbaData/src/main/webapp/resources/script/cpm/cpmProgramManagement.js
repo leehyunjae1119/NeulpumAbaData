@@ -10,7 +10,14 @@ var editSeq;
 var removeSeq;
 var removeTarget;
 
+var disabledStr = '';
+var authArray = ['master', 'level1', 'level2', 'level3'];
+
 $(document).ready(function() {
+	
+	if(!authArray.includes(_authCd)){
+		disabledStr = 'disabled';
+	}
 	
 	$(".collapse").hide();
 	
@@ -498,32 +505,34 @@ function fn_makeDomainList() {
 		html += '	<li class="list-group-item dto-item '+getItemStatusStyle(item.domainStatusCd)+'" data-seq="'+item.domainSeq+'" data-order="'+item.domainSortOrder+'" >';
 		html += '		<span>'+item.domainName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="up" data-target="dto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="up" data-target="dto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-up-fill"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="down" data-target="dto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="down" data-target="dto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-down-fill"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '		<div class="editBtnArea" '+(isEditMode ? '' : 'style="display: none;"')+'>'; 
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn" data-target="dto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn '+disabledStr+'" data-target="dto" '+disabledStr+'>';
 		html += '				<i class="bi bi-pencil-square"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn" data-target="dto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn '+disabledStr+'" data-target="dto" '+disabledStr+'>';
 		html += '				<i class="bi bi-trash"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '	</li>';
-		html += '	<div id="domainCollapse'+item.domainSeq+'" class="accordion-collapse collapse" data-bs-parent="#domainListArea">';
-		html += '		<div class="accordion-body">';
-		html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="dto" role="group" aria-label="Small button group">';
-		html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
-		html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
-		html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
-		html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
-		html += '			</div>';
-		html += '		</div>';
-		html += '	</div>';
+		if(disabledStr !== 'disabled'){
+			html += '	<div id="domainCollapse'+item.domainSeq+'" class="accordion-collapse collapse" data-bs-parent="#domainListArea">';
+			html += '		<div class="accordion-body">';
+			html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="dto" role="group" aria-label="Small button group">';
+			html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
+			html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
+			html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
+			html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.domainStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
+			html += '			</div>';
+			html += '		</div>';
+			html += '	</div>';
+		}
 		html += '</div>';
 	});
 
@@ -592,32 +601,34 @@ function fn_makeLtoList() {
 		html += '	<li class="list-group-item lto-item '+getItemStatusStyle(item.ltoStatusCd)+'" data-seq="'+item.ltoSeq+'" data-order="'+item.ltoSortOrder+'">';
 		html += '		<span>'+item.ltoName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="up" data-target="lto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="up" data-target="lto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-up-fill"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="down" data-target="lto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="down" data-target="lto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-down-fill"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '		<div class="editBtnArea" '+(isEditMode ? '' : 'style="display: none;"')+'>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn" data-target="lto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn '+disabledStr+'" data-target="lto" '+disabledStr+'>';
 		html += '				<i class="bi bi-pencil-square"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn" data-target="lto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn '+disabledStr+'" data-target="lto" '+disabledStr+'>';
 		html += '				<i class="bi bi-trash"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '	</li>';
-		html += '	<div id="ltoCollapse'+item.ltoSeq+'" class="accordion-collapse collapse" data-bs-parent="#ltoListArea">';
-		html += '		<div class="accordion-body">';
-		html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="lto" role="group" aria-label="Small button group">';
-		html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
-		html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
-		html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
-		html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
-		html += '			</div>';
-		html += '		</div>';
-		html += '	</div>';
+		if(disabledStr !== 'disabled'){
+			html += '	<div id="ltoCollapse'+item.ltoSeq+'" class="accordion-collapse collapse" data-bs-parent="#ltoListArea">';
+			html += '		<div class="accordion-body">';
+			html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="lto" role="group" aria-label="Small button group">';
+			html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
+			html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
+			html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
+			html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.ltoStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
+			html += '			</div>';
+			html += '		</div>';
+			html += '	</div>';
+		}
 		html += '</div>';
 	});
 	$("#stoListArea").empty();
@@ -685,32 +696,34 @@ function fn_makeStoList() {
 		html += '	<li class="list-group-item sto-item '+getItemStatusStyle(item.stoStatusCd)+'" data-seq="'+item.stoSeq+'" data-order="'+item.stoSortOrder+'">';
 		html += '		<span>'+item.stoName+'</span>';
 		html += '		<div class="orderBtnArea" '+(!isEditMode ? '' : 'style="display: none;"')+'>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="up" data-target="sto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="up" data-target="sto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-up-fill"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order" data-type="down" data-target="sto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm order '+disabledStr+'" data-type="down" data-target="sto" '+disabledStr+'>';
 		html += '				<i class="bi bi-caret-down-fill"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '		<div class="editBtnArea" '+(isEditMode ? '' : 'style="display: none;"')+'>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn" data-target="sto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm editBtn '+disabledStr+'" data-target="sto" '+disabledStr+'>';
 		html += '				<i class="bi bi-pencil-square"></i>';
 		html += '			</button>';
-		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn" data-target="sto">';
+		html += '			<button type="button" class="btn btn-outline-secondary btn-sm removeBtn '+disabledStr+'" data-target="sto" '+disabledStr+'>';
 		html += '				<i class="bi bi-trash"></i>';
 		html += '			</button>';
 		html += '		</div>';
 		html += '	</li>';
-		html += '	<div id="stoCollapse'+item.stoSeq+'" class="accordion-collapse collapse" data-bs-parent="#stoListArea">';
-		html += '		<div class="accordion-body">';
-		html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="sto" role="group" aria-label="Small button group">';
-		html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
-		html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
-		html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
-		html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
-		html += '			</div>';
-		html += '		</div>';
-		html += '	</div>';
+		if(disabledStr !== 'disabled'){
+			html += '	<div id="stoCollapse'+item.stoSeq+'" class="accordion-collapse collapse" data-bs-parent="#stoListArea">';
+			html += '		<div class="accordion-body">';
+			html += '			<div class="btn-group btn-group-sm status-btn-group" data-target="sto" role="group" aria-label="Small button group">';
+			html += '				<button type="button" data-value="ING" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'ING' ? 'active' : '')+'">진행</button>';
+			html += '				<button type="button" data-value="CMP" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'CMP' ? 'active' : '')+'">도달</button>';
+			html += '				<button type="button" data-value="RPT" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'RPT' ? 'active' : '')+'">레파토리</button>';
+			html += '				<button type="button" data-value="STP" class="status-btn btn btn-outline-secondary '+(item.stoStatusCd == 'STP' ? 'active' : '')+'">중단</button>';
+			html += '			</div>';
+			html += '		</div>';
+			html += '	</div>';
+		}
 		html += '</div>';
 	});
 	

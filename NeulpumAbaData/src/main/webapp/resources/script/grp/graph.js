@@ -32,6 +32,19 @@ $(document).ready(function () {
 	$("#chartTypeSelect").on("change", function() {
 		var type = Number($(this).children("option:selected").val());
 		_graphType = type;
+		
+		if(type === 2){
+			
+			if(_packageName === 'grp'){
+				$("#standardSelect").val('child').trigger("change").prop("disabled", true);
+			}
+			
+			makeSelectBoxItem('domainSelect', selectDomainItem());
+			$("#domainSelectArea").show();
+		} else {
+			$("#standardSelect").prop("disabled", false)
+			$("#domainSelectArea").hide();
+		}
 	});
 	
 	$("#standardSelect").on("change", function () {
@@ -93,6 +106,31 @@ $(document).ready(function () {
 	
 	$.init();
 });
+
+function selectDomainItem() {
+	
+	var returnData = null;
+	var childrenSeq = _packageName === 'grp' ? $("#chi_childSelect").val() : _childrenInfo.childrenSeq
+	var param = {
+			childrenSeq : childrenSeq
+	};
+	
+	$.ajax({
+		url: "/cpm/ajax.selectDomain"
+		, type : "post"
+		, data : JSON.stringify(param)
+		, contentType : 'application/json; charset=utf-8'
+		, async : false
+		, success : function(data) {
+			returnData = data.domainList;
+		}
+		, error : function(request, status, error) {
+			fn_alert("영역 정보를 조회하지 못했습니다. 담당자에게 연락하세요.", "warning");
+		}
+	});
+	
+	return returnData;
+}
 
 function selectGrahpSelectBoxData() {
 	var param = {
@@ -159,6 +197,11 @@ function makeSelectBoxItem(id, dataList) {
 			html += '<option value="'+item.centerSeq+'">'+item.centerName+'</option>';
 		});
 		
+	} else if (id === 'domainSelect') {
+		html += '<option value="0" selected>모든 발달영역</option>';
+		dataList.forEach(function(item) {
+			html += '<option value="'+item.domainSeq+'">'+item.domainName+'</option>';
+		});
 	}
 	
 	$("#"+id).html(html);

@@ -8,6 +8,7 @@
 		  FROM TB_BOARD tb
 		 WHERE tb.board_dv_cd = 'MMM'
 		   AND board_reg_mmr_seq = #{memberSeq }
+		   AND center_seq = #{centerSeq }
 	</select>
 
 	<select id="insertMemberMemo" parameterType="maiVO" resultType="maiVO">
@@ -25,7 +26,7 @@
 			'',
 			#{memberSeq },
 			current_timestamp(),
-			NULL
+			#{centerSeq }
 		)
 	</select>
 
@@ -33,6 +34,7 @@
 		UPDATE TB_BOARD
 		   SET board_contents = #{boardContents }
 		 WHERE board_reg_mmr_seq = #{memberSeq }
+		   AND center_seq = #{centerSeq }
 		   AND board_dv_cd = 'MMM'
 	</select>
 	

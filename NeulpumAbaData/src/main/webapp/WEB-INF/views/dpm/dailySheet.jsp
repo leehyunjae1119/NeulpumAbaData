@@ -9,6 +9,9 @@
 .btn:hover {
 	border-color: rgb(158 158 158 / 35%);
 }
+.btn {
+	--bs-btn-disabled-opacity: 0.1;
+}
 </style>
 
 <div id="dailySheetPage" style="padding: 1.5rem;">
@@ -93,13 +96,13 @@
 								<div class="point-edit-btn-area mt-1">
 									<!-- 포인트 조작버튼 -->
 									<div class="f-between mb-1 point-btn-area">
-										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn" data-value="P">P</button>
-										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn" data-value="+"><i class="bi bi-plus-lg"></i></button>
-										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn" data-value="-"><i class="bi bi-dash-lg"></i></button>
-										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 reply-btn"><i class="bi bi-reply"></i></button>
+										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn auth-disabled-item" data-auth="master level1 level2 level3" data-value="P">P</button>
+										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn auth-disabled-item" data-auth="master level1 level2 level3" data-value="+"><i class="bi bi-plus-lg"></i></button>
+										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 point-btn auth-disabled-item" data-auth="master level1 level2 level3" data-value="-"><i class="bi bi-dash-lg"></i></button>
+										<button type="button" class="btn btn-lg btn-outline-small strong-text w-100 reply-btn auth-disabled-item" data-auth="master level1 level2 level3"><i class="bi bi-reply"></i></button>
 									</div>
 									<div class="f-between mb-1">
-										<button type="button" class="btn btn-sm btn-outline-small w-100 next-btn">회차추가</button>
+										<button type="button" class="btn btn-sm btn-outline-small w-100 next-btn auth-disabled-item" data-auth="master level1 level2 level3">회차추가</button>
 										<button type="button" class="btn btn-sm btn-outline-small w-100 graph-btn">그래프</button>
 									</div>
 								</div>
@@ -126,7 +129,7 @@
 		</div>
 		<div class="offcanvas-footer">
 			<div class="offcanvas-btn-area">
-				<button type="button" class="btn btn-outline-success" id="counselingAddBtn">Add Memo</button>
+				<button type="button" class="btn btn-outline-success auth-disabled-item" data-auth="master level1 level2 level3" id="counselingAddBtn">Add Memo</button>
 			</div>
 		</div>
 	</div>

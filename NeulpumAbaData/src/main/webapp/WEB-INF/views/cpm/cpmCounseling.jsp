@@ -14,7 +14,7 @@
 			<p class="m-0" style="font-size: 20px;">Counseling Journal</p>
 		</div>
 		<div class="title-btn-area">
-			<button type="button" class="btn btn-outline-success" id="counselingAddBtn">Add Memo</button>
+			<button type="button" class="btn btn-outline-success auth-disabled-item" data-auth="master level1 level2 level3" id="counselingAddBtn">Add Memo</button>
 		</div>
 	</div>
 	<div class="search-area hstack gap-2 mb-3">

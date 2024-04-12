@@ -5,7 +5,7 @@
 	
 	<div class="d-flex flex-column flex-shrink-0 nav-sticky"> <!--toggled-->
 		<a href="javascript:void(0);" class="d-flex align-items-center text-decoration-none logo-btn" id="logo">
-			<img class="logo" src="../image/full_logo.png" height="32">
+			<img class="logo" src="../image/full_logo.png?version=${RESC_VERSION }" height="32">
 		</a>
 		<ul class="sidebar nav nav-pills flex-column mb-auto">
 			<li class="nav-item">
@@ -33,7 +33,7 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a href="javascript:void(0);" class="nav-link text-white" id="tpm">
+				<a href="javascript:void(0);" class="nav-link text-white auth-hidden-item" data-auth="master level1 level2 level4" id="tpm">
 					<i class="bi bi-journal-bookmark-fill icon-md"></i>
 					<span>프로그램 편집</span>
 				</a>
@@ -45,7 +45,7 @@
 				</a>
 			</li>
 			<li class="nav-item">
-				<a href="javascript:void(0);" class="nav-link text-white" id="mng">
+				<a href="javascript:void(0);" class="nav-link text-white auth-hidden-item" data-auth="master level1 level2" id="mng">
 					<i class="bi bi-person-gear icon-md"></i>
 					<span>관리</span>
 				</a>

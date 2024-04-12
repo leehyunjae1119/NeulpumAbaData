@@ -8,11 +8,11 @@
 			 , member_name
 		  FROM TB_MEMBER
 		 WHERE member_approval_yn = 'Y'
-		   AND member_auth_cd IN ('master', 'level1')
+		   AND member_auth_cd IN ('master', 'level1', 'level2')
 		 ORDER BY member_name DESC
 	</select>
 
-	<select id="insertCenter" parameterType="centerVO">
+	<insert id="insertCenter" parameterType="centerVO">
 		INSERT INTO TB_CENTER (
 			center_name
 			, center_manager
@@ -23,13 +23,17 @@
 			, #{centerManager }
 			, #{centerImage }
 			)
-	</select>
+			
+		<selectKey keyProperty="centerSeq" resultType="Integer" order="AFTER">
+			SELECT LAST_INSERT_ID();
+		</selectKey>
+	</insert>
 	
 	<select id="selectCenterList" resultType="centerVO" parameterType="centerVO">
 		SELECT tc.center_seq
 			 , tc.center_name
-			 , tc.center_manager
-			 , tm.member_name 
+			 , IFNULL(tc.center_manager, 0) AS center_manager
+			 , IFNULL(tm.member_name, '지정되지 않음') AS member_name
 			 , tc.center_image
 			 , (SELECT COUNT(1) FROM TB_MEMBER WHERE member_position_cd = tc.center_seq) AS member_cnt
 			 , (SELECT COUNT(1) FROM TB_CHILDREN WHERE children_position_cd = tc.center_seq) AS children_cnt
@@ -148,6 +152,18 @@
 		)
 		ON DUPLICATE KEY UPDATE 
 			center_seq = #{centerSeq }
+	</select>
+	
+	<select id="updateMemberPositionCd" parameterType="centerVO">
+		UPDATE TB_MEMBER 
+		   SET member_position_cd = #{centerSeq }
+		 WHERE member_seq = #{centerManager }
+	</select>
+	
+	<select id="updateCenterManager" parameterType="centerVO">
+		UPDATE TB_CENTER
+		   SET center_manager = 0
+		 WHERE center_manager = #{centerManager }
 	</select>
 	
 </mapper>

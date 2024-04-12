@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	
-	$(".nav-sticky").css({"height":"100vh !important"});
-	$(".sub-nav-sticky").css({"height":"100vh !important"});
-	$(".main-contents").css({"height":"100vh !important"});
-	$(".login_body").css({"height":"100vh !important"});
+//	$(".nav-sticky").css({"height":"100vh !important"});
+//	$(".sub-nav-sticky").css({"height":"100vh !important"});
+//	$(".main-contents").css({"height":"100vh !important"});
+//	$(".login_body").css({"height":"100vh !important"});
 	
 	//유효성 검사 실패 시 안내 
 	$.fn_invalidationInput = function(id, message) {

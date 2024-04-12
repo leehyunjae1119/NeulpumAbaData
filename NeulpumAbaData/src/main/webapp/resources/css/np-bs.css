@@ -5,15 +5,17 @@ body {
     background-color: rgb(255, 255, 255);
     height: 100%;
     /* font-family: 'KyoboHand'; */
-    font-family: 'Gamja Flower', cursive;
+/*     font-family: 'Gamja Flower', cursive; */
+    font-family: 'SUITE-Regular';
     color: var(--np-bs-font);
 }
 
 .login_body {
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     background-color: var(--np-sm-green);
     background: linear-gradient(to top right, rgb(255 255 255), rgb(247 242 241), rgb(243 251 238));
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'SUITE-Regular';
     /* font-size: small; */
     font-weight: 300;
     display: flex;
@@ -23,7 +25,8 @@ body {
 }
 
 #centerChoiceModal {
-    font-family: 'Gamja Flower', cursive;
+/*     font-family: 'Gamja Flower', cursive; */
+    font-family: 'SUITE-Regular';
 }
 
 .login_main {
@@ -148,7 +151,8 @@ body {
 .login_footer {
     position: absolute;
     bottom: 0;
-    font-family: 'Gamja Flower', cursive;
+/*     font-family: 'Gamja Flower', cursive; */
+    font-family: 'SUITE-Regular';
     font-size: small;
     font-weight: 300;
     padding: 1rem;
@@ -188,6 +192,7 @@ body {
     position: fixed;
     width: 240px;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     padding: 0 0 1rem 0rem;
     overflow: auto;
 }
@@ -198,6 +203,7 @@ body {
     left: 200px;
     width: 240px;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     padding: 1rem 40px 1rem 0rem;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
@@ -210,6 +216,7 @@ body {
     left: 400px;
     width: calc(100vw - 400px);
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     position: fixed;
     overflow: scroll;
     border-top-left-radius: 40px;
@@ -475,7 +482,7 @@ body {
 	background: #ffffff;
 	border: 1px solid #dddddd;
 	border-radius: 5px;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'SUITE-Regular';
 	font-size: 14px;
 }
 .scheduler-tooltip {
@@ -603,7 +610,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
     border: 0.3px solid rgb(0 0 0 / 0.2);
     background: linear-gradient(to top right, rgb(255 255 255), rgb(247 242 241), rgb(243 251 238));
     box-shadow: 1px 5px 0px -2px rgb(0 0 0 / 0.1);
-    font-family: 'CookieRun-Regular';
+    font-family: 'SUITE-Regular';
     color: var(--np-bs-font);
     width: 18rem;
     margin-right: 2rem;
@@ -678,7 +685,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
 }
 
 .scheduler-contents {
-    font-family: 'KyoboHand';
+    font-family: 'SUITE-Regular';
     overflow: overlay;
     min-height: 10rem;
     margin-bottom: 3rem;
@@ -780,7 +787,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
     display: flex;
     flex-wrap: nowrap;
     box-shadow: 5px 5px 6px 0px rgb(0 0 0 / 0.1);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'SUITE-Regular';
 }
 
 .daily-cmp-badge {
@@ -946,7 +953,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
     padding: 2rem 0.2rem 2rem 0.2rem;
     writing-mode: vertical-rl;
     border-radius: 0.5rem 0 0 0.5rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'SUITE-Regular';
     letter-spacing: 10px;
     width: 2.2rem;
 }
@@ -1122,7 +1129,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
 .reportPaper {
     display: none;
     padding: 5rem 2.5rem 2.5rem 2.5rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'SUITE-Regular';
     position: relative;
 }
 .report-header-img {
@@ -1130,7 +1137,7 @@ span.book_9 { background: #daedff !important; border: 1px solid #2e75b6 !importa
     top: 1rem;
     right: 2rem;
     opacity: 0.5;
-    width: 12rem;
+    width: 10rem;
 }
 .report-title {
     font-size: 36px;
@@ -1309,7 +1316,7 @@ hr.black-hr {
 	background-color: var(--np-bs-beige) !important;
     border: 0.5px solid var(--np-lg-beige) !important;
     color: rgb(8 130 68) !important;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'SUITE-Regular';
 }
 
 .tooltip-inner{white-space: pre-wrap;}
@@ -1317,7 +1324,7 @@ hr.black-hr {
 
 .sto-detail-status {
 	margin: 0;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'SUITE-Regular';
 }
 
 .status-btn-group {
@@ -1325,7 +1332,7 @@ hr.black-hr {
 }
 .status-btn-group > button {
 	border-radius: 0;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'SUITE-Regular';
 	white-space: nowrap;
 	overflow: hidden;
 }

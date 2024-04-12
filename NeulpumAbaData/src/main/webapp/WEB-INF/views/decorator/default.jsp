@@ -28,6 +28,15 @@
 	<meta name="author" content="">
 	<title>늘품 ABA - NEULPUM ABA</title>
 	
+	<script>
+		let vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty('--vh', vh + 'px');
+		window.addEventListener('resize', function () {
+		    let vh = window.innerHeight * 0.01;
+		    document.documentElement.style.setProperty('--vh', vh + 'px');
+		});
+	</script>
+	
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
@@ -91,7 +100,7 @@
 	
 	<ul class="dropdown-menu text-small sidebar-dropdown" >
 		<li><a class="dropdown-item" href="javascript:void(0);" id="sdd_profile">프로필 관리</a></li>
-		<li><a class="dropdown-item" href="javascript:void(0);" id="sdd_centerSelect">센터 선택</a></li>
+		<li><a class="dropdown-item auth-hidden-item" data-auth="master" href="javascript:void(0);" id="sdd_centerSelect">센터 선택</a></li>
 		<li>
 			<hr class="dropdown-divider">
 		</li>

@@ -109,7 +109,18 @@
 						<label for="indicatorSelect">Center selects</label>
 					</div>
 				</div>
-				<div class="form-floating ms-auto mw-10 m-1">
+				<div class="ms-auto">
+					<div class="form-floating mw-10 m-1" id="domainSelectArea" style="display: none;">
+						<select class="form-select" id="domainSelect">
+							<option value="0" selected>모든 발달영역</option>
+							<option value="1">A domain</option>
+							<option value="2">B domain</option>
+							<option value="3">C domain</option>
+						</select>
+						<label for="indicatorSelect">발달영역 selects</label>
+					</div>
+				</div>
+				<div class="form-floating mw-10 ms-1 my-2 me-1">
 					<input type="date" class="form-control" id="startDate" placeholder="">
 					<label for="startDate">Start date</label>
 				</div>

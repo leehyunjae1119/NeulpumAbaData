@@ -19,6 +19,10 @@ $(document).ready(function() {
 			$('#centerAddBtn').remove();
 		}
 		
+		if(_authCd !== 'master'){
+			$("#centerAddBtn").hide();  
+		}
+		
 		$.init();
 		$('#centerChoiceModal').modal('show');
 	};
@@ -107,7 +111,7 @@ $(document).ready(function() {
 function appendCenterLeaderSelector(data) {
 	var html = '';
 
-	html += '<option value="" data-text="이름" selected>센터장을 선택해주세요...</option>';
+	html += '<option value="0" data-text="이름" selected>센터장을 선택해주세요...</option>';
 	data.managerList.forEach(function(item) {
 		var seq = item.memberSeq;
 		var name = item.memberName;
@@ -121,7 +125,7 @@ function appendCenterLeaderSelector(data) {
 
 function insertCenter() {
 	if(!fn_inputValidation("centerName", true)){ return;}
-	if(!fn_inputValidation("centerLeader", true)){ return;}
+//	if(!fn_inputValidation("centerLeader", true)){ return;}
 	if(!fn_inputValidation("centerRepresentativeImage", true)){ return;}
 	
 	var param = {
@@ -189,23 +193,23 @@ function appendCenterList(centerList) {
 	var html  = "";
 	
 	centerList.forEach(function(item) {
-		html += '<div class="item-xy-center m-3">																					';
-		html += '	<div class="card" name="centerCard" style="width: 15rem;">														';
-		html += '		<input type="hidden" name="centerSeq" value="'+item.centerSeq+'">											';
-		html += '		<input type="hidden" name="centerManager" value="'+item.centerManager+'">									';
-		html += '		<div class="card-centerImage">																				';
-		html += '			<img src="../image/profile_img/'+item.centerImage+'.jpg" class="card-img-top" alt="...">				';
-		html += '			<div class="card-img-overlay card-img-overbody">														';
-		html += '				<span class="card-img-label">'+item.centerName+'</span>												';
-		html += '			</div>																									';
-		html += '		</div>																										';
-		html += '		<div class="card-body" style="z-index: 100;">																';
-		html += '			<div class="card-title f-between">																		';
-		html += '				<div>																								';
-		html += '					<span>센터장</span>																				';
-		html += '					<h4>'+item.memberName+'</h4>																	';
-		html += '				</div>																								';
-		if(!isChangeCenterMode){
+		if(_authPositionCd === item.centerSeq || _authCd === 'master'){
+			html += '<div class="item-xy-center m-3">																					';
+			html += '	<div class="card" name="centerCard" style="width: 15rem;">										';
+			html += '		<input type="hidden" name="centerSeq" value="'+item.centerSeq+'">											';
+			html += '		<input type="hidden" name="centerManager" value="'+item.centerManager+'">									';
+			html += '		<div class="card-centerImage">																				';
+			html += '			<img src="../image/profile_img/'+item.centerImage+'.jpg" class="card-img-top" alt="...">				';
+			html += '			<div class="card-img-overlay card-img-overbody">														';
+			html += '				<span class="card-img-label">'+item.centerName+'</span>												';
+			html += '			</div>																									';
+			html += '		</div>																										';
+			html += '		<div class="card-body" style="z-index: 100;">																';
+			html += '			<div class="card-title f-between">																		';
+			html += '				<div>																								';
+			html += '					<span>센터장</span>																				';
+			html += '					<h4>'+item.memberName+'</h4>																	';
+			html += '				</div>																								';
 			html += '				<div class="dropup dropdown">																		';
 			html += '					<a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">	';
 			html += '						<i class="bi bi-three-dots-vertical"></i>													';
@@ -215,15 +219,15 @@ function appendCenterList(centerList) {
 			html += '						<a href="javascript:void(0);" class="dropdown-item" name="centerRemoveBtn">Center Remove</a>';
 			html += '					</div>																							';
 			html += '				</div>																								';
+			html += '			</div>																									';
+	//		html += '			<div class="card-text">																					';
+	//		html += '				<span>선생님 - '+item.memberCnt+' 명</span><br>														';
+	//		html += '				<span>아동 - '+item.childrenCnt+' 명</span>															';
+	//		html += '			</div>																									';
+			html += '		</div>																										';
+			html += '	</div>																											';
+			html += '</div>																												';
 		}
-		html += '			</div>																									';
-//		html += '			<div class="card-text">																					';
-//		html += '				<span>선생님 - '+item.memberCnt+' 명</span><br>														';
-//		html += '				<span>아동 - '+item.childrenCnt+' 명</span>															';
-//		html += '			</div>																									';
-		html += '		</div>																										';
-		html += '	</div>																											';
-		html += '</div>																												';
 	});
 	
 	$("#centerBoard").empty();
@@ -231,6 +235,11 @@ function appendCenterList(centerList) {
 	
 	//센터 입장 이벤트 추가
 	$("#centerChoiceModal .modal-body .card-centerImage").each(function() {
+		
+		if($(this).parent('div.card').hasClass("disabled")) {
+			return;
+		}
+		
 		this.addEventListener('click', function(e) {
 			var centerSeq = getCenterSeq(this);
 			if(!isManagementMode){
@@ -260,6 +269,14 @@ function appendCenterList(centerList) {
 			}, "danger");
 		});
 	});
+	
+	if(_authCd !== 'master'){
+		$("#centerBoard div.card").each(function() {
+			if(!$(this).hasClass("disabled")) {
+				$("#centerBoard").prepend($(this).parent())
+			}
+		});
+	}
 }
 
 function updateAccessRecord(centerSeq) {
@@ -291,7 +308,7 @@ function editCenter(centerSeq) {
 	
 	initCenterInputTag(center);
 	
-	$(this).addClass("disabled");
+	$("#centerAddBtn").addClass("disabled");
 	$("#centerBoard").hide();
 	$("#centerEditer").show();
 }
@@ -299,7 +316,7 @@ function editCenter(centerSeq) {
 function initCenterInputTag(center) {
 	var centerSeq = center ? center.centerSeq : "";
 	var centerName = center ? center.centerName : "";
-	var centerLeader = center ? center.centerManager : "";
+	var centerLeader = center ? center.centerManager : "0";
 	var centerRepresentativeImage = center ? center.centerImage : "01";
 	
 	$("#centerSeq").val(centerSeq);
@@ -313,7 +330,7 @@ function initCenterInputTag(center) {
 
 function updateCenter(centerSeq) {
 	if(!fn_inputValidation("centerName", true)){ return;}
-	if(!fn_inputValidation("centerLeader", true)){ return;}
+//	if(!fn_inputValidation("centerLeader", true)){ return;}
 	if(!fn_inputValidation("centerRepresentativeImage", true)){ return;}
 	
 	var param = {

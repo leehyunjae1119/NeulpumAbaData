@@ -48,7 +48,7 @@
 								</c:forEach>
 							</ul>
 							<hr class="black">
-							<ul class="list-group m-2">
+							<ul class="list-group list-standard">
 								<li class="list-group-item 
 									<c:choose>
 										<c:when test="${domain.domainStatusCd eq 'ING' }">

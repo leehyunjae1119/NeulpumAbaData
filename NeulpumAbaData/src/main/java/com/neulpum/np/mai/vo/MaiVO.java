@@ -17,6 +17,7 @@ public class MaiVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private int memberSeq;
+	private int centerSeq;
 	private String boardDvCd;
 	private String boardContents;
 }

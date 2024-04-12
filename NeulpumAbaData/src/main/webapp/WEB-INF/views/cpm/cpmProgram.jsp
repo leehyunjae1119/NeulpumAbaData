@@ -13,7 +13,7 @@
 				<p class="m-0" style="font-size: 20px;">Program management</p>
 			</div>
 			<div style="padding: 0.5rem;">
-				<button type="button" class="btn btn-secondary" id="editModeChangeBtn">
+				<button type="button" class="btn btn-secondary auth-disabled-item" data-auth="master level1 level2 level3" id="editModeChangeBtn">
 					<i class="bi bi-pencil-square me-2"></i> 편집
 				</button>
 			</div>
@@ -29,7 +29,7 @@
 					<span>영역</span>
 				</div>
 				<div class="newBtnArea" style="display: none;">
-					<button type="button" class="btn w-100" id="domainAddBtn">
+					<button type="button" class="btn w-100 auth-disabled-item" data-auth="master level1 level2 level3" id="domainAddBtn">
 						<i class="bi bi-plus"></i>
 						NEW
 					</button>
@@ -42,7 +42,7 @@
 					<span>장기목표</span>
 				</div>
 				<div class="newBtnArea" style="display: none;">
-					<button type="button" class="btn w-100" id="ltoAddBtn">
+					<button type="button" class="btn w-100 auth-disabled-item" data-auth="master level1 level2 level3" id="ltoAddBtn">
 						<i class="bi bi-plus"></i>
 						NEW
 					</button>
@@ -55,7 +55,7 @@
 					<span>단기목표</span>
 				</div>
 				<div class="newBtnArea" style="display: none;">
-					<button type="button" class="btn w-100" id="stoAddBtn">
+					<button type="button" class="btn w-100 auth-disabled-item" data-auth="master level1 level2 level3" id="stoAddBtn">
 						<i class="bi bi-plus"></i>
 						NEW
 					</button>

@@ -1,3 +1,5 @@
+var authArray = ['master', 'level1', 'level2', 'level3'];
+
 $(document).ready(function() {
 	$(".saveJpgBtn").on("click", function() {
 		$("#printMenu").dropdown("hide");
@@ -103,13 +105,15 @@ function renderCounselingData(dataList) {
 		html += '			<h5 class="card-title">'+dataList[i].counselingRegDt+'<small class="mx-3">'+dataList[i].memberName+'</small></h5>';
 		html += '			<span class="counseling-contents viewElement">'+fn_escapeHtml(dataList[i].counselingContents)+'</span>';
 		
-		if(_authSeq === dataList[i].counselingRegMmrSeq){
-			html += '			<button type="button" class="btn contents-edit-btn viewElement"><i class="bi bi-pencil-square"></i></button>';
-			html += '			<textarea class="contents-textarea w-100 editElement" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" style="display:none;">'+dataList[i].counselingContents+'</textarea>';
-			html += '			<div class="card-edit-area editElement" style="display:none;">';
-			html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 saveBtn">저장</button>';
-			html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 removeBtn">삭제</button>';
-			html += '			</div>';
+		if(authArray.includes(_authCd)){
+			if(_authSeq === dataList[i].counselingRegMmrSeq || _authCd === 'master'){
+				html += '			<button type="button" class="btn contents-edit-btn viewElement"><i class="bi bi-pencil-square"></i></button>';
+				html += '			<textarea class="contents-textarea w-100 editElement" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" style="display:none;">'+dataList[i].counselingContents+'</textarea>';
+				html += '			<div class="card-edit-area editElement" style="display:none;">';
+				html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 saveBtn">저장</button>';
+				html += '				<button type="button" class="btn btn-outline-secondary btn-sm mx-1 removeBtn">삭제</button>';
+				html += '			</div>';
+			}
 		}
 		
 		html += '		</div>';

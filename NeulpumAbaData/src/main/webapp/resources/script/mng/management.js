@@ -8,10 +8,20 @@ $(document).ready(function() {
 		$.fn_centerManagerOpen(true, false);
 	});
 	
+	$("#centerChoiceModal").on("hidden.bs.modal", function() {
+		location.reload();
+	});
+	
+	
 	$("input[name=managementBtn]").on("click", function() {
 		target = $(this).val();
-		
+		$("#centerSelect").val("0");
+		$("#searchName").val("");
 		fn_viewManagement();
+
+		if(_authCd !== "master"){
+			$("#centerSelect").val(_authPositionCd).prop("disabled", true).addClass("disabled"); 
+		}
 		$.goSearch(1);
 	});
 	
@@ -32,6 +42,14 @@ $(document).ready(function() {
 	});
 	
 	$(".saveInfoBtn").on("click", function() {
+//		
+//		if($("input[name=memberUseYn]:checked").val() === 'Y') {
+//			if($("#memberPositionCd").val() === '0') {
+//				fn_alert("선생님을 활성화 하려면 소속센터를 지정해야 합니다.", "warning");
+//				return;
+//			}
+//		}
+		
 		fn_saveInfoData();
 	});
 	
@@ -101,7 +119,13 @@ $(document).ready(function() {
 	};
 	
 	$.init = function() {
-		$.goSearch(1);
+		
+		if(_authCd === 'master') {
+			$.goSearch(1);
+		} else {
+			$("#childrenMngBtn").trigger("click");
+		}
+		
 		fn_viewManagement();
 	};
 	
@@ -245,9 +269,6 @@ function fn_setSaveInfoDataParam() {
 }
 
 function fn_viewManagement() {
-	$("#centerSelect").val("0");
-	$("#searchName").val("");
-	
 	$("#addInfoBtn").text("Add " + target);
 	
 	$(".view-table").hide();
@@ -255,13 +276,13 @@ function fn_viewManagement() {
 }
 
 function fn_viewModalMode() {
-	$("#memberId").prop("disabled", false);
+	$("#memberId").prop("disabled", false).removeClass("disabled");
 	$(".pwArea").hide();
 	
 	if(modalMode === "add") {
 		$("#pwInputArea").show();
 	} else {
-		$("#memberId").prop("disabled", true);
+		$("#memberId").prop("disabled", true).addClass("disabled");
 		$("#pwResetArea").show();
 	}
 }
@@ -272,8 +293,10 @@ function fn_setInfoData(seq) {
 		$("#infoDataSeq").val("0");
 		$(".form-control").val("");
 		$(".form-select").each(function() {
-			var defaultValue = $(this).children("option:eq(0)").val();
-			$(this).val(defaultValue);
+			if(!$(this).hasClass("disabled")){
+				var defaultValue = $(this).children("option:eq(0)").val();
+				$(this).val(defaultValue);
+			}
 		});
 		$("input[type=radio][name="+target+"UseYn]").removeAttr("checked");
 		$("#"+target+"UseYn_N").attr("checked", true);

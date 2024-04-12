@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 	<script>
 		var _centerSeq = '${_centerSeq}';
-		if(!sessionStorage.getItem("centerSeq")){
+		if(!sessionStorage.getItem("centerSeq") || sessionStorage.getItem("centerSeq") === null){
 			sessionStorage.setItem("centerSeq", _centerSeq);
+			fn_formUrlMove("/mai/main", "GET", {});
 		}
 	</script>
 
@@ -24,7 +25,7 @@
 					<p class="m-0">수업 시간표</p>
 				</div>
 				<div class="d-flex f-align-center">
-					<a class="btn btn-sm" id="schedulerEditBtn" href="javascript:void(0);">
+					<a class="btn btn-sm auth-hidden-item" data-auth="master level1 level2" id="schedulerEditBtn" href="javascript:void(0);">
 						<i class="bi bi-pencil-square"></i>
 						<span class="ms-2">편집</span>
 					</a>
@@ -94,7 +95,7 @@
 					</div>
 					<div class="card note-card">
 						<div class="card-contents" id="memberMemoCard" style="min-height: 25vh;">
-							<textarea id="memberMemoInput" class="contents-textarea w-100" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" >${memoData.boardContents }</textarea>
+							<textarea id="memberMemoInput" class="contents-textarea w-100 auth-disabled-item" data-auth="master level1 level2 level3" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" onload="autoResize(this)" >${memoData.boardContents }</textarea>
 						</div>
 					</div>
 				</div>
@@ -144,7 +145,7 @@
 					</div>
 					
 					<div class="scheduler-btn-area" style="z-index:9;">
-						<button type="button" class="btn btn-outline-success" id="addScheduleBtn">
+						<button type="button" class="btn btn-outline-success auth-disabled-item" data-auth="master level1 level2" id="addScheduleBtn">
 							<span>Add Schedule</span>
 						</button>
 					</div>

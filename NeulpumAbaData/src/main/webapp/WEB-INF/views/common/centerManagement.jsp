@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html>
 	<script src="../script/common/centerManagement.js?version=${RESC_VERSION }"></script>
+	<style>
+	.disabled {
+		opacity: 0.25;
+	}
+	</style>
 	
 	<div class="modal fade" id="centerChoiceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">

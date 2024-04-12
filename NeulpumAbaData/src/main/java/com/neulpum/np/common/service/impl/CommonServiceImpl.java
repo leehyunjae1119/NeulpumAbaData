@@ -31,7 +31,10 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public int insertCenter(CenterVO centerVO) throws Exception {
+		commonDao.updateCenterManager(centerVO);
 		int result = commonDao.insertCenter(centerVO);
+		centerVO.setCenterSeq(result);
+		commonDao.updateMemberPositionCd(centerVO);
 		return result;
 	}
 
@@ -43,7 +46,9 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public int updateCenter(CenterVO centerVO) throws Exception {
+		commonDao.updateCenterManager(centerVO);
 		int result = commonDao.updateCenter(centerVO);
+		commonDao.updateMemberPositionCd(centerVO);
 		return result;
 	}
 

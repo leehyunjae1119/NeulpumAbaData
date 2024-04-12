@@ -65,7 +65,12 @@ $(document).ready(function () {
 		var method = "GET";
 		var param = {};
 		
-		fn_formUrlMove(url, method, param);
+		if(sessionStorage.getItem("centerSeq") === null) {
+			fn_formUrlMove("/lgn/signOut", method, param);
+		} else {
+			fn_formUrlMove(url, method, param);
+		}
+		
 	});
 	
 	$("#sidebarToggle").on("click", function () {
@@ -85,7 +90,11 @@ $(document).ready(function () {
 		var url = "/cpm/"+id;
 		var param = {};
 		
-		fn_formUrlMove(url, "GET", param);
+		if(sessionStorage.getItem("centerSeq") === null || sessionStorage.getItem("childrenSeq") === null ) {
+			fn_formUrlMove("/lgn/signOut", "GET", param);
+		} else {
+			fn_formUrlMove(url, "GET", param);
+		}
 	});
 	
 //	

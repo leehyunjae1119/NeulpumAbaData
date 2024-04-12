@@ -28,6 +28,9 @@ public class CommonDaoImpl implements CommonDao {
 	@Override
 	public int insertCenter(CenterVO centerVO) throws Exception {
 		int result = sqlSession.insert(namespace + "insertCenter", centerVO);
+		if(result > 0) {
+			result = centerVO.getCenterSeq();
+		}
 		return result;
 	}
 
@@ -88,6 +91,18 @@ public class CommonDaoImpl implements CommonDao {
 	@Override
 	public int updateAccessRecord(MemberVO memberVO) throws Exception {
 		int result = sqlSession.insert(namespace + "updateAccessRecord", memberVO);
+		return result;
+	}
+
+	@Override
+	public int updateMemberPositionCd(CenterVO centerVO) throws Exception {
+		int result = sqlSession.insert(namespace + "updateMemberPositionCd", centerVO);
+		return result;
+	}
+	
+	@Override
+	public int updateCenterManager(CenterVO centerVO) throws Exception {
+		int result = sqlSession.insert(namespace + "updateCenterManager", centerVO);
 		return result;
 	}
 

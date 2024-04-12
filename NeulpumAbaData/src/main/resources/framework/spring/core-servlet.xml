@@ -34,6 +34,7 @@
 			<exclude-mapping path="/image/**"/>
 			<exclude-mapping path="/script/**"/>
 			<exclude-mapping path="/icon/**"/>
+			<exclude-mapping path="/.well-known/**"/>
 			<exclude-mapping path="/*.jsp"/>
 			<exclude-mapping path="/*.js"/>
 			<exclude-mapping path="/*.html"/>
@@ -41,6 +42,7 @@
 			<exclude-mapping path="/*.ico"/>
 			<exclude-mapping path="/*.svg"/>
 			<exclude-mapping path="/*.png"/>
+			<exclude-mapping path="/*.txt"/>
 			<exclude-mapping path="/*.webmanifest"/>
 			<exclude-mapping path="/browserconfig.xml"/>
 			<beans:bean id="Interceptor" class="com.neulpum.np.common.utils.Interceptor" />

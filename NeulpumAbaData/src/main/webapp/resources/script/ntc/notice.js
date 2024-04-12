@@ -183,7 +183,7 @@ function selectNoticeDetail(noticeSeq) {
 			
 			$.goSearch($("#pageNum").val());
 			
-			if(_authSeq !== data.result.boardRegMmrSeq) {
+			if(_authSeq !== data.result.boardRegMmrSeq && _authCd !== 'master') {
 				$("#noticeEditBtn").hide();
 			}
 		}

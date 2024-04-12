@@ -3,7 +3,6 @@ $(document).ready(function() {
 });
 
 function _nonAuthBlock() {
-	
 	/* 
 	 * 적용방법
 	 * 1. auth-chk-item 클래스 추가
@@ -13,21 +12,23 @@ function _nonAuthBlock() {
 	 * 해당 코드 상위만 접근허용
 	 */
 	
-//	$(".auth-chk-item").each(function(i, element) {
-//		
-//	});
-	
-	/* 작업중 
+	// 숨김
 	$(".auth-hidden-item").each(function(i, element) {
-		if(_authCd === $(this).data('auth')){
+		
+		var authTarget = ($(this).data('auth')||'').split(' ');
+		
+		if(!authTarget.includes(_authCd)){
 			$(this).hide();
 		}
 	});
-	
+	//비활성화
 	$(".auth-disabled-item").each(function(i, element) {
-		if(_authCd === $(this).data('auth')){
-			$(this).addClass("disabled").prop("disabled", true);
+		
+		var authTarget = ($(this).data('auth')||'').split(' ');
+		
+		if(!authTarget.includes(_authCd)){
+			$(this).addClass("disabled").prop('disabled', true);
 		}
 	});
-	*/
+	
 }

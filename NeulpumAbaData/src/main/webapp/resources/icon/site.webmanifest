@@ -16,5 +16,6 @@
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "fullscreen",
-    "start_url": "http://neulpumabadata.com"
+    "start_url": "https://neulpumabadata.com",
+    "scope": "/"
 }

@@ -64,11 +64,14 @@ $(document).ready(function() {
 			, async : true
 			, success : function(data) {
 				
+				console.log(data.result)
 				if(data.messageCd == '0'){
 					if(!document.cookie.includes("NPSESSIONCOOKIE")){
 						fn_alert("로그인에 실패하였습니다. 잠시 후 다시 시도해주세요.", "warning");
 					} else {
 						fn_alert("로그인하였습니다. 환영합니다.");
+						_authCd = data.result.memberAuthCd;
+						_authPositionCd = data.result.memberPositionCd;
 						// 센터 선택 모달 오픈
 						$.fn_centerManagerOpen(false, false);
 					}

@@ -8,6 +8,7 @@ $(document).ready(function() {
 		var contents = $("#memberMemoInput").val();
 		var param = {
 				memberSeq : _authSeq,
+				centerSeq : _centerSeq,
 				boardContents : contents
 		};
 

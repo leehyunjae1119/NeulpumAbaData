@@ -13,7 +13,7 @@
 			<p class="m-0" style="font-size: 20px;">Videos and teaching aids</p>
 		</div>
 		<div class="title-btn-area">
-			<button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addVideoModal">Add video</button>
+			<button type="button" class="btn btn-outline-success auth-disabled-item" data-auth="master level1 level2 level3" data-bs-toggle="modal" data-bs-target="#addVideoModal">Add video</button>
 		</div>
 	</div>
 	<div class="container mb-3">
@@ -52,8 +52,8 @@
 </div>
 
 <div class="modal" id="viewVideoModal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content" style="height: 65%;">
+	<div class="modal-dialog modal-lg" style="height: 80%;">
+		<div class="modal-content" style="height: 80%;">
 			<iframe id="youtubeBox" width="100%" height="100%"></iframe>
 		</div>
 	</div>

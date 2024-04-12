@@ -73,6 +73,9 @@
 					   <if test="groupSeq != null and groupSeq != ''">
 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
 					   </if>
+					   <if test="domainSeq != null and domainSeq != '' and domainSeq != 0">
+					     AND td.domain_seq = #{domainSeq }
+					   </if>
 <!-- 					   <if test="centerSeq != null and centerSeq != ''"> -->
 <!-- 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->
 <!-- 					   </if> -->
@@ -95,6 +98,9 @@
 					   </if>
 					   <if test="groupSeq != null and groupSeq != ''">
 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_group_cd = #{groupSeq } )
+					   </if>
+					   <if test="domainSeq != null and domainSeq != '' and domainSeq != 0">
+					     AND td.domain_seq = #{domainSeq }
 					   </if>
 <!-- 					   <if test="centerSeq != null and centerSeq != ''"> -->
 <!-- 					     AND td.children_seq IN (SELECT children_seq FROM TB_CHILDREN WHERE children_position_cd = #{centerSeq } ) -->

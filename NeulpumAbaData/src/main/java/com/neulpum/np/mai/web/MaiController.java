@@ -53,10 +53,10 @@ public class MaiController {
 		LgnVO lgnVO = (LgnVO)sessionManager.getSession(request);
 		
 		MaiVO paramVO = new MaiVO();
-		paramVO.setMemberSeq(lgnVO.getMemberSeq());
-		MaiVO memoData = maiService.selectMemberMemo(paramVO);
-		
 		ChildrenVO cparamVO = new ChildrenVO();
+
+		paramVO.setMemberSeq(lgnVO.getMemberSeq());
+		
 		if(request.getParameter("centerSeq") == null || StringUtils.isEmpty(request.getParameter("centerSeq"))) {
 //			cparamVO.setChildrenPositionCd(lgnVO.getMemberPositionCd());
 			MemberVO memberVO = new MemberVO();
@@ -65,15 +65,18 @@ public class MaiController {
 			
 			try {
 				cparamVO.setChildrenPositionCd(arVO.getCenterSeq());
+				paramVO.setCenterSeq(arVO.getCenterSeq());
 			} catch (Exception e) {
 				return "redirect:/lgn/signOut";
 			}
 			
 		} else {
 			cparamVO.setChildrenPositionCd(Integer.parseInt(request.getParameter("centerSeq")));
-			
+			paramVO.setCenterSeq(Integer.parseInt(request.getParameter("centerSeq")));
 		}
 		List<ChildrenVO> childrenList = commonService.selectChildrenList(cparamVO);
+		
+		MaiVO memoData = maiService.selectMemberMemo(paramVO);
 		
 		model.addAttribute("memoData", memoData);
 		model.addAttribute("childrenList", childrenList);

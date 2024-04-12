@@ -41,7 +41,7 @@ var _config_01 = {
 								};
 							});
 	                    	
-	                    	var totStr = 'Total Rununit : ' + cmpCnt + ' / ' + totCnt;
+	                    	var totStr = 'Total Learn Unit : ' + cmpCnt + ' / ' + totCnt;
 	                    	strArray.push(totStr);
 	                    	
 	                    	_dataList.forEach(function(item) {
