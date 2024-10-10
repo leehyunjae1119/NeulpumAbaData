@@ -5,7 +5,7 @@
 <script src='../script/cpm/report/cpmMonthlyReport.js?version=${RESC_VERSION }'></script>
 
 <div class="reportPaper" id="monthlyReport">
-	<img src="../image/np_report_header_img.png" class="report-header-img">
+	<img src="../image/report_logo.png" class="report-header-img">
 	<div class="report-title">
 		<span>월간 보고서</span>
 	</div>

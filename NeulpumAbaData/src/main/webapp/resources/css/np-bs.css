@@ -424,6 +424,7 @@ body {
     display: flex;
     justify-content: center;
     padding-bottom: 2rem;
+	align-items: flex-start;
 }
 
 .form-center-editer .form-area:last-child {

@@ -43,6 +43,7 @@ public class CpmDailySheetController {
 		
 		List<Map<String, Object>> initData = cpmDailySheetService.selectDailySheetInit(paramVO);
 		
+		model.addAttribute("childrenSeq", childrenSeq);
 		model.addAttribute("initData", initData);
 		
 		return "/cpm/cpmDailySheet";

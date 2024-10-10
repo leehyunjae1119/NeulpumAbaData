@@ -103,4 +103,16 @@ public class MngDaoImpl implements MngDao {
 		return result;
 	}
 	
+	@Override
+	public int deleteMember(MemberVO memberVO) throws Exception {
+		int result = sqlSession.delete(namespace + "deleteMember", memberVO);
+		return result;
+	}
+
+	@Override
+	public int deleteChildren(ChildrenVO childrenVO) throws Exception {
+		int result = sqlSession.delete(namespace + "deleteChildren", childrenVO);
+		return result;
+	}
+	
 }

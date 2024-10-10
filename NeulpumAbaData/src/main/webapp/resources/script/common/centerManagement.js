@@ -80,7 +80,27 @@ $(document).ready(function() {
 		} else {
 			insertCenter();
 		}
+		uploadImgFile();
 	});
+	
+	function uploadImgFile() {
+		var formData = new FormData($("#centerForm")[0]);
+		
+		$.ajax({
+			url: "/common/ajax.uploadFile"
+			, enctype : 'multipart/form-data'
+			, type : "POST"
+			, processData: false
+			, contentType: false
+			, data : formData
+			, success : function(data) {
+				
+			}
+			, error : function(request, status, error) {
+				fn_alert("파일 업로드 실패", "warning")
+			}
+		});
+	}
 	
 	$("#centerCancelBtn").on("click", function(){
 		$("#centerAddBtn").removeClass("disabled");
@@ -147,6 +167,8 @@ function insertCenter() {
 			$("#centerAddBtn").removeClass("disabled");
 			$("#centerEditer").hide();
 			$("#centerBoard").show();
+			
+			$("#centerSeq").val(data.centerSeq);
 		}
 		, error : function(request, status, error) {
 			fn_alert("센터 등록을 완료하지 못했습니다. 담당자에게 연락하세요.", "warning")
@@ -210,15 +232,17 @@ function appendCenterList(centerList) {
 			html += '					<span>센터장</span>																				';
 			html += '					<h4>'+item.memberName+'</h4>																	';
 			html += '				</div>																								';
-			html += '				<div class="dropup dropdown">																		';
-			html += '					<a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">	';
-			html += '						<i class="bi bi-three-dots-vertical"></i>													';
-			html += '					</a>																							';
-			html += '					<div class="dropdown-menu dropdown-menu-end">													';
-			html += '						<a href="javascript:void(0);" class="dropdown-item" name="centerEditBtn">Center Edit</a>	';
-			html += '						<a href="javascript:void(0);" class="dropdown-item" name="centerRemoveBtn">Center Remove</a>';
-			html += '					</div>																							';
-			html += '				</div>																								';
+			if(!isChangeCenterMode){
+				html += '				<div class="dropup dropdown">																		';
+				html += '					<a href="#" class="card-drop text-secondary" data-bs-toggle="dropdown" aria-expanded="false">	';
+				html += '						<i class="bi bi-three-dots-vertical"></i>													';
+				html += '					</a>																							';
+				html += '					<div class="dropdown-menu dropdown-menu-end">													';
+				html += '						<a href="javascript:void(0);" class="dropdown-item" name="centerEditBtn">Center Edit</a>	';
+				html += '						<a href="javascript:void(0);" class="dropdown-item" name="centerRemoveBtn">Center Remove</a>';
+				html += '					</div>																							';
+				html += '				</div>																								';
+			}
 			html += '			</div>																									';
 	//		html += '			<div class="card-text">																					';
 	//		html += '				<span>선생님 - '+item.memberCnt+' 명</span><br>														';
@@ -285,8 +309,6 @@ function updateAccessRecord(centerSeq) {
 			centerSeq : centerSeq
 		};
 	
-	console.log(param)
-	
 	$.ajax({
 		url: "/common/ajax.updateAccessRecord"
 		, type : "post"
@@ -294,10 +316,8 @@ function updateAccessRecord(centerSeq) {
 		, contentType : 'application/json; charset=utf-8'
 		, async : false
 		, success : function(data) {
-			console.log('성공');
 		}
 		, error : function(request, status, error) {
-			console.log('실패');
 		}
 	});
 }
@@ -318,6 +338,7 @@ function initCenterInputTag(center) {
 	var centerName = center ? center.centerName : "";
 	var centerLeader = center ? center.centerManager : "0";
 	var centerRepresentativeImage = center ? center.centerImage : "01";
+	var logoImgUrl = center ? "/upload/"+center.centerSeq+"/" : "";
 	
 	$("#centerSeq").val(centerSeq);
 	$("#centerName").val(centerName);
@@ -326,6 +347,36 @@ function initCenterInputTag(center) {
 	
 	$("#centerName").trigger("keyup");
 	$("#centerLeader, #centerRepresentativeImage").trigger("change");
+	
+	$("#centerForm input[type=file]").val('');
+	
+	if(center){
+		$(".thumbnail-tooltip").each(function(i, element) {
+			var html = '';
+			var imageUrl = '';
+			if(i == 0) {
+				imageUrl = logoImgUrl + "full_logo.png?v=" + $.getDateFormat('now', 'HHMISS');
+				html = fn_checkImageUrl(imageUrl) ? '<img src=\''+imageUrl+'\' height=\'40\'/>' : '<img src=\'../image/full_logo.png\' height=\'40\'/>';
+			} else if (i == 1) {
+				imageUrl = logoImgUrl + "mini_logo.png?v=" + $.getDateFormat('now', 'HHMISS');
+				html = fn_checkImageUrl(imageUrl) ? '<img src=\''+imageUrl+'\' height=\'40\'/>' : '<img src=\'../image/mini_logo.png\' height=\'40\'/>';
+			} else {
+				imageUrl = logoImgUrl + "report_logo.png?v=" + $.getDateFormat('now', 'HHMISS');
+				html = fn_checkImageUrl(imageUrl) ? '<img src=\''+imageUrl+'\' height=\'40\'/>' : '<img src=\'../image/report_logo.png\' height=\'40\'/>';
+			}
+			$(element).attr("data-bs-title", html);
+		});
+		
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+		tooltipTriggerList.forEach(function(elt, i, array) {
+			const tooltipTriggerEl = elt;
+			const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+		})
+		
+		$(".thumbnail-tooltip").show();
+	} else {
+		$(".thumbnail-tooltip").hide();
+	}
 }
 
 function updateCenter(centerSeq) {
@@ -384,6 +435,4 @@ function deleteCenter(centerSeq) {
 		}
 	});
 }
-
-
 

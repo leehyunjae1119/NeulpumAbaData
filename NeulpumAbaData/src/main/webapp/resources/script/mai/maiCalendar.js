@@ -339,7 +339,6 @@ $(document).on('click', '.scheduler-remove-btn', function() {
 			calendarSeq : calendarSeq
 	};
 
-	console.log(param);
 	$.ajax({
 		url: "/mai/ajax.deleteCalendarData"
 		, type : "POST"

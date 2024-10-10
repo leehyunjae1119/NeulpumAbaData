@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 
-	<script src="../script/tpm/programManagement.js?version=${RESC_VERSION }"></script>
+	<script src="../script/tpm/programManagement.js?version=${RESC_VERSION }_1"></script>
 
 	<div>
 		<div class="f-between mb-2">

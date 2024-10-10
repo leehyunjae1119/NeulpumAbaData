@@ -47,8 +47,8 @@
 							</div>
 						</div>
 						<div class="form-area" style="padding: 0.5rem;">
-							<form>
-								<input type="hidden" id="centerSeq">
+							<form id="centerForm" method="post" enctype="multipart/form-data">
+								<input type="hidden" id="centerSeq" name="centerSeq">
 								<div class="mb-3">
 									<label for="projectName" class="form-label">센터 이름</label>
 									<input type="text" class="form-control" id="centerName" placeholder="센터명을 입력해주세요..." data-title="센터 이름">
@@ -72,8 +72,39 @@
 										<option value="08">08 - 여성 민트</option>
 									</select>
 								</div>
+								<div class="mb-3">
+									<label for="" class="form-label">
+										사이드바 로고
+										<i class="ms-2 bi bi-image thumbnail-tooltip" 
+											data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+											data-bs-custom-class="custom-tooltip-thumbnail"
+									        data-bs-title="image"></i>
+									</label>
+									<input type="file" class="form-control" name="full_logo" multiple="true">
+								</div>
+								<div class="mb-3">
+									<label for="" class="form-label">
+										축소형 로고
+										<i class="ms-2 bi bi-image thumbnail-tooltip" 
+											data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+											data-bs-custom-class="custom-tooltip-thumbnail"
+									        data-bs-title="image"></i>
+									</label>
+									<input type="file" class="form-control" name="mini_logo" multiple="true">
+								</div>
+								<div class="mb-3">
+									<label for="" class="form-label">
+										보고서 로고
+										<i class="ms-2 bi bi-image thumbnail-tooltip" 
+											data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true"
+											data-bs-custom-class="custom-tooltip-thumbnail"
+									        data-bs-title="image"></i>
+									</label>
+									<input type="file" class="form-control" name="report_logo" multiple="true">
+								</div>
 							</form>
-							<div class="form-btn-area">
+
+						<div class="form-btn-area">
 								<button type="button" class="btn btn-primary" id="centerSaveBtn">저장</button>
 								<button type="button" class="btn btn-secondary" id="centerCancelBtn">취소</button>
 							</div>

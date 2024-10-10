@@ -132,6 +132,7 @@ $(document).ready(function() {
 			domainName = $("#addDomainNameSelect > option:checked").text();
 			tmpDomainSeq = $("#addDomainNameSelect > option:checked").val();
 		}
+		domainName = fn_escapeHtml(domainName.trim());
 		
 		var html = ''; 
 		
@@ -159,6 +160,7 @@ $(document).ready(function() {
 			ltoName = $("#addLtoNameSelect > option:checked").text();
 			tmpLtoSeq = $("#addLtoNameSelect > option:checked").val();
 		}
+		ltoName = fn_escapeHtml(ltoName.trim());
 		
 		var html = ''; 
 		
@@ -186,6 +188,7 @@ $(document).ready(function() {
 			stoName = $("#addStoNameSelect > option:checked").text();
 			tmpStoSeq = $("#addStoNameSelect > option:checked").val();
 		}
+		stoName = fn_escapeHtml(stoName.trim());
 		
 		var html = ''; 
 		
@@ -1002,7 +1005,10 @@ $(document).on("click", ".status-btn", function() {
 		$(this).addClass("active");
 		
 		fn_updateStatus(targetType, statusCd);
-		
+	} else {
+		// 2024.05.27 상태값 초기화 기능 추가 (대기중 상태로 초기화)
+		$(targetEle).children(".status-btn").removeClass("active");
+		fn_updateStatus(targetType, "WIT");
 	}
 });
 

@@ -1,8 +1,10 @@
 package com.neulpum.np.common.web;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.neulpum.np.common.service.CommonService;
+import com.neulpum.np.common.utils.FileUtil;
+import com.neulpum.np.common.utils.NpMessageSource;
 import com.neulpum.np.common.utils.SessionManager;
 import com.neulpum.np.common.vo.CenterVO;
 import com.neulpum.np.lgn.vo.LgnVO;
@@ -34,6 +40,26 @@ public class CommonController {
 	
 	@Inject
 	SessionManager sessionManager;
+	
+	@Inject
+	NpMessageSource nms;
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajax.uploadFile", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String uploadFile(MultipartHttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		String centerSeq = request.getParameter("centerSeq");
+		String[] allowExts = {"png"};
+		FileUtil fu = new FileUtil(request, nms.getMessage("np.fileupload.url")+centerSeq+File.separator, allowExts);
+		fu.upload();
+		
+		json = objectMapper.writeValueAsString(resultMap);
+		return json;
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajax.selectCenterLeader", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
@@ -58,8 +84,9 @@ public class CommonController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		commonService.insertCenter(centerVO);
+		int centerSeq = commonService.insertCenter(centerVO);
 		
+		resultMap.put("centerSeq", centerSeq);
 		json = objectMapper.writeValueAsString(resultMap);
 		return json;
 	}

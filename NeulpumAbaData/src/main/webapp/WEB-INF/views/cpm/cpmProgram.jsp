@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 
-	<script src="../script/cpm/cpmProgramManagement.js?version=${RESC_VERSION }"></script>
+	<script src="../script/cpm/cpmProgramManagement.js?version=${RESC_VERSION }_1"></script>
 	<script src="../script/cpm/cpmProgramChart.js?version=${RESC_VERSION }"></script>
 
 	<div>

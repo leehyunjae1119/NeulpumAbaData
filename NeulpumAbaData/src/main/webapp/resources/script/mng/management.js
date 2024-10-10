@@ -3,7 +3,7 @@ var modalMode = "add"; // add 추가 , mod 수정
 var pageNum = 1;
 
 $(document).ready(function() {
-
+	
 	$("#centerManagementBtn").on("click", function() {
 		$.fn_centerManagerOpen(true, false);
 	});
@@ -12,14 +12,14 @@ $(document).ready(function() {
 		location.reload();
 	});
 	
-	
 	$("input[name=managementBtn]").on("click", function() {
 		target = $(this).val();
-		$("#centerSelect").val("0");
+		$("#centerSelect").val("0")
 		$("#searchName").val("");
 		fn_viewManagement();
 
 		if(_authCd !== "master"){
+			$("#childrenPositionCd").val(_authPositionCd).prop("disabled", true).addClass("disabled"); 
 			$("#centerSelect").val(_authPositionCd).prop("disabled", true).addClass("disabled"); 
 		}
 		$.goSearch(1);
@@ -51,6 +51,10 @@ $(document).ready(function() {
 //		}
 		
 		fn_saveInfoData();
+	});
+	
+	$(".deleteInfoBtn").on("click", function() {
+		fn_confirm("정말 삭제하시겠습니까?<br>삭제 이후 데이터를 불러올 수 없습니다.", fn_deleteInfoData, "danger");
 	});
 	
 	$("#pwResetBtn").on("click", function() {
@@ -191,6 +195,35 @@ function fn_makeInfoRow(dataList) {
 		}
 	}
 }
+function fn_deleteInfoData() {
+	var url = target === "member" ? "/mng/ajax.deleteMember" : "/mng/ajax.deleteChildren";
+	var param = {};
+	if(target === "member") {
+		param.memberSeq = $("#infoDataSeq").val();
+	} else {
+		param.childrenSeq = $("#infoDataSeq").val();
+	}
+	
+	$.ajax({
+		url: url
+		, type : "post"
+		, data : JSON.stringify(param)
+		, contentType : 'application/json; charset=utf-8'
+		, async : false
+		, success : function(data) {
+			$.goSearch(1);
+			$("#"+target+"EditModal").modal("hide");
+			
+			var msg = target === "member" ? "회원" : "아동";
+			fn_alert(msg+" 정보를 삭제하였습니다. ", "success");
+			
+		}
+		, error : function(request, status, error) {
+			var errorMsg = target === "member" ? "회원" : "아동";
+			fn_alert(errorMsg+" 삭제에 실패하였습니다. 담당자에게 연락하세요.", "warning")
+		}
+	});
+}
 
 function fn_saveInfoData() {
 	fn_devalidation();
@@ -205,8 +238,8 @@ function fn_saveInfoData() {
 	} else {
 		if(!fn_inputValidation("childrenName", false)){ return;}
 		if(!fn_inputValidation("childrenBirth", false)){ return;}
-		if(!fn_inputValidation("childrenProgStDt", false)){ return;}
-		if(!fn_inputValidation("childrenProgEdDt", false)){ return;}
+//		if(!fn_inputValidation("childrenProgStDt", false)){ return;}
+//		if(!fn_inputValidation("childrenProgEdDt", false)){ return;}
 	}
 	
 	var url = target === "member" ? "/mng/ajax.updateMember" : "/mng/ajax.updateChildren";
@@ -281,6 +314,7 @@ function fn_viewModalMode() {
 	
 	if(modalMode === "add") {
 		$("#pwInputArea").show();
+		$(".deleteInfoBtn").hide();
 	} else {
 		$("#memberId").prop("disabled", true).addClass("disabled");
 		$("#pwResetArea").show();

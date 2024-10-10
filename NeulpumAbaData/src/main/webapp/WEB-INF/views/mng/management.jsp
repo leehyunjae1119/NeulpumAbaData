@@ -12,7 +12,7 @@
 		<div class="f-between mb-2">
 			<div class="title-label mx-3 my-2">
 				<i class="bi bi-file-earmark-check"></i>
-				<p class="m-0" style="font-size: 20px;">Management</p>
+				<p class="m-0" style="font-size: 20px;" >Management</p>
 			</div>
 			<div class="d-flex f-align-center">
 				<button type="button" id="centerManagementBtn" class="btn btn-secondary me-1 auth-hidden-item" data-auth="master">센터 관리</button>
@@ -165,6 +165,11 @@
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td colspan="2">
+									<button type="button" class="btn btn-danger deleteInfoBtn auth-hidden-item" data-auth="master level1">삭제</button>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -262,6 +267,11 @@
 										<input type="radio" class="btn-check" name="childrenUseYn" id="childrenUseYn_N" autocomplete="off" value="N">
 										<label class="btn btn-outline-secondary" for="childrenUseYn_N">비활성화</label>
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<button type="button" class="btn btn-danger deleteInfoBtn auth-hidden-item" data-auth="master level1">삭제</button>
 								</td>
 							</tr>
 						</tbody>

@@ -143,7 +143,7 @@ function sidebarToggle(flag) {
 	}
 	
 	if (!_isSidebarToggle) {
-		$("img.logo").attr({"src":"../image/full_logo.png", "height":32});
+		$("img.logo").attr({"src":_full_logo_url, "height":32});
 		
 		$('main.flex-nowrap').removeClass("sidebar-toggled");
 		$('.nav-sticky').removeClass("toggled");
@@ -151,7 +151,7 @@ function sidebarToggle(flag) {
 		$('.nav-sticky .nav .nav-item i.bi').removeClass("icon-lg").addClass("icon-md");
 		$("#sidebarToggle > i").removeClass("bi-arrow-right-circle-fill").addClass("bi-arrow-left-circle-fill");
 	} else {
-		$("img.logo").attr({"src":"../image/logo.png", "height":32});
+		$("img.logo").attr({"src":_mini_logo_url, "height":32});
 		
 		$('main.flex-nowrap').addClass("sidebar-toggled");
 		$('.nav-sticky').addClass("toggled");
@@ -213,6 +213,9 @@ function setChildrenInfo() {
 			$(".child-card .card-text > span:eq(0)").text($.getCustomDate(childrenInfo.childrenBirth));
 			$(".child-card .card-text > span:eq(1)").text(childrenInfo.childrenDiagnosis);
 			_childrenInfo = childrenInfo;
+			
+			$(".daily-sheet-header .title").text(childrenInfo.childrenName);
+			$(".daily-sheet-header .date").text($.getDateFormat3($.getToday()) + "프로그램");
 		}
 		, error : function(request, status, error) {
 		}

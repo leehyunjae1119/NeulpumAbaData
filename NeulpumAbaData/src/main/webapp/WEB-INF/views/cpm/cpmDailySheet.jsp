@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<script src='../script/dpm/dailySheet.js?version=${RESC_VERSION }'></script>
 <script src='../script/cpm/cpmDailySheet.js?version=${RESC_VERSION }'></script>
 <script src='../script/cpm/cpmDailySheetChart.js?version=${RESC_VERSION }'></script>
 
@@ -14,11 +14,22 @@
 }
 </style>
 
-<div>
+<div id="dailySheetPage">
+	<input type="hidden" id="childrenSeq" value="${childrenSeq }">
 	<div class="daily-sheet-header">
 		<span class=""></span>
 		<span class="date"></span>
-		<div class=""></div>
+		<div class="dropdown">
+			<button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="bi bi-printer-fill" style="margin-right: 0.5rem;"></i>
+				프린트
+			</button>
+			<ul class="dropdown-menu" id="printMenu">
+				<li><a class="dropdown-item saveJpgBtn" href="javascript:void(0);">JGP 저장</a></li>
+				<li><a class="dropdown-item savePdfBtn" href="javascript:void(0);">PDF 저장</a></li>
+				<li><a class="dropdown-item printBtn" href="javascript:void(0);">인쇄 하기</a></li>
+			</ul>
+		</div>
 	</div>
 	<div class="title-label mx-4 my-2">
 		<i class="bi bi-card-checklist"></i>
@@ -106,6 +117,21 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	
+	<button class="btn btn-success offcanvas-btn nonPrintArea" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">상담일지</button>
+	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" aria-labelledby="offcanvasScrollingLabel" data-bs-scroll="true" data-bs-backdrop="false" >
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasRightLabel">상담일지</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body" id="counselingListArea">
+		</div>
+		<div class="offcanvas-footer">
+			<div class="offcanvas-btn-area">
+				<button type="button" class="btn btn-outline-success auth-disabled-item" data-auth="master level1 level2 level3" id="counselingAddBtn">Add Memo</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -151,3 +177,27 @@
 	</div>
 </div>
 
+<!-- 상담일지 추가 모달 -->
+<div class="modal" id="counselingAddModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">상담일지 작성</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label for="exampleFormControlTextarea1" class="form-label">
+						<span class="m-2 h5" id="regDtLabel"></span>
+						<span class="m-2 h5" id="regNameLabel"></span>
+					</label>
+					<textarea class="form-control" id="counselingContents" placeholder="내용을 작성하세요." onkeyup="autoResize(this)" onkeydown="autoResize(this)" rows="5"></textarea>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success saveInfoBtn">Save</button>
+			</div>
+		</div>
+	</div>
+</div>

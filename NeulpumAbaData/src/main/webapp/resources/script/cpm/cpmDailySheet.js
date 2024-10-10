@@ -140,7 +140,7 @@ $(document).ready(function() {
 	});
 	
 	$.cpmDailySheetInit = function() {
-		$(".daily-sheet-header .date").text($.getDateFormat3($.getToday()) + "프로그램");
+//		$(".daily-sheet-header .date").text($.getDateFormat3($.getToday()) + "프로그램");
 	};
 	
 	$.cpmDailySheetInit();

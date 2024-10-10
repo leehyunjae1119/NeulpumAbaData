@@ -49,8 +49,15 @@ $(document).ready(function () {
 	};
 	
 	$.getDateFormat = function(date, format) {
-		date = date.substring(0, format.length).replace(/-/g, "/");
-		var d = new Date(date);
+		if(!date){
+			return '';
+		}
+		
+		var d = new Date();
+		if(date != 'now'){
+			date = date.substring(0, format.length).replace(/-/g, "/");
+			d = new Date(date);
+		}
 		var yyyy = d.getFullYear();
 		var mm = $.numFormat(d.getMonth()+1);
 		var dd = $.numFormat(d.getDate());

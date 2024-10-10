@@ -146,4 +146,16 @@ public class MngServiceImpl implements MngService {
 		
 		return bookImg;
 	}
+
+	@Override
+	public int deleteMember(MemberVO memberVO) throws Exception {
+		int result = mngDao.deleteMember(memberVO);
+		return result;
+	}
+
+	@Override
+	public int deleteChildren(ChildrenVO childrenVO) throws Exception {
+		int result = mngDao.deleteChildren(childrenVO);
+		return result;
+	}
 }

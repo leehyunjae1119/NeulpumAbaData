@@ -5,7 +5,7 @@
 <script src='../script/cpm/report/cpmDailyReport.js?version=${RESC_VERSION }'></script>
 
 <div class="reportPaper" id="dailyReport">
-	<img src="../image/np_report_header_img.png" class="report-header-img">
+	<img src="../image/report_logo.png" class="report-header-img">
 	<div class="report-title">
 		<span>일일 보고서</span>
 	</div>

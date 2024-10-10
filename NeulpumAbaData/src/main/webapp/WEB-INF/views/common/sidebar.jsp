@@ -5,7 +5,7 @@
 	
 	<div class="d-flex flex-column flex-shrink-0 nav-sticky"> <!--toggled-->
 		<a href="javascript:void(0);" class="d-flex align-items-center text-decoration-none logo-btn" id="logo">
-			<img class="logo" src="../image/full_logo.png?version=${RESC_VERSION }" height="32">
+			<img class="logo" src="${FULL_LOGO_URL}" height="32">
 		</a>
 		<ul class="sidebar nav nav-pills flex-column mb-auto">
 			<li class="nav-item">

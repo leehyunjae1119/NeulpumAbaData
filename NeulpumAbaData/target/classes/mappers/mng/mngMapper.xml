@@ -54,8 +54,12 @@
 				children_position_cd,
 				children_group_cd,
 				children_active_yn,
-				children_prog_st_dt,
-				children_prog_ed_dt,
+				<if test="childrenProgStDt != null and childrenProgStDt != ''">
+					children_prog_st_dt,
+				</if>
+				<if test="childrenProgEdDt != null and childrenProgEdDt != ''">
+					children_prog_ed_dt,
+				</if>
 				children_parents,
 				children_book_img
 			)
@@ -67,8 +71,12 @@
 				#{childrenPositionCd },
 				#{childrenGroupCd },
 				#{childrenActiveYn },
-				#{childrenProgStDt },
-				#{childrenProgEdDt },
+				<if test="childrenProgStDt != null and childrenProgStDt != ''">
+					#{childrenProgStDt },
+				</if>
+				<if test="childrenProgEdDt != null and childrenProgEdDt != ''">
+					#{childrenProgEdDt },
+				</if>
 				#{childrenParents },
 				#{childrenBookImg }
 			)
@@ -84,8 +92,22 @@
 				children_position_cd = #{childrenPositionCd },
 				children_group_cd = #{childrenGroupCd },   
 				children_active_yn = #{childrenActiveYn },  
-				children_prog_st_dt = #{childrenProgStDt },  
-				children_prog_ed_dt = #{childrenProgEdDt },  
+				<choose>
+					<when test="childrenProgStDt != null and childrenProgStDt != ''">
+						children_prog_st_dt = #{childrenProgStDt },  
+					</when>
+					<otherwise>
+						children_prog_st_dt = NULL,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="childrenProgEdDt != null and childrenProgEdDt != ''">
+						children_prog_ed_dt = #{childrenProgEdDt },  
+					</when>
+					<otherwise>
+						children_prog_ed_dt = NULL,
+					</otherwise>
+				</choose>
 				children_parents = #{childrenParents },
 				children_book_img = #{childrenBookImg }
 			WHERE
@@ -307,4 +329,15 @@
 		   SET member_pw = 'neulpum1234!'
 		 WHERE member_seq = #{memberSeq }
 	</select>
+	
+	<delete id="deleteMember" parameterType="memberVO">
+		DELETE FROM TB_MEMBER
+		 WHERE member_seq = #{memberSeq }
+		   AND member_auth_cd != 'master'
+	</delete>
+	
+	<delete id="deleteChildren" parameterType="childrenVO">
+		DELETE FROM TB_CHILDREN
+		 WHERE children_seq = #{childrenSeq }
+	</delete>
 </mapper>

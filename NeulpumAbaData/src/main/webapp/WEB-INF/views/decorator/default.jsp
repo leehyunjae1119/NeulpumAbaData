@@ -82,6 +82,11 @@
 	var _authName = "${authName}";
 	var _authCd = "${authCd}";
 	var _authPositionCd = Number("${authPositionCd}");
+	
+	
+	var _full_logo_url = "${FULL_LOGO_URL}";
+	var _mini_logo_url = "${MINI_LOGO_URL}";
+	var _report_logo_url = "${REPORT_LOGO_URL}";
 </script> 
 
 <body>

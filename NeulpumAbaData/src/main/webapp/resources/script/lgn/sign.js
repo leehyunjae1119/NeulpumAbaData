@@ -54,8 +54,6 @@ $(document).ready(function() {
 			isRememberMe : ($("#isRememberMe").is(":checked") ? 1 : 0)
 		};
 		
-		console.log(param)
-		
 		$.ajax({
 			url: "/lgn/ajax.signIn"
 			, type : "post"
@@ -63,17 +61,30 @@ $(document).ready(function() {
 			, contentType : 'application/json; charset=utf-8'
 			, async : true
 			, success : function(data) {
+				_authCd = "";
+				_authPositionCd = 0;
 				
-				console.log(data.result)
 				if(data.messageCd == '0'){
 					if(!document.cookie.includes("NPSESSIONCOOKIE")){
 						fn_alert("로그인에 실패하였습니다. 잠시 후 다시 시도해주세요.", "warning");
 					} else {
-						fn_alert("로그인하였습니다. 환영합니다.");
 						_authCd = data.result.memberAuthCd;
 						_authPositionCd = data.result.memberPositionCd;
-						// 센터 선택 모달 오픈
-						$.fn_centerManagerOpen(false, false);
+						
+						if(_authPositionCd === 0 || _authPositionCd === undefined || _authPositionCd === null || _authPositionCd === "0" || _authPositionCd === "null" || _authPositionCd === ""){
+							fn_alert("할당된 센터가 없습니다. 담당자에게 문의하세요.", "warning");
+							return;
+						}
+						
+						if(_authCd === "master"){
+							fn_alert("로그인하였습니다. 환영합니다.");
+							$.fn_centerManagerOpen(false, false);
+						} else {
+							//센터번호 세션에 저장
+							sessionStorage.clear();
+							sessionStorage.setItem("centerSeq", _authPositionCd);
+							fn_formUrlMove(centerChoiseMoveUrl, "GET");
+						}
 					}
 					
             	} else if(data.messageCd == '1'){

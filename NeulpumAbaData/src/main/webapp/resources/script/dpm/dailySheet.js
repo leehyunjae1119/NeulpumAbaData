@@ -50,28 +50,6 @@ $(document).ready(function() {
 	$.dailySheetInit();
 });
 
-function setChildrenInfo() {
-	var param = {
-			childrenPositionCd : sessionStorage.getItem("centerSeq"),
-			childrenSeq : sessionStorage.getItem("childrenSeq")
-		};
-	
-	$.ajax({
-		url: "/common/ajax.selectChildrenList"
-		, type : "post"
-		, data : JSON.stringify(param)
-		, contentType : 'application/json; charset=utf-8'
-		, async : false
-		, success : function(data) {
-			var childrenInfo = data.childrenList[0];
-			$(".daily-sheet-header .title").text(childrenInfo.childrenName);
-			$(".daily-sheet-header .date").text($.getDateFormat3($.getToday()) + "프로그램");
-		}
-		, error : function(request, status, error) {
-		}
-	});
-}
-
 function selectCounselingList() {
 	var param = {
 			pageNum : 1,

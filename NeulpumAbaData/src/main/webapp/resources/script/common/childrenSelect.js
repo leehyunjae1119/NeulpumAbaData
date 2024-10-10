@@ -112,9 +112,19 @@ function makeChildrenBookList(targetId, childrenList) {
 	
 	childrenList.forEach(function(item, index, array) {
 		var childrenBirth = $.getCustomDate(item.childrenBirth, true);
-		var childrenProgStDt = $.getDateFormat(item.childrenProgStDt, 'YYYY.MM.DD');
-		var childrenProgEdDt = $.getDateFormat(item.childrenProgEdDt, 'YYYY.MM.DD');
 		var textColor = "text-black";
+		var childrenProgDt = '';
+		
+		if(item.childrenProgStDt) {
+			childrenProgDt += $.getDateFormat(item.childrenProgStDt, 'YYYY.MM.DD');
+			childrenProgDt += ' ~ ';
+			
+			if(item.childrenProgEdDt) {
+				childrenProgDt += $.getDateFormat(item.childrenProgEdDt, 'YYYY.MM.DD');
+			} else {
+				childrenProgDt += '진행중';
+			}
+		}
 		
 		if(item.childrenBookImg == "book_1" || item.childrenBookImg == "book_3" || item.childrenBookImg == "book_4"){
 			textColor = "text-white"
@@ -127,7 +137,7 @@ function makeChildrenBookList(targetId, childrenList) {
 		html += '			<h5 class="cover-name">'+item.childrenName+'</h5>';
 		html += '			<small class="cover-birth">'+childrenBirth+'</small>';
 		html += '		</div>';
-		html += '		<small class="text-center">'+childrenProgStDt+' ~ '+childrenProgEdDt+'</small>';
+		html += '		<small class="text-center">'+childrenProgDt+'</small>';
 		html += '	</div>';
 	});
 	

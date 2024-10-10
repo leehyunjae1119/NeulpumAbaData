@@ -114,7 +114,7 @@ $(document).ready(function() {
 	});
 	
 	$("#domainListAddBtn").on("click", function() {
-		var domainName = $("#addDomainName").val();
+		var domainName = fn_escapeHtml($("#addDomainName").val().trim());
 		var html = ''; 
 		
 		html += '	<div class="input-group mb-2 domainItem">';
@@ -133,7 +133,7 @@ $(document).ready(function() {
 	});
 	
 	$("#ltoListAddBtn").on("click", function() {
-		var ltoName = $("#addLtoName").val();
+		var ltoName = fn_escapeHtml($("#addLtoName").val().trim());
 		var html = ''; 
 		
 		html += '	<div class="input-group mb-2 ltoItem">';
@@ -152,7 +152,7 @@ $(document).ready(function() {
 	});
 	
 	$("#stoListAddBtn").on("click", function() {
-		var stoName = $("#addStoName").val();
+		var stoName = fn_escapeHtml($("#addStoName").val().trim());
 		var html = ''; 
 		
 		html += '	<div class="input-group mb-2 stoItem">';

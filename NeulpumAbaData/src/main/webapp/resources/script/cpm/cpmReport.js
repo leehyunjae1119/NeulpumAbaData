@@ -64,12 +64,16 @@ $(document).ready(function() {
 	});
 	
 	$.reportInit = function() {
+		if(fn_checkImageUrl(_report_logo_url)){
+			$(".report-header-img").attr("src", _report_logo_url)
+		}
 		viewReportPaper();
 		settingWriteReportDate();
 	};
 	
 	$.reportInit();
 });
+
 
 $(document).on("click", ".report-table td", function () {
 	

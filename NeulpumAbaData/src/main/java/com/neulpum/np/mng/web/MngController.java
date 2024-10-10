@@ -185,4 +185,33 @@ public class MngController {
 		json = objectMapper.writeValueAsString(resultMap);
 		return json;
 	}
+	
+
+	@ResponseBody
+	@RequestMapping(value = "/ajax.deleteMember", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String deleteMember(HttpServletRequest request, HttpServletResponse response, @RequestBody MemberVO memberVO, Model model) throws Exception {
+		
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		int result = mngService.deleteMember(memberVO);
+		
+		json = objectMapper.writeValueAsString(resultMap);
+		return json;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajax.deleteChildren", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+	public String deleteChildren(HttpServletRequest request, HttpServletResponse response, @RequestBody ChildrenVO childrenVO, Model model) throws Exception {
+		
+		String json = "";
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		int result = mngService.deleteChildren(childrenVO);
+		
+		json = objectMapper.writeValueAsString(resultMap);
+		return json;
+	}
 }

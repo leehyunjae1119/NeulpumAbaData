@@ -34,7 +34,7 @@
 	
 	<!-- SQL Loggers -->
 	<logger name="jdbc.sqlonly" additivity="false"> 
-		<level value="warn"/> 
+		<level value="warn"/>  <!--  -->
 		<appender-ref ref="console"/> 
 	</logger>
 	<logger name="jdbc.sqltiming" additivity="false">
@@ -50,7 +50,7 @@
 		<appender-ref ref="console"/> 
 	</logger>
 	<logger name="jdbc.resultsettable" additivity="false"> 
-		<level value="warn"/>  
+		<level value="warn"/>  <!--  -->
 		<appender-ref ref="console"/> 
 	</logger> 
 

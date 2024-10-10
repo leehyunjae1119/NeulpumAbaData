@@ -361,6 +361,14 @@ hr.black {
     color: var(--np-bs-font) !important;
 }
 
+.custom-tooltip-thumbnail {
+	--bs-tooltip-bg: rgb(235 235 235 / 1);
+	--bs-tooltip-opacity: 1;
+	--bs-tooltip-padding-x: 1rem;
+    --bs-tooltip-padding-y: 1rem;
+    --bs-tooltip-max-width: auto;
+}
+
 .custom-tooltip {
     --bs-tooltip-max-width: auto;
     --bs-tooltip-padding-x: 1rem;
@@ -409,6 +417,8 @@ hr.black {
 }
 
 .alert {
+	display: flex;
+	flex-wrap: nowrap;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	position: fixed;
     bottom: 1.5rem;
@@ -416,6 +426,7 @@ hr.black {
     z-index: 9999;
     left: 50%;
     transform: translate(-50%, 0);
+    align-items: center;
 }
 .alert.in {
 	opacity: 1;
@@ -426,12 +437,13 @@ hr.black {
     animation: slider-out 1s;
 }
 .alert span {
+	min-width: 3rem;
 	padding-left: 0.5rem;
-	padding-right: 2rem;
 }
 .alert button {
 	width: 5rem;
 	margin-left: 1rem;
+	white-space: nowrap;
 }
 @keyframes slider-in { 
 	0% {

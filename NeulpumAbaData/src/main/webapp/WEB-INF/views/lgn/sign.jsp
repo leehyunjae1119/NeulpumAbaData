@@ -39,7 +39,14 @@
 	<script src='../js/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js?version=${RESC_VERSION }'></script>
 	<script src='../js/jquery/jquery.min.js?version=${RESC_VERSION }'></script>
 	
+	<script type="text/javascript">
+		var _full_logo_url = "";
+		var _mini_logo_url = "";
+		var _report_logo_url = "";
+	</script>
+	
 	<script src='../script/common/common.js?version=${RESC_VERSION }'></script>
+    <script src='../script/common/formatUtil.js?version=${RESC_VERSION }'></script>
 	<script src="../script/lgn/sign.js?version=${RESC_VERSION }"></script>
 </head>
 <body class="login_body">

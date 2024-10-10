@@ -1,5 +1,15 @@
 $(document).ready(function() {
 	
+	if(!fn_checkImageUrl(_full_logo_url)){
+		_full_logo_url = "../image/full_logo.png";
+	}
+	if(!fn_checkImageUrl(_mini_logo_url)){
+		_mini_logo_url = "../image/mini_logo.png";
+	}
+	if(!fn_checkImageUrl(_report_logo_url)){
+		_report_logo_url = "../image/report_logo.png";
+	}
+	
 //	$(".nav-sticky").css({"height":"100vh !important"});
 //	$(".sub-nav-sticky").css({"height":"100vh !important"});
 //	$(".main-contents").css({"height":"100vh !important"});
@@ -103,14 +113,17 @@ function fn_inputPatternCheck(id, type) {
 		if(inputValue.match(idPattern) === null){
 			message = "올바른 아이디를 입력하세요.";
 			$.fn_invalidationInput(id, message);
+			fn_alert("아이디는 4자이상 20자 이하의 영문, 숫자로 구성하세요. ", "warning");
 			result = false;
 		}
 		break;
 	case "password":
 		if(inputValue.match(passwordPattern) === null){
-			message = "올바른 비밀번호를 입력하세요.";
+			message = "올바른 패스워드를 입력하세요.";
 			$.fn_invalidationInput(id, message);
+			fn_alert("패스워드는 8자이상 20자 이하의 영문, 숫자, 특수문자로 구성하세요.<br>허용 특수문자 : ! % & @ # $ ^ * ? _ ~", "warning");
 			result = false;
+			break;
 		}
 		break;
 	case "email":
@@ -163,7 +176,7 @@ function fn_alert(message, style) {
 	var alertHtml = ''
 		+ '<div class="alert alert-'+style+' in" role="alert" id="alert'+alertSeq+'">'
 		+ '<i class="bi bi-exclamation-circle-fill"></i><span>안내</span>'
-		+ message
+		+ '<span>' + message + '</span>'
 		+ '</div>';
 	
 	$("body").append(alertHtml);
@@ -190,7 +203,7 @@ function fn_confirm(message, okCallbackFunction, style) {
 	var confirmHtml = ''
 		+ '<div class="alert alert-'+style+' in" role="alert" id="alert'+alertSeq+'">'
 		+ '<i class="bi bi-exclamation-circle-fill"></i><span>확인</span>'
-		+ message
+		+ '<span>' + message + '</span>'
 		+ '<button type="button" class="btn btn-outline-dark confirmOkBtn ms-5">예</button>'
 		+ '<button type="button" class="btn btn-outline-dark confirmNoBtn">아니요</button>'
 		+ '</div>';
@@ -391,4 +404,25 @@ function fn_getStatusName(status) {
 		break;
 	}
 	return contents;
+}
+
+
+/* *********************************************************************************
+ * 	파일 체크
+ * 		
+ ********************************************************************************* */
+function fn_checkImageUrl(url) {
+	var isCheck = false;
+	$.ajax({
+		url: url
+		, type : "head"
+		, async : false
+		, success : function(data) {
+			isCheck = true;
+		}
+		, error : function(request, status, error) {
+			isCheck = false;
+		}
+	});
+	return isCheck;
 }

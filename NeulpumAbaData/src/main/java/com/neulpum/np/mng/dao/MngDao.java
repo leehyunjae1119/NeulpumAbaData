@@ -42,5 +42,9 @@ public interface MngDao {
 	// 회원 패스워드 초기화
 	public int resetMemberPw(MemberVO memberVO) throws Exception;
 	
+	// 선생님 정보 삭제
+	public int deleteMember(MemberVO memberVO) throws Exception;
 	
+	// 아동 정보 삭제
+	public int deleteChildren(ChildrenVO childrenVO) throws Exception;
 }
